@@ -27,7 +27,7 @@ export type LoginReturnBody = {
 export type FormField = {
     label: string;
     value: string,
-    onChange: () => void,
+    onChange: (value: string) => void,
     leftIcon?: ReactNode;
     rightIcon?: ReactNode;
     placeholder: string;

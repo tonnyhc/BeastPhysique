@@ -1,10 +1,11 @@
 import { ReactNode, useState } from "react";
-import { View, Text, Switch, TouchableOpacity } from "react-native";
+import { View, Text, Switch, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign, Feather, FontAwesome5 } from "@expo/vector-icons";
 import ReusableInput from "./common/ReusableInput";
 import { useColorScheme } from "nativewind";
 import { FormField } from "../ts/types";
 import { useNavigation } from "@react-navigation/native";
+import { colors } from "../assets/colors";
 
 const RegisterForm: React.FC = () => {
   const { colorScheme } = useColorScheme();
@@ -86,9 +87,9 @@ const RegisterForm: React.FC = () => {
     },
   ];
   return (
-    <View className="mt-6">
+    <View style={styles.formWrapper}>
       {formFields.map((field) => (
-        <View className="mb-3" key={field.label}>
+        <View style={styles.formFieldWrapper} key={field.label}>
           <ReusableInput
             value={field.value}
             onChange={field.onChange}
@@ -100,24 +101,24 @@ const RegisterForm: React.FC = () => {
           />
         </View>
       ))}
-      <View className="flex-row gap-2 items-center mt-3 mb-7">
+      <View style={styles.termsConditions}>
         <Switch value={true} />
-        <Text className="flex-1 dark:text-white">
+        <Text style={styles.termsConditionsText}>
           I agree with{" "}
-          <Text className="text-blueText font-semibold">
+          <Text style={styles.blueText}>
             Terms & Conditions
           </Text>
         </Text>
       </View>
 
-      <View className="mt-7 justify-center gap-3">
-        <TouchableOpacity className="px-4 items-center rounded-3xl h-11 justify-center bg-light-submitBtn">
-          <Text className="text-base text-white">Sign Up</Text>
+      <View style={styles.actionBtns}>
+        <TouchableOpacity style={styles.submitBtn}>
+          <Text style={styles.submitBtnText}>Sign Up</Text>
         </TouchableOpacity>
-        <Text className="self-center text-xs font-extrabold text-helperText dark:dark-helperText">
+        <Text style={styles.helperText}>
           OR SIGN UP WITH
         </Text>
-        <View className="flex-row self-center gap-8">
+        <View style={styles.iconsWrapper}>
           <AntDesign
             name="google"
             size={24}
@@ -134,10 +135,10 @@ const RegisterForm: React.FC = () => {
             color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
           />
         </View>
-        <Text className="self-center text-xs text-helperText font-extrabold">
+        <Text style={styles.helperText}>
           Already have an account?{" "}
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text className="text-blueText font-extrabold text-xs">Sign in</Text>
+            <Text style={styles.blueText}>Sign in</Text>
           </TouchableOpacity>
         </Text>
       </View>
@@ -145,3 +146,113 @@ const RegisterForm: React.FC = () => {
   );
 };
 export default RegisterForm;
+
+const styles = StyleSheet.create({
+  formWrapper: {
+    marginTop: 24,
+  },
+  formFieldWrapper: {
+    marginBottom: 12
+  },
+  termsConditions: {
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center',
+    marginTop: 12,
+    marginBottom: 28
+  },
+  termsConditionsText: {
+    flex: 1
+  },
+  blueText: {
+    color: colors.blueText,
+    fontWeight: '700'
+  },
+  actionBtns: {
+    marginTop: 28,
+    justifyContent: 'center',
+    gap: 16
+  },
+  submitBtn: {
+    paddingLeft: 16,
+    paddingRight: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 24,
+    height: 45,
+    backgroundColor: colors.submitBtn
+  },
+  submitBtnText: {
+    color: colors.white,
+    fontWeight: '700',
+    fontFamily: "Acme"
+  },
+  helperText: {
+    alignSelf: 'center',
+    fontSize: 12,
+    fontWeight: '700',
+    fontFamily: "Acme",
+  },
+  iconsWrapper: {
+    flexDirection: 'row',
+    alignSelf: "center",
+    gap: 32
+  }
+})
+
+{/* <View className="mt-6">
+{formFields.map((field) => (
+  <View className="mb-3" key={field.label}>
+    <ReusableInput
+      value={field.value}
+      onChange={field.onChange}
+      placeholder={field.placeholder}
+      label={field.label}
+      leftIcon={field.leftIcon}
+      rightIcon={field.rightIcon}
+      isPassword={field.isPassword}
+    />
+  </View>
+))}
+<View className="flex-row gap-2 items-center mt-3 mb-7">
+  <Switch value={true} />
+  <Text className="flex-1 dark:text-white">
+    I agree with{" "}
+    <Text className="text-blueText font-semibold">
+      Terms & Conditions
+    </Text>
+  </Text>
+</View>
+
+<View className="mt-7 justify-center gap-3">
+  <TouchableOpacity className="px-4 items-center rounded-3xl h-11 justify-center bg-light-submitBtn">
+    <Text className="text-base text-white">Sign Up</Text>
+  </TouchableOpacity>
+  <Text className="self-center text-xs font-extrabold text-helperText dark:dark-helperText">
+    OR SIGN UP WITH
+  </Text>
+  <View className="flex-row self-center gap-8">
+    <AntDesign
+      name="google"
+      size={24}
+      color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+    />
+    <FontAwesome5
+      name="facebook"
+      size={24}
+      color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+    />
+    <AntDesign
+      name="apple-o"
+      size={24}
+      color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+    />
+  </View>
+  <Text className="self-center text-xs text-helperText font-extrabold">
+    Already have an account?{" "}
+    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+      <Text className="text-blueText font-extrabold text-xs">Sign in</Text>
+    </TouchableOpacity>
+  </Text>
+</View>
+</View> */}
