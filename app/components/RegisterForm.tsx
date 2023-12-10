@@ -3,23 +3,18 @@ import { View, Text, Switch, TouchableOpacity } from "react-native";
 import { AntDesign, Feather, FontAwesome5 } from "@expo/vector-icons";
 import ReusableInput from "./common/ReusableInput";
 import { useColorScheme } from "nativewind";
-
-type FormField = {
-  label: string;
-  leftIcon: ReactNode;
-  rightIcon?: ReactNode;
-  placeholder: string;
-  isPassword?: boolean;
-};
+import { FormField } from "../ts/types";
+import { useNavigation } from "@react-navigation/native";
 
 const RegisterForm: React.FC = () => {
   const { colorScheme } = useColorScheme();
+  const navigation = useNavigation();
   const formFields: FormField[] = [
     {
       label: "Username",
       leftIcon: (
         <AntDesign
-          name="mail"
+          name="user"
           size={18}
           color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
         />
@@ -30,7 +25,7 @@ const RegisterForm: React.FC = () => {
       label: "Email",
       leftIcon: (
         <AntDesign
-          name="user"
+          name="mail"
           size={18}
           color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
         />
@@ -100,7 +95,7 @@ const RegisterForm: React.FC = () => {
       </View>
 
       <View className="mt-7 justify-center gap-3">
-        <TouchableOpacity className="px-4 items-center rounded h-11 justify-center bg-light-submitBtn">
+        <TouchableOpacity className="px-4 items-center rounded-3xl h-11 justify-center bg-light-submitBtn">
           <Text className="text-base text-white">Sign Up</Text>
         </TouchableOpacity>
         <Text className="self-center text-xs font-extrabold text-helperText dark:dark-helperText">
@@ -125,7 +120,9 @@ const RegisterForm: React.FC = () => {
         </View>
         <Text className="self-center text-xs text-helperText font-extrabold">
           Already have an account?{" "}
-          <Text className="text-blueText">Sign in</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text className="text-blueText font-extrabold text-xs">Sign in</Text>
+          </TouchableOpacity>
         </Text>
       </View>
     </View>
