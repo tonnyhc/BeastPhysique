@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 
 import { Text, View, TextInput, Pressable, StyleSheet } from "react-native";
-import { colors, lightColors } from "../../assets/colors";
+import { colors, lightColors } from "../../utils/colors";
 
 interface ReusableInputProps {
   value: string;
@@ -37,7 +37,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
           placeholder={placeholder}
           placeholderTextColor={colors.grayText}
           value={value}
-          onChangeText={(text) => onChange(text)}
+          onChangeText={onChange}
         />
 
         {rightIcon && (
@@ -76,7 +76,7 @@ const stlyes = StyleSheet.create({
   input: {
     flex: 1,
     marginLeft: 8,
-    text: colors.grayText,
+    color: colors.grayText,
     fontWeight: "bold",
     fontFamily: "Acme",
   },

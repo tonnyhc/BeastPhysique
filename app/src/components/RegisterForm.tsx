@@ -1,11 +1,11 @@
 import { ReactNode, useState } from "react";
-import { View, Text, Switch, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Switch, TouchableOpacity, StyleSheet, Pressable } from "react-native";
 import { AntDesign, Feather, FontAwesome5 } from "@expo/vector-icons";
 import ReusableInput from "./common/ReusableInput";
 import { useColorScheme } from "nativewind";
 import { FormField } from "../ts/types";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../assets/colors";
+import { colors } from "../utils/colors";
 
 const RegisterForm: React.FC = () => {
   const { colorScheme } = useColorScheme();
@@ -14,7 +14,7 @@ const RegisterForm: React.FC = () => {
     email: '',
     username: '',
     password: '',
-    rep_pass: '',
+    conf_pass: '',
   })
   const formFields: FormField[] = [
     {
@@ -28,7 +28,7 @@ const RegisterForm: React.FC = () => {
       ),
       placeholder: "Enter username",
       value: data.username,
-      onChange: () => console.log("changed")
+      onChange: (value) => setData((oldData) => ({...oldData, username: value}))
     },
     {
       label: "Email",
@@ -41,7 +41,7 @@ const RegisterForm: React.FC = () => {
       ),
       placeholder: "Enter email",
       value: data.email,
-      onChange: () => console.log("changed")
+      onChange: (value) => setData((oldData) => ({...oldData, email: value}))
     },
     {
       label: "Password",
@@ -62,7 +62,7 @@ const RegisterForm: React.FC = () => {
       placeholder: "Enter password",
       isPassword: true,
       value: data.password,
-      onChange: () => console.log("changed")
+      onChange: (value) => setData((oldData) => ({...oldData, password: value}))
     },
     {
       label: "Confirm password",
@@ -82,8 +82,8 @@ const RegisterForm: React.FC = () => {
       ),
       placeholder: "Confirm password",
       isPassword: true,
-      value: data.rep_pass,
-      onChange: () => console.log("changed")
+      value: data.conf_pass,
+      onChange: (value) => setData((oldData) => ({...oldData, conf_pass: value}))
     },
   ];
   return (
@@ -137,9 +137,9 @@ const RegisterForm: React.FC = () => {
         </View>
         <Text style={styles.helperText}>
           Already have an account?{" "}
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Pressable onPress={() => navigation.navigate('Login')}>
             <Text style={styles.blueText}>Sign in</Text>
-          </TouchableOpacity>
+          </Pressable>
         </Text>
       </View>
     </View>

@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, SafeAreaView, View } from "react-native";
 import RegisterForm from "../components/RegisterForm";
 import Section from "../components/common/Section";
-import { lightColors } from "../assets/colors";
+import { lightColors } from "../utils/colors";
 
 const Register: React.FC = () => {
   return (

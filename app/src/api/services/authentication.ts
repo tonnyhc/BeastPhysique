@@ -13,7 +13,7 @@ export async function registerRequest(body: RegisterBody): Promise<LoginReturnBo
   }
 }
 
-export async function loginRequest(body: LoginBody): Promise<LoginReturnBody> {
+export async function loginRequest(body:LoginBody): Promise<LoginBody>{
   const loginURL = "authentication/login/";
   try {
     const data = await post(loginURL, body);

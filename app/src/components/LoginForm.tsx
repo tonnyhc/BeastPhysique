@@ -1,22 +1,28 @@
-import { useColorScheme } from "nativewind";
 import { AntDesign, Feather, FontAwesome5 } from "@expo/vector-icons";
 
-import { FormField } from "../ts/types";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { AuthData, FormField, LoginBody, LoginReturnBody } from "../ts/types";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import ReusableInput from "./common/ReusableInput";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-import {colors, lightColors} from '../assets/colors'
-import Section from "./common/Section";
+import { colors, lightColors } from "../utils/colors";
+import { useMutation } from "@tanstack/react-query";
+import { loginRequest } from "../api/services/authentication";
+import { AuthContext } from "../contexts/AuthContext";
+
+type LoginError = {
+  non_field_errors: string[];
+  password?: string;
+};
 
 const LoginForm: React.FC = () => {
-  const { colorScheme } = useColorScheme();
   const navigation = useNavigation();
-  const [data, setData] = useState({
-    username_or_email: "",
+  const [data, setData] = useState<LoginBody>({
+    email_or_username: "",
     password: "",
   });
+  const {userLogin} = useContext(AuthContext)
   const formFields: FormField[] = [
     {
       label: "Email or username",
@@ -24,14 +30,13 @@ const LoginForm: React.FC = () => {
         <AntDesign
           name="mail"
           size={18}
-          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       placeholder: "Enter email or username",
-      value: data.username_or_email,
-      onChange: (value) => {
-        setData((oldData) => ({ ...oldData, username_or_email: value }));
-      },
+      value: data.email_or_username,
+      onChange: (value) =>
+        setData((oldData) => ({ ...oldData, email_or_username: value })),
     },
     {
       label: "Password",
@@ -39,22 +44,33 @@ const LoginForm: React.FC = () => {
         <AntDesign
           name="lock"
           size={18}
-          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       rightIcon: (
         <Feather
           name="eye-off"
           size={18}
-          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       placeholder: "Enter password",
       isPassword: true,
       value: data.password,
-      onChange: () => console.log("changed"),
+      onChange: (value) =>
+        setData((oldData) => ({ ...oldData, password: value })),
     },
   ];
+
+  async function onLogin() {
+    try{
+      const response = await loginRequest(data);
+      userLogin(data as AuthData);
+      return navigation.navigate("Dashboard");
+    } catch(e){
+      Alert.alert(String(e))
+    }
+  }
 
   return (
     <View>
@@ -71,42 +87,33 @@ const LoginForm: React.FC = () => {
           />
         </View>
       ))}
-      <Text style={styles.forgotPass}>
-        Forgot password?
-      </Text>
+      <Text style={styles.forgotPass}>Forgot password?</Text>
       <View style={styles.actionBtns}>
-        <TouchableOpacity style={styles.submitBtn}>
-          <Text style={styles.submitBtnText}>
-            Sign Up
-          </Text>
+        <TouchableOpacity onPress={onLogin} style={styles.submitBtn}>
+          <Text style={styles.submitBtnText}>Sign In</Text>
         </TouchableOpacity>
-        <Text style={styles.helperText}>
-          OR LOG IN WITH
-        </Text>
+        <Text style={styles.helperText}>OR LOG IN WITH</Text>
         <View style={styles.iconsWrapper}>
           <AntDesign
             name="google"
             size={24}
-            color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+            // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
           />
           <FontAwesome5
             name="facebook"
             size={24}
-            color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+            // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
           />
           <AntDesign
             name="apple-o"
             size={24}
-            color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+            // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
           />
         </View>
         <Text style={styles.helperText}>
           Don't have an account?{" "}
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text style={styles.forgotPass}>
-              {" "}
-              Sign up{" "}
-            </Text>
+            <Text style={styles.forgotPass}> Sign up </Text>
           </TouchableOpacity>
         </Text>
       </View>
@@ -118,49 +125,49 @@ export default LoginForm;
 
 const styles = StyleSheet.create({
   inputWrapper: {
-    marginBottom: 12
+    marginBottom: 12,
   },
   forgotPass: {
     color: colors.blueText,
-    fontWeight: '700',
+    fontWeight: "700",
     alignSelf: "flex-end",
     margin: 12,
-    fontSize: 12
+    fontSize: 12,
   },
   actionBtns: {
     marginTop: 28,
-    justifyContent: 'center',
-    gap: 16
+    justifyContent: "center",
+    gap: 16,
   },
   submitBtn: {
     paddingLeft: 16,
     paddingRight: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 24,
     height: 45,
-    backgroundColor: colors.submitBtn
+    backgroundColor: colors.submitBtn,
   },
   submitBtnText: {
     color: colors.white,
-    fontWeight: '700',
-    fontFamily: "Acme"
+    fontWeight: "700",
+    fontFamily: "Acme",
   },
   helperText: {
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: "700",
     fontFamily: "Acme",
   },
   iconsWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
     alignSelf: "center",
-    gap: 32
-  }
-})
+    gap: 32,
+  },
+});
 
-
-{/* <View>
+{
+  /* <View>
       {formFields.map((field) => (
         <View className="mb-3" key={field.label}>
           <ReusableInput
@@ -213,4 +220,5 @@ const styles = StyleSheet.create({
           </TouchableOpacity>
         </Text>
       </View>
-    </View> */}
+    </View> */
+}

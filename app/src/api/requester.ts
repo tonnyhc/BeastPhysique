@@ -1,10 +1,16 @@
-import { RequestMethod } from "../ts/types";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const hostUrl = "http://localhost:8000/";
+interface RequestInitWithBody extends RequestInit {
+  body?: string;
+}
+
+export type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE";
+
+const hostUrl = "http://192.168.0.103:8000/";
 
 const requester = async (url: string, method: RequestMethod, body?: any, token?: string): Promise<any> => {
   if (!token) {
-    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+    const userData = JSON.parse((await AsyncStorage.getItem("userData")) || "{}");
     token = userData.token || null;
   }
 
@@ -12,7 +18,7 @@ const requester = async (url: string, method: RequestMethod, body?: any, token?:
     'Authorization': `Token ${token}`
   }
 
-  let options: RequestInit = {
+  let options: RequestInitWithBody = {
     method,
     headers,
   };

@@ -2,7 +2,7 @@ import React from "react";
 import { SafeAreaView, Text, StyleSheet, View } from "react-native";
 import LoginForm from "../components/LoginForm";
 import Section from "../components/common/Section";
-import { colors, lightColors } from "../assets/colors";
+import { colors, lightColors } from "../utils/colors";
 
 const Login: React.FC = () => {
   return (

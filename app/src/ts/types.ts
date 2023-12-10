@@ -22,14 +22,26 @@ export type LoginReturnBody = {
   username: string;
 };
 
-
 // Forms
 export type FormField = {
-    label: string;
-    value: string,
-    onChange: (value: string) => void,
-    leftIcon?: ReactNode;
-    rightIcon?: ReactNode;
-    placeholder: string;
-    isPassword?: boolean;
-  };
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  placeholder: string;
+  isPassword?: boolean;
+};
+
+// Contexts
+export type AuthData = {
+  token?: string;
+  username?: string;
+};
+
+export type AuthContextType = {
+  authData: AuthData | null;
+  isAuth: boolean;
+  userLogin: (authData: AuthData) => void;
+  userLogout: () => void;
+};
