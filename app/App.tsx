@@ -1,20 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import {
+  SafeAreaView,
+  Switch,
+  Text,
+  View,
+  Button,
+  TextInput
+} from "react-native";
+// import { useColorScheme } from "nativewind";
+
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
+
+import Register from "./screens/Register";
+import { useCallback } from "react";
 
 export default function App() {
+  const [isLoaded] = useFonts({
+    Acme: require("./assets/fonts/Acme-Regular.ttf"),
+  });
+  // const { colorScheme, setColorScheme } = useColorScheme();
+
+  const onLayoutRootView = useCallback(async () => {
+    if (isLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [isLoaded]);
+
+  // const onChangeColorScheme = ():void => {
+  //   setColorScheme(colorScheme === "light" ? "dark" : "light")
+  // }
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <SafeAreaView onLayout={onLayoutRootView} className="bg-black flex-1 font-acme">
+      <View className="flex-1 justify-center px-6 font-acme ">
+        {/* <Switch className="self-end" onChange={onChangeColorScheme} value={colorScheme == 'dark'} /> */}
+        <Register />
+      </View>
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

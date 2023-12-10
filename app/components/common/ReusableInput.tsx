@@ -20,12 +20,12 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
-    <View>
+    <View className=" h-20">
       <Text className='text-sm font-extrabold mb-3 dark:text-white'>{label}</Text>
-      <View className="flex-1 flex-row items-center h-11 rounded-3xl outline-none px-4">
+      <View className="flex-1 flex-row items-center bg-light-inputBg h-11 rounded-3xl outline-none px-4">
         {leftIcon && leftIcon}
         <TextInput
-        className='ml-2.5 text-grayText font-bold flex-1 font-acme '
+        className='ml-2 text-grayText font-bold  flex-1 font-acme '
           secureTextEntry={
             isPassword && passwordVisible == false ? true : false
           }
