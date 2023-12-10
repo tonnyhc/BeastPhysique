@@ -3,6 +3,8 @@ import { ReactNode, useState } from "react";
 import { Text, View, TextInput,  Pressable } from "react-native";
 
 interface ReusableInputProps {
+  value: string,
+  onChange: () => void,
   label: string;
   placeholder: string;
   leftIcon?: ReactNode;
@@ -46,26 +48,3 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
   );
 };
 export default ReusableInput;
-
-// const styles = StyleSheet.create({
-//   inputWrapper: {
-//     width: "100%",
-//     flexDirection: "row",
-//     alignItems: "center",
-//     height: 45,
-//     fontSize: 16,
-//     backgroundColor: "#F3F4F6FF",
-//     borderRadius: 22,
-//     borderWidth: 0,
-//     outline: 0,
-//     paddingLeft: 18,
-//     paddingRight: 18,
-//   },
-//   input: {
-//     marginLeft: 10,
-//     color: "#BCC1CAFF2",
-//     fontWeight: "600",
-//     flex: 1,
-//     fontFamily: "Acme",
-//   },
-// });

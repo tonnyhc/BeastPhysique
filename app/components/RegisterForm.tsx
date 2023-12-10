@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { View, Text, Switch, TouchableOpacity } from "react-native";
 import { AntDesign, Feather, FontAwesome5 } from "@expo/vector-icons";
 import ReusableInput from "./common/ReusableInput";
@@ -9,6 +9,12 @@ import { useNavigation } from "@react-navigation/native";
 const RegisterForm: React.FC = () => {
   const { colorScheme } = useColorScheme();
   const navigation = useNavigation();
+  const [data, setData] = useState({
+    email: '',
+    username: '',
+    password: '',
+    rep_pass: '',
+  })
   const formFields: FormField[] = [
     {
       label: "Username",
@@ -20,6 +26,8 @@ const RegisterForm: React.FC = () => {
         />
       ),
       placeholder: "Enter username",
+      value: data.username,
+      onChange: () => console.log("changed")
     },
     {
       label: "Email",
@@ -31,6 +39,8 @@ const RegisterForm: React.FC = () => {
         />
       ),
       placeholder: "Enter email",
+      value: data.email,
+      onChange: () => console.log("changed")
     },
     {
       label: "Password",
@@ -50,6 +60,8 @@ const RegisterForm: React.FC = () => {
       ),
       placeholder: "Enter password",
       isPassword: true,
+      value: data.password,
+      onChange: () => console.log("changed")
     },
     {
       label: "Confirm password",
@@ -69,6 +81,8 @@ const RegisterForm: React.FC = () => {
       ),
       placeholder: "Confirm password",
       isPassword: true,
+      value: data.rep_pass,
+      onChange: () => console.log("changed")
     },
   ];
   return (
@@ -76,6 +90,8 @@ const RegisterForm: React.FC = () => {
       {formFields.map((field) => (
         <View className="mb-3" key={field.label}>
           <ReusableInput
+            value={field.value}
+            onChange={field.onChange}
             placeholder={field.placeholder}
             label={field.label}
             leftIcon={field.leftIcon}
