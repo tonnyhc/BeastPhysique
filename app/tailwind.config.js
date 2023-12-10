@@ -19,6 +19,9 @@ module.exports = {
       "light-secondaryText": "#9095A0FF",
       'light-submitBtn': "#00BDD6FF",
 
+      'dark-inputBg': "#1D2128FF",
+      'dark-helperText': '#DEE1E6FF',
+
       'googleIcon': "#EA4335FF",
       'fbIcon': '#1877F2FF',
       "appleIcon": "#000000FF"

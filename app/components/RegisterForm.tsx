@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { View, Text, Switch, TouchableOpacity } from "react-native";
 import { AntDesign, Feather, FontAwesome5 } from "@expo/vector-icons";
 import ReusableInput from "./common/ReusableInput";
+import { useColorScheme } from "nativewind";
 
 type FormField = {
   label: string;
@@ -11,34 +12,70 @@ type FormField = {
   isPassword?: boolean;
 };
 
-const formFields: FormField[] = [
-  {
-    label: "Username",
-    leftIcon: <AntDesign name="mail" size={18} color="black" />,
-    placeholder: "Enter username",
-  },
-  {
-    label: "Email",
-    leftIcon: <AntDesign name="user" size={18} color="black" />,
-    placeholder: "Enter email",
-  },
-  {
-    label: "Password",
-    leftIcon: <AntDesign name="lock" size={18} color="black" />,
-    rightIcon: <Feather name="eye-off" size={18} color="black" />,
-    placeholder: "Enter password",
-    isPassword: true,
-  },
-  {
-    label: "Confirm password",
-    leftIcon: <AntDesign name="lock" size={18} color="black" />,
-    rightIcon: <Feather name="eye-off" size={18} color="black" />,
-    placeholder: "Confirm password",
-    isPassword: true,
-  },
-];
-
 const RegisterForm: React.FC = () => {
+  const { colorScheme } = useColorScheme();
+  const formFields: FormField[] = [
+    {
+      label: "Username",
+      leftIcon: (
+        <AntDesign
+          name="mail"
+          size={18}
+          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+        />
+      ),
+      placeholder: "Enter username",
+    },
+    {
+      label: "Email",
+      leftIcon: (
+        <AntDesign
+          name="user"
+          size={18}
+          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+        />
+      ),
+      placeholder: "Enter email",
+    },
+    {
+      label: "Password",
+      leftIcon: (
+        <AntDesign
+          name="lock"
+          size={18}
+          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+        />
+      ),
+      rightIcon: (
+        <Feather
+          name="eye-off"
+          size={18}
+          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+        />
+      ),
+      placeholder: "Enter password",
+      isPassword: true,
+    },
+    {
+      label: "Confirm password",
+      leftIcon: (
+        <AntDesign
+          name="lock"
+          size={18}
+          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+        />
+      ),
+      rightIcon: (
+        <Feather
+          name="eye-off"
+          size={18}
+          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+        />
+      ),
+      placeholder: "Confirm password",
+      isPassword: true,
+    },
+  ];
   return (
     <View className="mt-6">
       {formFields.map((field) => (
@@ -52,9 +89,9 @@ const RegisterForm: React.FC = () => {
           />
         </View>
       ))}
-      <View className="flex-row gap-2">
+      <View className="flex-row gap-2 items-center mt-3 mb-7">
         <Switch value={true} />
-        <Text className="flex-1">
+        <Text className="flex-1 dark:text-white">
           I agree with{" "}
           <Text className="text-blueText font-semibold">
             Terms & Conditions
@@ -66,32 +103,29 @@ const RegisterForm: React.FC = () => {
         <TouchableOpacity className="px-4 items-center rounded h-11 justify-center bg-light-submitBtn">
           <Text className="text-base text-white">Sign Up</Text>
         </TouchableOpacity>
-        <Text className="self-center text-xs text-helperText">
+        <Text className="self-center text-xs font-extrabold text-helperText dark:dark-helperText">
           OR SIGN UP WITH
         </Text>
         <View className="flex-row self-center gap-8">
           <AntDesign
-            className="fill-googleIcon"
             name="google"
             size={24}
-            color="black"
+            color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
           />
           <FontAwesome5
-            className="fill-fbIcon"
             name="facebook"
             size={24}
-            color="black"
+            color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
           />
           <AntDesign
-            className="fill-appleIcon"
             name="apple-o"
             size={24}
-            color="black"
+            color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
           />
         </View>
-        <Text className="self-center text-xs text-helperText">
+        <Text className="self-center text-xs text-helperText font-extrabold">
           Already have an account?{" "}
-          <Text className="text-blueText font-bold">Sign in</Text>
+          <Text className="text-blueText">Sign in</Text>
         </Text>
       </View>
     </View>

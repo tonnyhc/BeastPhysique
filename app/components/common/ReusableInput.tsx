@@ -22,7 +22,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
   return (
     <View className=" h-20">
       <Text className='text-sm font-extrabold mb-3 dark:text-white'>{label}</Text>
-      <View className="flex-1 flex-row items-center bg-light-inputBg h-11 rounded-3xl outline-none px-4">
+      <View className="flex-1 flex-row items-center bg-light-inputBg h-11 rounded-3xl outline-none px-4 dark:bg-dark-inputBg">
         {leftIcon && leftIcon}
         <TextInput
         className='ml-2 text-grayText font-bold  flex-1 font-acme '

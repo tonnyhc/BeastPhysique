@@ -7,7 +7,7 @@ import {
   Button,
   TextInput
 } from "react-native";
-// import { useColorScheme } from "nativewind";
+import { useColorScheme } from "nativewind";
 
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -21,7 +21,7 @@ export default function App() {
   const [isLoaded] = useFonts({
     Acme: require("./assets/fonts/Acme-Regular.ttf"),
   });
-  // const { colorScheme, setColorScheme } = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
 
   const onLayoutRootView = useCallback(async () => {
     if (isLoaded) {
@@ -29,17 +29,17 @@ export default function App() {
     }
   }, [isLoaded]);
 
-  // const onChangeColorScheme = ():void => {
-  //   setColorScheme(colorScheme === "light" ? "dark" : "light")
-  // }
+  const onChangeColorScheme = ():void => {
+    setColorScheme(colorScheme === "light" ? "dark" : "light")
+  }
   
   return (
-    <SafeAreaView onLayout={onLayoutRootView} className="bg-black flex-1 font-acme">
+    <SafeAreaView onLayout={onLayoutRootView} className="flex-1 font-acme dark:bg-darkBg">
       <View className="flex-1 justify-center px-6 font-acme ">
-        {/* <Switch className="self-end" onChange={onChangeColorScheme} value={colorScheme == 'dark'} /> */}
+        <Switch className="self-end" onChange={onChangeColorScheme} value={colorScheme == 'dark'} />
         <Register />
       </View>
-      <StatusBar style="auto" />
+      <StatusBar style={colorScheme == 'dark' ? 'light' : 'dark'} />
     </SafeAreaView>
   );
 }
