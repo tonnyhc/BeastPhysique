@@ -1,21 +1,27 @@
 import { ReactNode, useState } from "react";
-import { View, Text, Switch, TouchableOpacity, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  Switch,
+  TouchableOpacity,
+  StyleSheet,
+  Pressable,
+} from "react-native";
 import { AntDesign, Feather, FontAwesome5 } from "@expo/vector-icons";
 import ReusableInput from "./common/ReusableInput";
-import { useColorScheme } from "nativewind";
 import { FormField } from "../ts/types";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../utils/colors";
+import { useTheme } from "../contexts/ThemeContext";
 
 const RegisterForm: React.FC = () => {
-  const { colorScheme } = useColorScheme();
+  const { theme, colors } = useTheme();
   const navigation = useNavigation();
   const [data, setData] = useState({
-    email: '',
-    username: '',
-    password: '',
-    conf_pass: '',
-  })
+    email: "",
+    username: "",
+    password: "",
+    conf_pass: "",
+  });
   const formFields: FormField[] = [
     {
       label: "Username",
@@ -23,12 +29,13 @@ const RegisterForm: React.FC = () => {
         <AntDesign
           name="user"
           size={18}
-          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          color={theme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       placeholder: "Enter username",
       value: data.username,
-      onChange: (value) => setData((oldData) => ({...oldData, username: value}))
+      onChange: (value) =>
+        setData((oldData) => ({ ...oldData, username: value })),
     },
     {
       label: "Email",
@@ -36,12 +43,12 @@ const RegisterForm: React.FC = () => {
         <AntDesign
           name="mail"
           size={18}
-          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          color={theme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       placeholder: "Enter email",
       value: data.email,
-      onChange: (value) => setData((oldData) => ({...oldData, email: value}))
+      onChange: (value) => setData((oldData) => ({ ...oldData, email: value })),
     },
     {
       label: "Password",
@@ -49,20 +56,21 @@ const RegisterForm: React.FC = () => {
         <AntDesign
           name="lock"
           size={18}
-          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          color={theme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       rightIcon: (
         <Feather
           name="eye-off"
           size={18}
-          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          color={theme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       placeholder: "Enter password",
       isPassword: true,
       value: data.password,
-      onChange: (value) => setData((oldData) => ({...oldData, password: value}))
+      onChange: (value) =>
+        setData((oldData) => ({ ...oldData, password: value })),
     },
     {
       label: "Confirm password",
@@ -70,22 +78,77 @@ const RegisterForm: React.FC = () => {
         <AntDesign
           name="lock"
           size={18}
-          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          color={theme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       rightIcon: (
         <Feather
           name="eye-off"
           size={18}
-          color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          color={theme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       placeholder: "Confirm password",
       isPassword: true,
       value: data.conf_pass,
-      onChange: (value) => setData((oldData) => ({...oldData, conf_pass: value}))
+      onChange: (value) =>
+        setData((oldData) => ({ ...oldData, conf_pass: value })),
     },
   ];
+  const styles = StyleSheet.create({
+    formWrapper: {
+      marginTop: 24,
+    },
+    formFieldWrapper: {
+      marginBottom: 12,
+    },
+    termsConditions: {
+      flexDirection: "row",
+      gap: 8,
+      alignItems: "center",
+      marginTop: 12,
+      marginBottom: 28,
+    },
+    termsConditionsText: {
+      flex: 1,
+    },
+    blueText: {
+      color: colors.blueText,
+      fontWeight: "700",
+    },
+    actionBtns: {
+      marginTop: 28,
+      justifyContent: "center",
+      gap: 16,
+    },
+    submitBtn: {
+      paddingLeft: 16,
+      paddingRight: 16,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 24,
+      height: 45,
+      backgroundColor: colors.submitBtn,
+    },
+    submitBtnText: {
+      color: colors.white,
+      fontWeight: "700",
+      fontFamily: "Acme",
+    },
+    helperText: {
+      alignSelf: "center",
+      fontSize: 12,
+      fontWeight: "700",
+      fontFamily: "Acme",
+      color: colors.helperText
+    },
+    iconsWrapper: {
+      flexDirection: "row",
+      alignSelf: "center",
+      gap: 32,
+    },
+  });
+
   return (
     <View style={styles.formWrapper}>
       {formFields.map((field) => (
@@ -104,10 +167,7 @@ const RegisterForm: React.FC = () => {
       <View style={styles.termsConditions}>
         <Switch value={true} />
         <Text style={styles.termsConditionsText}>
-          I agree with{" "}
-          <Text style={styles.blueText}>
-            Terms & Conditions
-          </Text>
+          I agree with <Text style={styles.blueText}>Terms & Conditions</Text>
         </Text>
       </View>
 
@@ -115,29 +175,27 @@ const RegisterForm: React.FC = () => {
         <TouchableOpacity style={styles.submitBtn}>
           <Text style={styles.submitBtnText}>Sign Up</Text>
         </TouchableOpacity>
-        <Text style={styles.helperText}>
-          OR SIGN UP WITH
-        </Text>
+        <Text style={styles.helperText}>OR SIGN UP WITH</Text>
         <View style={styles.iconsWrapper}>
           <AntDesign
             name="google"
             size={24}
-            color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+            color={theme == "dark" ? "#DEE1E6FF" : "black"}
           />
           <FontAwesome5
             name="facebook"
             size={24}
-            color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+            color={theme == "dark" ? "#DEE1E6FF" : "black"}
           />
           <AntDesign
             name="apple-o"
             size={24}
-            color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+            color={theme == "dark" ? "#DEE1E6FF" : "black"}
           />
         </View>
         <Text style={styles.helperText}>
           Already have an account?{" "}
-          <Pressable onPress={() => navigation.navigate('Login')}>
+          <Pressable onPress={() => navigation.navigate("Login")}>
             <Text style={styles.blueText}>Sign in</Text>
           </Pressable>
         </Text>
@@ -147,60 +205,8 @@ const RegisterForm: React.FC = () => {
 };
 export default RegisterForm;
 
-const styles = StyleSheet.create({
-  formWrapper: {
-    marginTop: 24,
-  },
-  formFieldWrapper: {
-    marginBottom: 12
-  },
-  termsConditions: {
-    flexDirection: 'row',
-    gap: 8,
-    alignItems: 'center',
-    marginTop: 12,
-    marginBottom: 28
-  },
-  termsConditionsText: {
-    flex: 1
-  },
-  blueText: {
-    color: colors.blueText,
-    fontWeight: '700'
-  },
-  actionBtns: {
-    marginTop: 28,
-    justifyContent: 'center',
-    gap: 16
-  },
-  submitBtn: {
-    paddingLeft: 16,
-    paddingRight: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 24,
-    height: 45,
-    backgroundColor: colors.submitBtn
-  },
-  submitBtnText: {
-    color: colors.white,
-    fontWeight: '700',
-    fontFamily: "Acme"
-  },
-  helperText: {
-    alignSelf: 'center',
-    fontSize: 12,
-    fontWeight: '700',
-    fontFamily: "Acme",
-  },
-  iconsWrapper: {
-    flexDirection: 'row',
-    alignSelf: "center",
-    gap: 32
-  }
-})
-
-{/* <View className="mt-6">
+{
+  /* <View className="mt-6">
 {formFields.map((field) => (
   <View className="mb-3" key={field.label}>
     <ReusableInput
@@ -255,4 +261,5 @@ const styles = StyleSheet.create({
     </TouchableOpacity>
   </Text>
 </View>
-</View> */}
+</View> */
+}

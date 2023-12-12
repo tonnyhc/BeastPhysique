@@ -1,35 +1,86 @@
-import { ReactNode } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import useAsyncStorage from "../hooks/useAsyncStorage";
-import { AuthContextType, AuthData } from "../ts/types";
+import {
+  AuthContextType,
+  AuthData,
+  LoginBody,
+  LoginReturnBody,
+  RegisterBody,
+} from "../ts/types";
+import useSecureStore from "../hooks/useSecureStore";
+import { post } from "../api/requester";
 
-
-
+import * as SecureStore from "expo-secure-store";
 
 type AuthProviderProps = {
   children: ReactNode;
 };
 
-export const AuthContext = createContext<AuthContextType>(
-  {} as AuthContextType
-);
+interface AuthProps {
+  authData?: AuthData;
+  isAuth?: boolean | null;
+  onRegister?: (body: RegisterBody) => Promise<any>;
+  onLogin?: (body: LoginBody) => Promise<any>;
+  onLogout?: () => void;
+}
+
+export const AuthContext = createContext<AuthProps>({});
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [authData, setAuthData] = useAsyncStorage<AuthData>("userData", {});
+  const [authData, setAuthData] = useState<AuthData>({
+    token: null,
+    username: null,
+  });
 
-  function userLogin(authData: AuthData): void {
-    setAuthData(authData);
+  useEffect(() => {
+    const loadAuthData = async () => {
+      const data = await SecureStore.getItemAsync("authData");
+      if (data) {
+        setAuthData(data as AuthData);
+      }
+    };
+    loadAuthData();
+  }, []);
+
+  async function login(body: LoginBody): Promise<LoginReturnBody> {
+    const loginURL = "authentication/login/";
+
+    try {
+      const data = await post(loginURL, body);
+      setAuthData(data);
+      await SecureStore.setItemAsync("authData", data);
+      return data;
+    } catch (error) {
+      throw error;
+    }
   }
-
-  function userLogout(): void {
+  async function register(body: RegisterBody): Promise<LoginReturnBody> {
+    const registerURL = "authentication/register/";
+    try {
+      const data = await post(registerURL, body);
+      setAuthData(data);
+      await SecureStore.setItemAsync("authData", JSON.stringify(data));
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async function logout(): Promise<void> {
     setAuthData({});
+    await SecureStore.deleteItemAsync("authData");
   }
 
   const context = {
     authData,
     isAuth: authData?.token ? true : false,
-    userLogin,
-    userLogout,
+    onLogin: login,
+    onRegister: register,
+    onLogout: logout,
   };
 
   return (

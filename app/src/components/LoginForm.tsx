@@ -6,10 +6,9 @@ import ReusableInput from "./common/ReusableInput";
 import { useNavigation } from "@react-navigation/native";
 import { useContext, useState } from "react";
 
-import { colors, lightColors } from "../utils/colors";
 import { useMutation } from "@tanstack/react-query";
-import { loginRequest } from "../api/services/authentication";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext, useAuth } from "../contexts/AuthContext";
+import { useTheme } from "../contexts/ThemeContext";
 
 type LoginError = {
   non_field_errors: string[];
@@ -21,8 +20,8 @@ const LoginForm: React.FC = () => {
   const [data, setData] = useState<LoginBody>({
     email_or_username: "",
     password: "",
-  });
-  const {userLogin} = useContext(AuthContext)
+  }); 
+  const {onLogin} = useAuth()
   const formFields: FormField[] = [
     {
       label: "Email or username",
@@ -61,17 +60,57 @@ const LoginForm: React.FC = () => {
         setData((oldData) => ({ ...oldData, password: value })),
     },
   ];
+  const {colors} = useTheme();
 
-  async function onLogin() {
-    try{
-      const response = await loginRequest(data);
-      userLogin(data as AuthData);
-      return navigation.navigate("Dashboard");
-    } catch(e){
-      Alert.alert(String(e))
+  const styles = StyleSheet.create({
+    inputWrapper: {
+      marginBottom: 12,
+    },
+    forgotPass: {
+      color: colors.blueText,
+      fontWeight: "700",
+      alignSelf: "flex-end",
+      margin: 12,
+      fontSize: 12,
+    },
+    actionBtns: {
+      marginTop: 28,
+      justifyContent: "center",
+      gap: 16,
+    },
+    submitBtn: {
+      paddingLeft: 16,
+      paddingRight: 16,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 24,
+      height: 45,
+      backgroundColor: colors.submitBtn,
+    },
+    submitBtnText: {
+      color: colors.white,
+      fontWeight: "700",
+      fontFamily: "Acme",
+    },
+    helperText: {
+      alignSelf: "center",
+      fontSize: 12,
+      fontWeight: "700",
+      fontFamily: "Acme",
+      color: colors.helperText
+    },
+    iconsWrapper: {
+      flexDirection: "row",
+      alignSelf: "center",
+      gap: 32,
+    },
+  });
+
+  const loginPress = () => {
+    if (onLogin){
+      onLogin(data)
     }
   }
-
   return (
     <View>
       {formFields.map((field) => (
@@ -89,7 +128,7 @@ const LoginForm: React.FC = () => {
       ))}
       <Text style={styles.forgotPass}>Forgot password?</Text>
       <View style={styles.actionBtns}>
-        <TouchableOpacity onPress={onLogin} style={styles.submitBtn}>
+        <TouchableOpacity onPress={loginPress} style={styles.submitBtn}>
           <Text style={styles.submitBtnText}>Sign In</Text>
         </TouchableOpacity>
         <Text style={styles.helperText}>OR LOG IN WITH</Text>
@@ -122,49 +161,6 @@ const LoginForm: React.FC = () => {
 };
 
 export default LoginForm;
-
-const styles = StyleSheet.create({
-  inputWrapper: {
-    marginBottom: 12,
-  },
-  forgotPass: {
-    color: colors.blueText,
-    fontWeight: "700",
-    alignSelf: "flex-end",
-    margin: 12,
-    fontSize: 12,
-  },
-  actionBtns: {
-    marginTop: 28,
-    justifyContent: "center",
-    gap: 16,
-  },
-  submitBtn: {
-    paddingLeft: 16,
-    paddingRight: 16,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 24,
-    height: 45,
-    backgroundColor: colors.submitBtn,
-  },
-  submitBtnText: {
-    color: colors.white,
-    fontWeight: "700",
-    fontFamily: "Acme",
-  },
-  helperText: {
-    alignSelf: "center",
-    fontSize: 12,
-    fontWeight: "700",
-    fontFamily: "Acme",
-  },
-  iconsWrapper: {
-    flexDirection: "row",
-    alignSelf: "center",
-    gap: 32,
-  },
-});
 
 {
   /* <View>

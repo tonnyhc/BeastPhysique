@@ -35,13 +35,14 @@ export type FormField = {
 
 // Contexts
 export type AuthData = {
-  token?: string;
-  username?: string;
+  token?: string | null;
+  username?: string | null;
 };
 
 export type AuthContextType = {
   authData: AuthData | null;
   isAuth: boolean;
-  userLogin: (authData: AuthData) => void;
-  userLogout: () => void;
+  onLogin: (authData: AuthData) => Promise<LoginReturnBody>
+  onRegister: (authData: RegisterBody) => Promise<LoginReturnBody>
+  onLogout: () => void;
 };

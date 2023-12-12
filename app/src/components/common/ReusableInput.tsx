@@ -2,6 +2,7 @@ import { ReactNode, useState } from "react";
 
 import { Text, View, TextInput, Pressable, StyleSheet } from "react-native";
 import { colors, lightColors } from "../../utils/colors";
+import { useTheme } from "../../contexts/ThemeContext";
 
 interface ReusableInputProps {
   value: string;
@@ -23,7 +24,35 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
   onChange,
 }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-
+  const {colors} = useTheme();
+  const stlyes = StyleSheet.create({
+    wrapper: {
+      height: 80,
+    },
+    labelText: {
+      fontSize: 12,
+      fontWeight: "700",
+      fontFamily: "Acme",
+      marginBottom: 12,
+    },
+    inputWrapper: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: "center",
+      backgroundColor: colors.inputBg,
+      height: 45,
+      borderRadius: 24,
+      paddingLeft: 16,
+      paddingRight: 16
+    },
+    input: {
+      flex: 1,
+      marginLeft: 8,
+      color: colors.helperText,
+      fontWeight: "bold",
+      fontFamily: "Acme",
+    },
+  });
   return (
     <View style={stlyes.wrapper}>
       <Text style={stlyes.labelText}>{label}</Text>
@@ -35,7 +64,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
             isPassword && passwordVisible == false ? true : false
           }
           placeholder={placeholder}
-          placeholderTextColor={colors.grayText}
+          placeholderTextColor={colors.helperText}
           value={value}
           onChangeText={onChange}
         />
@@ -53,34 +82,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
 };
 export default ReusableInput;
 
-const stlyes = StyleSheet.create({
-  wrapper: {
-    height: 80,
-  },
-  labelText: {
-    fontSize: 12,
-    fontWeight: "700",
-    fontFamily: "Acme",
-    marginBottom: 12,
-  },
-  inputWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: "center",
-    backgroundColor: lightColors.inputBg,
-    height: 45,
-    borderRadius: 24,
-    paddingLeft: 16,
-    paddingRight: 16
-  },
-  input: {
-    flex: 1,
-    marginLeft: 8,
-    color: colors.grayText,
-    fontWeight: "bold",
-    fontFamily: "Acme",
-  },
-});
+
 
 {
   /* <View className=" h-20">

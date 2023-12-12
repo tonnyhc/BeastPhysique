@@ -1,35 +1,36 @@
-import React from "react";
-import { SafeAreaView, Text, StyleSheet, View } from "react-native";
+import React, { useContext } from "react";
+import { Text, StyleSheet, View } from "react-native";
 import LoginForm from "../components/LoginForm";
 import Screen from "../components/common/Screen";
-import { colors, lightColors } from "../utils/colors";
+import { useTheme } from "../contexts/ThemeContext";
+
 
 const Login: React.FC = () => {
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    section: {
+      flex: 1,
+      justifyContent: "space-around",
+      fontFamily: "Acme",
+    },
+    welcomeText: {
+      fontSize: 32,
+      fontWeight: "700",
+      fontFamily: "Acme",
+      alignSelf: "center",
+      color: colors.primaryText,
+    },
+  });
   return (
     <Screen>
       <View style={styles.section}>
         <Text style={styles.welcomeText}>Welcome back 👋</Text>
-
         <LoginForm />
       </View>
     </Screen>
   );
 };
-
-const styles = StyleSheet.create({
-  section: {
-    flex: 1,
-    justifyContent: "space-around",
-    fontFamily: "Acme",
-  },
-  welcomeText: {
-    fontSize: 32,
-    fontWeight: "700",
-    fontFamily: "Acme",
-    alignSelf: "center",
-    color: lightColors.primaryText,
-  },
-});
 
 export default Login;
 {
