@@ -1,28 +1,22 @@
 import React from "react";
 import { SafeAreaView, Text, StyleSheet, View } from "react-native";
 import LoginForm from "../components/LoginForm";
-import Section from "../components/common/Section";
+import Screen from "../components/common/Screen";
 import { colors, lightColors } from "../utils/colors";
 
 const Login: React.FC = () => {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <Section>
-        <View style={styles.section}>
-          <Text style={styles.welcomeText}>Welcome back 👋</Text>
+    <Screen>
+      <View style={styles.section}>
+        <Text style={styles.welcomeText}>Welcome back 👋</Text>
 
-          <LoginForm />
-        </View>
-      </Section>
-    </SafeAreaView>
+        <LoginForm />
+      </View>
+    </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    
-  },
   section: {
     flex: 1,
     justifyContent: "space-around",
@@ -33,7 +27,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontFamily: "Acme",
     alignSelf: "center",
-    color: lightColors.primaryText
+    color: lightColors.primaryText,
   },
 });
 
