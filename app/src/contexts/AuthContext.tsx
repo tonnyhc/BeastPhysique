@@ -38,10 +38,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    const loadAuthData = async () => {
-      const data = await SecureStore.getItemAsync("authData");
-      if (data) {
-        setAuthData(data as AuthData);
+    const loadAuthData = async (): Promise<void> => {
+      const dataFromStorage = await SecureStore.getItemAsync("authData");
+      if (dataFromStorage) {
+        const data = await JSON.parse(dataFromStorage);
+        if (data) {
+          setAuthData(data as AuthData);
+        }
       }
     };
     loadAuthData();
@@ -53,7 +56,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const data = await post(loginURL, body);
       setAuthData(data);
-      await SecureStore.setItemAsync("authData", data);
+      const dataStorage = await SecureStore.setItemAsync(
+        "authData",
+        JSON.stringify(data)
+      );
+      console.log(dataStorage);
       return data;
     } catch (error) {
       throw error;
