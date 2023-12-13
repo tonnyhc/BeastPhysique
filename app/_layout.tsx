@@ -6,8 +6,11 @@ import { useFonts } from "expo-font";
 import AuthStack from "./src/Stacks/AuthStack";
 import { useCallback, useEffect } from "react";
 import { useAuth } from "./src/contexts/AuthContext";
-import TabBar from "./src/Stacks/TabBar";
+import TabBar from "./src/Navigation/TabBar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DrawerContent from "./src/components/DrawerContent";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+// import RightDrawer from "./src/(drawer)/RightDrawer";
 
 const LightTheme = {
   dark: false,
@@ -21,7 +24,7 @@ const LightTheme = {
   },
 };
 // SplashScreen.preventAutoHideAsync();
-
+export const Drawer = createDrawerNavigator();
 const Layout: React.FC = () => {
   const [isLoaded, error] = useFonts({
     Acme: require("./assets/fonts/Acme-Regular.ttf"),
@@ -43,9 +46,22 @@ const Layout: React.FC = () => {
     console.log(error);
   }, [isLoaded]);
   return (
-      <NavigationContainer theme={LightTheme} onReady={onLayoutRootView}>
-        {!isAuth ? <AuthStack /> : <TabBar />}
-      </NavigationContainer>
+    <NavigationContainer theme={LightTheme} onReady={onLayoutRootView}>
+      {!isAuth ? (
+        <AuthStack />
+      ) : (
+        <Drawer.Navigator
+          drawerContent={(props) => <DrawerContent {...props} />}
+          screenOptions={{ headerShown: false }} 
+
+        >
+          <Drawer.Screen name="Home" component={TabBar} />
+          <Drawer.Screen name="Settings" component={TabBar} />
+          <Drawer.Screen name="Feed" component={TabBar} />
+        </Drawer.Navigator>
+      )}
+      {/* {!isAuth ? <AuthStack /> : <TabBar />} */}
+    </NavigationContainer>
   );
 };
 export default Layout;

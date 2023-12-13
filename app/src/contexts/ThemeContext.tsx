@@ -4,6 +4,7 @@ import { lightColors, darkColors, Colors } from "../utils/colors";
 type ThemeContextType = {
   theme: string;
   colors: Record<any, any>;
+  toggleTheme: () => void;
 };
 interface ThemeProviderProps {
   children: ReactNode;
@@ -12,15 +13,21 @@ interface ThemeProviderProps {
 export const ThemeContext = createContext<ThemeContextType>({
   theme: "light",
   colors: lightColors,
+  toggleTheme: () => {},
 });
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState("light");
   const colors: Colors = theme === "light" ? lightColors : darkColors;
 
+  const toggleTheme = (): void => {
+    setTheme((oldTheme) => (oldTheme == "light" ? "dark" : "light"));
+  };
+
   const context = {
     theme,
     colors,
+    toggleTheme,
   };
 
   return (
