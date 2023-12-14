@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/authentication/RegisterForm";
 import Screen from "../components/common/Screen";
 import { useTheme } from "../contexts/ThemeContext";
 

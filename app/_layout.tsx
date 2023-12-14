@@ -7,9 +7,10 @@ import AuthStack from "./src/Stacks/AuthStack";
 import { useCallback, useEffect } from "react";
 import { useAuth } from "./src/contexts/AuthContext";
 import TabBar from "./src/Navigation/TabBar";
-import { SafeAreaView } from "react-native-safe-area-context";
 import DrawerContent from "./src/components/DrawerContent";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { StatusBar } from "expo-status-bar";
+import { useTheme } from "./src/contexts/ThemeContext";
 // import RightDrawer from "./src/(drawer)/RightDrawer";
 
 const LightTheme = {
@@ -26,6 +27,7 @@ const LightTheme = {
 // SplashScreen.preventAutoHideAsync();
 export const Drawer = createDrawerNavigator();
 const Layout: React.FC = () => {
+  const{theme} = useTheme()
   const [isLoaded, error] = useFonts({
     Acme: require("./assets/fonts/Acme-Regular.ttf"),
   });
@@ -60,6 +62,7 @@ const Layout: React.FC = () => {
           <Drawer.Screen name="Feed" component={TabBar} />
         </Drawer.Navigator>
       )}
+      <StatusBar style={theme == 'light' ? 'dark' : 'light'}/>
       {/* {!isAuth ? <AuthStack /> : <TabBar />} */}
     </NavigationContainer>
   );

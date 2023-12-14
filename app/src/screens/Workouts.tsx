@@ -20,7 +20,7 @@ const Workouts: React.FC = () => {
     queryKey: ["workout-splits"],
     queryFn: getWorkoutPlansByUser,
   });
-
+  // TODO: Add a skeleton 
   const styles = StyleSheet.create({
     cardWrapper: {
       paddingTop: 6,

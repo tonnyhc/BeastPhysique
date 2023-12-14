@@ -27,10 +27,12 @@ export type FormField = {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  onEndEditing?: () => any;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   placeholder: string;
   isPassword?: boolean;
+  error?: string;
 };
 
 // Contexts
@@ -42,7 +44,7 @@ export type AuthData = {
 export type AuthContextType = {
   authData: AuthData | null;
   isAuth: boolean;
-  onLogin: (authData: AuthData) => Promise<LoginReturnBody>
-  onRegister: (authData: RegisterBody) => Promise<LoginReturnBody>
+  onLogin: (authData: AuthData) => Promise<LoginReturnBody>;
+  onRegister: (authData: RegisterBody) => Promise<LoginReturnBody>;
   onLogout: () => void;
 };

@@ -16,9 +16,11 @@ import {
   TouchableRipple,
   Switch,
 } from "react-native-paper";
+import { useAuth } from "../contexts/AuthContext";
 
 const DrawerContent = (props: any) => {
   const { toggleTheme, theme, colors } = useTheme();
+  const {onLogout} = useAuth()
   const styles = StyleSheet.create({
     userInfoSection: {
       flexDirection: "row",
@@ -28,6 +30,7 @@ const DrawerContent = (props: any) => {
       borderBottomColor: "#ccc",
       borderBottomWidth: 2,
       paddingBottom: 6,
+      flex: 1
     },
     profileName: {
       fontSize: 22,
@@ -114,6 +117,12 @@ const DrawerContent = (props: any) => {
                 <Text style={{color: colors.thirtiaryText}}>Dark Mode</Text>
                 <Switch onChange={toggleTheme} value={theme == "dark"} />
               </View>
+            </TouchableRipple>
+          </Drawer.Section>
+
+          <Drawer.Section >
+            <TouchableRipple onPress={onLogout}>
+              <Text>Logout</Text>
             </TouchableRipple>
           </Drawer.Section>
         </View>

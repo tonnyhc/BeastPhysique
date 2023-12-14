@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Text, StyleSheet, View } from "react-native";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/authentication/LoginForm";
 import Screen from "../components/common/Screen";
 import { useTheme } from "../contexts/ThemeContext";
 

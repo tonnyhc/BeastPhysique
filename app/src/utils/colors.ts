@@ -10,6 +10,8 @@ export type Colors = {
   submitBtn: string;
   inputBg: string;
   cardBg: string;
+
+  error: string;
 };
 
 export const lightColors: Colors = {
@@ -24,6 +26,8 @@ export const lightColors: Colors = {
   submitBtn: "#00BDD6FF",
   inputBg: "#F3F4F6FF",
   cardBg: "#FFFFFF",
+
+  error: "#B00020",
 };
 
 export const darkColors: Colors = {
@@ -38,4 +42,6 @@ export const darkColors: Colors = {
   inputBg: "#1D2128FF",
   submitBtn: "#00BDD6FF",
   cardBg: "#323842FF",
+
+  error: "#B00020",
 };
