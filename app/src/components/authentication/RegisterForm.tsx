@@ -8,6 +8,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 import {
   emailValidator,
   samePasswordValidator,
+  strenghtPasswordValidator,
 } from "../../utils/formValidators";
 import ActionButtons from "./ActionButtonsContainer";
 import { useAuth } from "../../contexts/AuthContext";
@@ -50,6 +51,19 @@ const RegisterForm: React.FC = () => {
   }, [data]);
   // Password validation
   useEffect(() => {
+    const isValid = strenghtPasswordValidator(data.password);
+    if (!isValid) {
+      return setFormErrors((oldErrors) => ({
+        ...oldErrors,
+        password: "Weak password",
+      }));
+    }
+    return setFormErrors((oldErrors) => ({
+      ...oldErrors,
+      password: "",
+    }));
+  }, [data.password]);
+  useEffect(() => {
     const error = samePasswordValidator(data.password, data.conf_pass);
     if (data.password === "" && data.conf_pass === "") {
       return;
@@ -57,8 +71,7 @@ const RegisterForm: React.FC = () => {
     if (error) {
       return setFormErrors((oldErrors) => ({
         ...oldErrors,
-        conf_pass: "The passwords are not the same!",
-        password: "The passwords are not the same!",
+        conf_pass: "The passwords are not the same",
       }));
     }
     return setFormErrors((oldErrors) => ({
@@ -208,7 +221,7 @@ const RegisterForm: React.FC = () => {
 
       <ActionButtons
         onPrimaryAction={mutate}
-        onSecondaryAction={() => navigation.navigate("Login")}
+        onSecondaryAction={() => navigation.navigate("Login" as never)}
         primaryActionText="Sign Up"
         secondaryActionText="SIGN IN"
         disabled={disabledSubmit}
