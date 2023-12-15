@@ -3,6 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import RegisterForm from "../components/authentication/RegisterForm";
 import Screen from "../components/common/Screen";
 import { useTheme } from "../contexts/ThemeContext";
+import { useAuth } from "../contexts/AuthContext";
+import { useMutation } from "@tanstack/react-query";
+import { RegisterBody } from "../ts/types";
 
 const Register: React.FC = () => {
   const { colors } = useTheme();
@@ -25,6 +28,24 @@ const Register: React.FC = () => {
       fontFamily: "Acme",
     },
   });
+
+  const { onRegister } = useAuth();
+
+  const mutationRegister = async (data: RegisterBody): Promise<any> => {
+    try {
+      if (onRegister) {
+        await onRegister(data);
+      } else {
+        throw new Error("onLogin function is not provided");
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
+  };
+
+  const { mutate, isPending } = useMutation({ mutationFn: mutationRegister });
+
+
   return (
     <Screen>
       <View style={styles.wrapper}>
@@ -32,18 +53,10 @@ const Register: React.FC = () => {
         <Text style={styles.secondaryWelcome}>Create an account</Text>
 
         {/* register form */}
-        <RegisterForm />
+        <RegisterForm mutate={mutate} isPending={isPending} />
+        {/* <RegisterForm /> */}
       </View>
     </Screen>
   );
 };
 export default Register;
-
-// <SafeAreaView className='flex-1 px-3 justify-center'>
-// <Text className='text-3xl font-extrabold text-light-primaryText mb-1 dark:text-white'>Welcome.</Text>
-// <Text className='text-xl font-bold text-light-secondaryText'>Create an account</Text>
-
-// {/* register form */}
-// <RegisterForm />
-
-// </SafeAreaView>

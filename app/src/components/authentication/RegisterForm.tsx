@@ -11,12 +11,15 @@ import {
   strenghtPasswordValidator,
 } from "../../utils/formValidators";
 import ActionButtons from "./ActionButtonsContainer";
-import { useAuth } from "../../contexts/AuthContext";
-import { useMutation } from "@tanstack/react-query";
 
-const RegisterForm: React.FC = () => {
+
+interface RegisterFormProps {
+  mutate: () => Promise<any>;
+  isPending: boolean;
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending}) => {
   const { theme, colors } = useTheme();
-  const { onRegister } = useAuth();
   const navigation = useNavigation();
   const [data, setData] = useState({
     email: "",
@@ -31,28 +34,20 @@ const RegisterForm: React.FC = () => {
     conf_pass: "",
   });
 
-  const mutationRegister = (): Promise<any> => {
-    if (onRegister) {
-      return onRegister(data);
-    }
-    return Promise.reject(new Error("onLogin function is not provided"));
-  };
-  const { mutate, isPending } = useMutation({ mutationFn: mutationRegister });
-
   const [disabledSubmit, setDisabledSubmit] = useState(false);
   // button disabled checker
   useEffect(() => {
     const areFieldsFilled = Object.values(data).every((value) => value !== "");
-    if (!areFieldsFilled) {
+    const areErrors = Object.values(formErrors).every((value) => value !== "");
+
+    if (!areFieldsFilled || !areErrors) {
       return setDisabledSubmit(true);
     }
-
     return setDisabledSubmit(false);
-  }, [data]);
-  // Password validation
+  }, [data, formErrors]);
   useEffect(() => {
     const isValid = strenghtPasswordValidator(data.password);
-    if (!isValid) {
+    if (!isValid  && data.password !== '') {
       return setFormErrors((oldErrors) => ({
         ...oldErrors,
         password: "Weak password",

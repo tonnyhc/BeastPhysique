@@ -51,6 +51,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         onPress={onPrimaryAction}
         disabled={disabled || isLoading}
         loading={isLoading}
+        testId="submitBtn"
       />
       <Text style={styles.helperText}>
         OR {primaryActionText.toUpperCase()} WITH
