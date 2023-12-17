@@ -6,9 +6,11 @@ import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
 import { useMutation } from "@tanstack/react-query";
 import { RegisterBody } from "../ts/types";
+import { useNavigation } from "@react-navigation/native";
 
 const Register: React.FC = () => {
   const { colors } = useTheme();
+  const navigation = useNavigation();
   const styles = StyleSheet.create({
     wrapper: {
       flex: 1,
@@ -32,19 +34,19 @@ const Register: React.FC = () => {
   const { onRegister } = useAuth();
 
   const mutationRegister = async (data: RegisterBody): Promise<any> => {
-    try {
-      if (onRegister) {
-        await onRegister(data);
-      } else {
-        throw new Error("onLogin function is not provided");
-      }
-    } catch (error) {
-      console.error("Registration failed:", error);
+    if (onRegister) {
+      return await onRegister(data);
+    } else {
+      return Promise.reject();
     }
   };
 
-  const { mutate, isPending } = useMutation({ mutationFn: mutationRegister });
-
+  const { mutate, isPending } = useMutation({
+    mutationFn: mutationRegister,
+    onSuccess: () => {
+      navigation.navigate("OTPVerification")
+    },
+  });
 
   return (
     <Screen>

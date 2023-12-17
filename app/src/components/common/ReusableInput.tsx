@@ -37,6 +37,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       fontWeight: "700",
       fontFamily: "Acme",
       marginBottom: 12,
+      color: colors.primaryText
     },
     inputWrapper: {
       flex: 1,

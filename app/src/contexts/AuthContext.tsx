@@ -1,28 +1,30 @@
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
-import useAsyncStorage from "../hooks/useAsyncStorage";
 import {
-  AuthContextType,
   AuthData,
   LoginBody,
   LoginReturnBody,
   RegisterBody,
 } from "../ts/types";
 import useSecureStore from "../hooks/useSecureStore";
-import { post } from "../api/requester";
+// import { post } from "../api/requester";
 
 import * as SecureStore from "expo-secure-store";
+import useApi from "../hooks/useApi";
 
 type AuthProviderProps = {
   children: ReactNode;
 };
 
 interface AuthProps {
-  authData?: AuthData;
+  // authData?: AuthData;
+  token?: string | null;
+  isVerified?: boolean;
   isAuth?: boolean | null;
   onRegister?: (body: RegisterBody) => Promise<any>;
   onLogin?: (body: LoginBody) => Promise<any>;
-  onLogout?: () => void;
+  onLogout?: () => Promise<void>;
+  onConfirmAccount?: (verificationCode: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthProps>({});
@@ -34,8 +36,9 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authData, setAuthData] = useState<AuthData>({
     token: null,
-    username: null,
+    isVerified: false,
   });
+  const { post } = useApi(authData.token || "");
 
   useEffect(() => {
     const loadAuthData = async (): Promise<void> => {
@@ -55,12 +58,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     try {
       const data = await post(loginURL, body);
-      setAuthData(data);
-      const dataStorage = await SecureStore.setItemAsync(
-        "authData",
-        JSON.stringify(data)
-      );
-      console.log(dataStorage);
+      setAuthData({
+        token: data.token,
+        isVerified: data.is_verified,
+      });
+      await SecureStore.setItemAsync("authData", JSON.stringify(data));
       return data;
     } catch (error) {
       throw error;
@@ -81,13 +83,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setAuthData({});
     await SecureStore.deleteItemAsync("authData");
   }
+  async function confirmAccount(verificationCode: string): Promise<void> {
+    const url = "authentication/verify-account/";
+    try {
+      await post(url, verificationCode);
+      setAuthData((oldData) => ({
+        ...oldData,
+        isVerified: true,
+      }));
+    } catch (error) {
+      throw error;
+    }
+  }
 
   const context = {
-    authData,
+    token: authData.token,
     isAuth: authData?.token ? true : false,
+    isVerified: authData.isVerified,
     onLogin: login,
     onRegister: register,
     onLogout: logout,
+    onConfirmAccount: confirmAccount,
   };
 
   return (

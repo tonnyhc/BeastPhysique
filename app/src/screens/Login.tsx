@@ -1,12 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import LoginForm from "../components/authentication/LoginForm";
 import Screen from "../components/common/Screen";
 import { useTheme } from "../contexts/ThemeContext";
-
+import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigation } from "@react-navigation/native";
+import { LoginBody, LoginReturnBody } from "../ts/types";
 
 const Login: React.FC = () => {
   const { colors } = useTheme();
+  const { onLogin } = useAuth();
+  const navigation = useNavigation();
 
   const styles = StyleSheet.create({
     section: {
@@ -22,24 +27,28 @@ const Login: React.FC = () => {
       color: colors.primaryText,
     },
   });
+
+  const mutationLogin = async (data: LoginBody): Promise<LoginReturnBody> => {
+    if (onLogin) {
+      return onLogin(data);
+    }
+    return Promise.reject(new Error("onLogin function is not provided"));
+  };
+
+  const { data, mutate, isPending } = useMutation({
+    mutationFn: mutationLogin,
+    onSuccess: () => {
+      !data?.isVerified ? navigation.navigate("OTPVerification") : ""
+    }
+  });
   return (
     <Screen>
       <View style={styles.section}>
         <Text style={styles.welcomeText}>Welcome back 👋</Text>
-        <LoginForm />
+        <LoginForm onLogin={mutate} isPending={isPending} />
       </View>
     </Screen>
   );
 };
 
 export default Login;
-{
-  /* <SafeAreaView className="flex-1 px-3 justify-around font-acme">
-<Text className="text-[32px] font-extrabold font-acme dark:text-white self-center">
-Welcome back 👋
-</Text>
-
-<LoginForm />
-
-</SafeAreaView> */
-}

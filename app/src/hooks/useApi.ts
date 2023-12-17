@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "../contexts/AuthContext";
 
 interface RequestInitWithBody extends RequestInit {
@@ -10,12 +8,12 @@ export type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE";
 
 const hostUrl = "http://192.168.0.103:8000/";
 
-const useApi = () => {
-//   const [token, setToken] = useState<string | null>(null);
-    const {authData} = useAuth();
-    const token = authData?.token;
-
-  const requester = async (url: string, method: RequestMethod, body?: any): Promise<any> => {
+const useApi = (token: string) => {
+  const requester = async (
+    url: string,
+    method: RequestMethod,
+    body?: any
+  ): Promise<any> => {
     let headers: Record<string, string> = {
       Authorization: `Token ${token}`,
     };

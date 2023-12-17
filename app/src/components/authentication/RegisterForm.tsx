@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import ReusableInput from "../common/ReusableInput";
-import { FormField } from "../../ts/types";
+import { FormField, RegisterBody, RegisterFormBody } from "../../ts/types";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/ThemeContext";
 import {
@@ -14,14 +14,14 @@ import ActionButtons from "./ActionButtonsContainer";
 
 
 interface RegisterFormProps {
-  mutate: () => Promise<any>;
+  mutate: (data: RegisterBody) => Promise<any>;
   isPending: boolean;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending}) => {
   const { theme, colors } = useTheme();
   const navigation = useNavigation();
-  const [data, setData] = useState({
+  const [data, setData] = useState<RegisterFormBody>({
     email: "",
     username: "",
     password: "",
@@ -38,9 +38,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending}) => {
   // button disabled checker
   useEffect(() => {
     const areFieldsFilled = Object.values(data).every((value) => value !== "");
-    const areErrors = Object.values(formErrors).every((value) => value !== "");
+    const areErrors = Object.values(formErrors).some((value) => value !== "");
 
-    if (!areFieldsFilled || !areErrors) {
+    if (!areFieldsFilled || areErrors) {
       return setDisabledSubmit(true);
     }
     return setDisabledSubmit(false);
@@ -215,7 +215,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending}) => {
       </View>
 
       <ActionButtons
-        onPrimaryAction={mutate}
+        onPrimaryAction={() => mutate(data)}
         onSecondaryAction={() => navigation.navigate("Login" as never)}
         primaryActionText="Sign Up"
         secondaryActionText="SIGN IN"

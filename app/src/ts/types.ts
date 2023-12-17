@@ -11,15 +11,16 @@ export type RegisterBody = {
 };
 
 export type LoginBody = {
-  email_or_username: string;
+  email: string;
   password: string;
 };
 
 export type LoginReturnBody = {
-  email: string;
+  // email: string;
   token: string;
-  user_id: number;
-  username: string;
+  isVerified?: boolean
+  // user_id: number;
+  // username: string;
 };
 
 // Forms
@@ -35,10 +36,18 @@ export type FormField = {
   error?: string;
 };
 
+export type RegisterFormBody = {
+  username: string;
+  email: string;
+  password: string;
+  conf_pass: string,
+}
+
 // Contexts
 export type AuthData = {
   token?: string | null;
-  username?: string | null;
+  isVerified?: boolean
+  // username?: string | null;
 };
 
 export type AuthContextType = {

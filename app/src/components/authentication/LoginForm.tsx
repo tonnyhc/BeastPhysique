@@ -1,15 +1,12 @@
-import { AntDesign, Feather, FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 
 import { FormField, LoginBody } from "../../ts/types";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import ReusableInput from "../common/ReusableInput";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 
-import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
-import SubmitButton from "../common/SubmitButton";
 import ActionButtons from "./ActionButtonsContainer";
 
 type LoginError = {
@@ -17,28 +14,22 @@ type LoginError = {
   password?: string;
 };
 
-const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  onLogin: (data?: LoginBody) => Promise<any>;
+  isPending: boolean;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isPending }) => {
+  const { colors } = useTheme();
   const navigation = useNavigation();
   const [data, setData] = useState<LoginBody>({
-    email_or_username: "",
+    email: "",
     password: "",
   });
   const [loginErrors, setLoginErrors] = useState<null | string>(null);
-  const mutationLogin = (): Promise<void> => {
-    if (onLogin) {
-      return onLogin(data);
-    }
-    return Promise.reject(new Error("onLogin function is not provided"));
-  };
   const [disabledSubmit, setDisabledSubmit] = useState<boolean>(false);
-  const { onLogin } = useAuth();
-  const { mutate, isPending } = useMutation({
-    mutationFn: mutationLogin,
-    onError: (error: LoginError) => setLoginErrors(error.non_field_errors[0]),
-  });
-
   useEffect(() => {
-    if (data.email_or_username == "" || data.password == "") {
+    if (data.email == "" || data.password == "") {
       return setDisabledSubmit(true);
     }
     setDisabledSubmit(false);
@@ -46,7 +37,7 @@ const LoginForm: React.FC = () => {
 
   const formFields: FormField[] = [
     {
-      label: "Email or username",
+      label: "Email",
       leftIcon: (
         <AntDesign
           name="mail"
@@ -54,10 +45,10 @@ const LoginForm: React.FC = () => {
           // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
-      placeholder: "Enter email or username",
-      value: data.email_or_username,
+      placeholder: "Enter email",
+      value: data.email,
       onChange: (value) =>
-        setData((oldData) => ({ ...oldData, email_or_username: value })),
+        setData((oldData) => ({ ...oldData, email: value })),
     },
     {
       label: "Password",
@@ -82,7 +73,6 @@ const LoginForm: React.FC = () => {
         setData((oldData) => ({ ...oldData, password: value })),
     },
   ];
-  const { colors } = useTheme();
 
   const styles = StyleSheet.create({
     inputWrapper: {
@@ -125,7 +115,7 @@ const LoginForm: React.FC = () => {
 
       <Text style={styles.forgotPass}>Forgot password?</Text>
       <ActionButtons
-        onPrimaryAction={mutate}
+        onPrimaryAction={() => onLogin(data)}
         onSecondaryAction={() => navigation.navigate("Register")}
         primaryActionText="Sign In"
         secondaryActionText="SIGN UP"

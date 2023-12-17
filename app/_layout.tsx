@@ -31,7 +31,7 @@ const Layout: React.FC = () => {
   const [isLoaded, error] = useFonts({
     Acme: require("./assets/fonts/Acme-Regular.ttf"),
   });
-  const { isAuth } = useAuth();
+  const { isAuth, isVerified } = useAuth();
   useEffect(() => {
     const loadFonts = async () => {
       if (isLoaded) {
@@ -45,11 +45,10 @@ const Layout: React.FC = () => {
     if (isLoaded) {
       await SplashScreen.hideAsync();
     }
-    console.log(error);
   }, [isLoaded]);
   return (
     <NavigationContainer theme={LightTheme} onReady={onLayoutRootView}>
-      {!isAuth ? (
+      {!isAuth || !isVerified ? (
         <AuthStack />
       ) : (
         <Drawer.Navigator
@@ -63,7 +62,6 @@ const Layout: React.FC = () => {
         </Drawer.Navigator>
       )}
       <StatusBar style={theme == 'light' ? 'dark' : 'light'}/>
-      {/* {!isAuth ? <AuthStack /> : <TabBar />} */}
     </NavigationContainer>
   );
 };

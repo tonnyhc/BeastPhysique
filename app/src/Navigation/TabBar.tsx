@@ -38,7 +38,7 @@ const TabBar = () => {
       })}
     >
       <Tab.Screen
-        name="Home"
+        name="Dashboard"
         component={Dashboard}
         options={{
           tabBarLabel: "Home",
