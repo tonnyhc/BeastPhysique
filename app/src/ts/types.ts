@@ -18,7 +18,7 @@ export type LoginBody = {
 export type LoginReturnBody = {
   // email: string;
   token: string;
-  isVerified?: boolean
+  is_verified?: boolean
   // user_id: number;
   // username: string;
 };

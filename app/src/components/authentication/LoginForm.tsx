@@ -1,6 +1,6 @@
 import { AntDesign, Feather } from "@expo/vector-icons";
 
-import { FormField, LoginBody } from "../../ts/types";
+import { FormField, LoginBody, LoginError } from "../../ts/types";
 import { View, Text, StyleSheet } from "react-native";
 import ReusableInput from "../common/ReusableInput";
 import { useNavigation } from "@react-navigation/native";
@@ -9,24 +9,25 @@ import { useEffect, useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import ActionButtons from "./ActionButtonsContainer";
 
-type LoginError = {
-  non_field_errors: string[];
-  password?: string;
-};
+
 
 interface LoginFormProps {
   onLogin: (data?: LoginBody) => Promise<any>;
   isPending: boolean;
+  loginError: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isPending }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  onLogin,
+  isPending,
+  loginError,
+}) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
   const [data, setData] = useState<LoginBody>({
     email: "",
     password: "",
   });
-  const [loginErrors, setLoginErrors] = useState<null | string>(null);
   const [disabledSubmit, setDisabledSubmit] = useState<boolean>(false);
   useEffect(() => {
     if (data.email == "" || data.password == "") {
@@ -47,8 +48,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isPending }) => {
       ),
       placeholder: "Enter email",
       value: data.email,
-      onChange: (value) =>
-        setData((oldData) => ({ ...oldData, email: value })),
+      onChange: (value) => setData((oldData) => ({ ...oldData, email: value })),
     },
     {
       label: "Password",
@@ -97,7 +97,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isPending }) => {
           color: "red",
         }}
       >
-        {loginErrors}
+        {loginError}
       </Text>
       {formFields.map((field) => (
         <View style={styles.inputWrapper} key={field.label}>

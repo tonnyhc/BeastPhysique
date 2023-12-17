@@ -27,7 +27,7 @@ const LightTheme = {
 // SplashScreen.preventAutoHideAsync();
 export const Drawer = createDrawerNavigator();
 const Layout: React.FC = () => {
-  const{theme} = useTheme()
+  const { theme } = useTheme();
   const [isLoaded, error] = useFonts({
     Acme: require("./assets/fonts/Acme-Regular.ttf"),
   });
@@ -48,20 +48,19 @@ const Layout: React.FC = () => {
   }, [isLoaded]);
   return (
     <NavigationContainer theme={LightTheme} onReady={onLayoutRootView}>
-      {!isAuth || !isVerified ? (
+      {!isAuth || (isAuth && !isVerified) ? (
         <AuthStack />
       ) : (
         <Drawer.Navigator
           drawerContent={(props) => <DrawerContent {...props} />}
-          screenOptions={{ headerShown: false }} 
-
+          screenOptions={{ headerShown: false }}
         >
           <Drawer.Screen name="Home" component={TabBar} />
           <Drawer.Screen name="Settings" component={TabBar} />
           <Drawer.Screen name="Feed" component={TabBar} />
         </Drawer.Navigator>
       )}
-      <StatusBar style={theme == 'light' ? 'dark' : 'light'}/>
+      <StatusBar style={theme == "light" ? "dark" : "light"} />
     </NavigationContainer>
   );
 };

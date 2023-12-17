@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import LoginForm from "../components/authentication/LoginForm";
 import Screen from "../components/common/Screen";
@@ -12,6 +12,7 @@ const Login: React.FC = () => {
   const { colors } = useTheme();
   const { onLogin } = useAuth();
   const navigation = useNavigation();
+  const [loginErrors, setLoginErrors] = useState<string>('');
 
   const styles = StyleSheet.create({
     section: {
@@ -39,13 +40,17 @@ const Login: React.FC = () => {
     mutationFn: mutationLogin,
     onSuccess: () => {
       !data?.isVerified ? navigation.navigate("OTPVerification") : ""
+    },
+    onError: (error: string) => {
+      console.log(error)
+      setLoginErrors(error)
     }
   });
   return (
     <Screen>
       <View style={styles.section}>
         <Text style={styles.welcomeText}>Welcome back 👋</Text>
-        <LoginForm onLogin={mutate} isPending={isPending} />
+        <LoginForm loginError={loginErrors} onLogin={mutate} isPending={isPending} />
       </View>
     </Screen>
   );

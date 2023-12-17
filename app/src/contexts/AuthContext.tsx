@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (dataFromStorage) {
         const data = await JSON.parse(dataFromStorage);
         if (data) {
-          setAuthData(data as AuthData);
+          setAuthData({token: data.token, isVerified: data.is_verified});
         }
       }
     };
@@ -72,7 +72,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const registerURL = "authentication/register/";
     try {
       const data = await post(registerURL, body);
-      setAuthData(data);
+      setAuthData({
+        token: data.token,
+        isVerified: data.is_verified
+      });
       await SecureStore.setItemAsync("authData", JSON.stringify(data));
       return data;
     } catch (error) {
@@ -98,14 +101,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const context = {
     token: authData.token,
-    isAuth: authData?.token ? true : false,
+    isAuth: authData.token ? true: false,
     isVerified: authData.isVerified,
     onLogin: login,
     onRegister: register,
     onLogout: logout,
     onConfirmAccount: confirmAccount,
   };
-
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );

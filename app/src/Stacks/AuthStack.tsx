@@ -1,6 +1,4 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { Text } from "react-native";
-import Screen from "../components/common/Screen";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
 import OTPVerification from "../components/authentication/OTPVerification";
@@ -10,9 +8,11 @@ const Stack = createStackNavigator();
 
 const AuthStack: React.FC = () => {
   const { token,isVerified } = useAuth();
+  console.log('token:', token);
+  console.log('is verified', isVerified)
   return (
     <Stack.Navigator
-      // initialRouteName={token && isVerified ? "Login" : "OTPVerification"}
+      initialRouteName={token && isVerified === false ? "OTPVerification" : "Login"}
       screenOptions={{
         headerShown: false,
       }}
