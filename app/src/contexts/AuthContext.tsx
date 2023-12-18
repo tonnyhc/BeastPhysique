@@ -25,6 +25,7 @@ interface AuthProps {
   onLogin?: (body: LoginBody) => Promise<any>;
   onLogout?: () => Promise<void>;
   onConfirmAccount?: (verificationCode: string) => Promise<void>;
+  onForgottenPassword?: (email: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthProps>({});
@@ -46,7 +47,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (dataFromStorage) {
         const data = await JSON.parse(dataFromStorage);
         if (data) {
-          setAuthData({token: data.token, isVerified: data.is_verified});
+          setAuthData({ token: data.token, isVerified: data.is_verified });
         }
       }
     };
@@ -74,7 +75,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const data = await post(registerURL, body);
       setAuthData({
         token: data.token,
-        isVerified: data.is_verified
+        isVerified: data.is_verified,
       });
       await SecureStore.setItemAsync("authData", JSON.stringify(data));
       return data;
@@ -98,15 +99,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       throw error;
     }
   }
+  async function forgottenPassword(email: string): Promise<void> {
+    const url = "authentication/forgotten-password/";
+    try {
+      return await post(url, email);
+    } catch (error) {
+      throw error;
+    }
+  }
 
   const context = {
     token: authData.token,
-    isAuth: authData.token ? true: false,
+    isAuth: authData.token ? true : false,
     isVerified: authData.isVerified,
     onLogin: login,
     onRegister: register,
     onLogout: logout,
     onConfirmAccount: confirmAccount,
+    onForgottenPassword: forgottenPassword,
   };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

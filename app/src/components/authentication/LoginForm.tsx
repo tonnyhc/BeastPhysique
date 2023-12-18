@@ -1,6 +1,6 @@
 import { AntDesign, Feather } from "@expo/vector-icons";
 
-import { FormField, LoginBody, LoginError } from "../../ts/types";
+import { FormField, LoginBody} from "../../ts/types";
 import { View, Text, StyleSheet } from "react-native";
 import ReusableInput from "../common/ReusableInput";
 import { useNavigation } from "@react-navigation/native";
@@ -8,8 +8,7 @@ import { useEffect, useState } from "react";
 
 import { useTheme } from "../../contexts/ThemeContext";
 import ActionButtons from "./ActionButtonsContainer";
-
-
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface LoginFormProps {
   onLogin: (data?: LoginBody) => Promise<any>;
@@ -22,7 +21,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   isPending,
   loginError,
 }) => {
-  const { colors } = useTheme();
+  const { colors, theme } = useTheme();
   const navigation = useNavigation();
   const [data, setData] = useState<LoginBody>({
     email: "",
@@ -43,7 +42,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <AntDesign
           name="mail"
           size={18}
-          // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          color={theme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       placeholder: "Enter email",
@@ -56,14 +55,14 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <AntDesign
           name="lock"
           size={18}
-          // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          color={theme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       rightIcon: (
         <Feather
           name="eye-off"
           size={18}
-          // color={colorScheme == "dark" ? "#DEE1E6FF" : "black"}
+          color={theme == "dark" ? "#DEE1E6FF" : "black"}
         />
       ),
       placeholder: "Enter password",
@@ -113,7 +112,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
         </View>
       ))}
 
-      <Text style={styles.forgotPass}>Forgot password?</Text>
+      <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+        <Text style={styles.forgotPass}>Forgot password?</Text>
+      </TouchableOpacity>
       <ActionButtons
         onPrimaryAction={() => onLogin(data)}
         onSecondaryAction={() => navigation.navigate("Register")}

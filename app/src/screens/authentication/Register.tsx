@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import RegisterForm from "../components/authentication/RegisterForm";
-import Screen from "../components/common/Screen";
-import { useTheme } from "../contexts/ThemeContext";
-import { useAuth } from "../contexts/AuthContext";
+import RegisterForm from "../../components/authentication/RegisterForm";
+import Screen from "../../components/common/Screen";
+import { useTheme } from "../../contexts/ThemeContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useMutation } from "@tanstack/react-query";
-import { RegisterBody } from "../ts/types";
+import { RegisterBody } from "../../ts/types";
 import { useNavigation } from "@react-navigation/native";
 
 const Register: React.FC = () => {

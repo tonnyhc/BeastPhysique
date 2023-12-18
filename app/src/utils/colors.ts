@@ -1,5 +1,6 @@
 export type Colors = {
   // text
+  white: string;
   primaryText: string;
   secondaryText: string;
   thirtiaryText: string;
@@ -16,6 +17,7 @@ export type Colors = {
 
 export const lightColors: Colors = {
   // text
+  white: "#FFF",
   primaryText: "#171A1FFF",
   secondaryText: "#9095A0FF",
   thirtiaryText: "#565E6CFF",
@@ -32,6 +34,7 @@ export const lightColors: Colors = {
 
 export const darkColors: Colors = {
   // text
+  white: "#FFF",
   primaryText: "#FFFFFF",
   secondaryText: "#9095A0FF",
   thirtiaryText: "#FFFFFF",

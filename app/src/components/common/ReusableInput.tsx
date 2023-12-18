@@ -5,8 +5,8 @@ import { useTheme } from "../../contexts/ThemeContext";
 
 interface ReusableInputProps {
   value: string;
-  onChange: () => void;
-  label: string;
+  onChange: (value: string) => void;
+  label?: string;
   placeholder: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -37,7 +37,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       fontWeight: "700",
       fontFamily: "Acme",
       marginBottom: 12,
-      color: colors.primaryText
+      color: colors.primaryText,
     },
     inputWrapper: {
       flex: 1,

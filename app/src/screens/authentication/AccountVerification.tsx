@@ -1,18 +1,18 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
-import Screen from "../common/Screen";
+import Screen from "../../components/common/Screen";
 import React, { useState } from "react";
-import UpperLogoWrapper from "../common/UpperLogoWrapper";
+import UpperLogoWrapper from "../../components/common/UpperLogoWrapper";
 import { useTheme } from "../../contexts/ThemeContext";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useAuth } from "../../contexts/AuthContext";
 import { useMutation } from "@tanstack/react-query";
+import { ActivityIndicator } from "react-native-paper";
 
-const OTPVerification: React.FC = () => {
+const AccountVerification: React.FC = () => {
   const { colors } = useTheme();
   const [code, setCode] = useState<string>("");
   const { onConfirmAccount } = useAuth();
-
 
   const mutation = async (confirmationCode: string): Promise<void> => {
     if (onConfirmAccount) {
@@ -25,7 +25,7 @@ const OTPVerification: React.FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (code: string) => mutation(code),
-    onError: (error) => console.log(error)
+    onError: (error) => console.log(error),
   });
 
   return (
@@ -74,25 +74,29 @@ const OTPVerification: React.FC = () => {
             }}
           />
         </View>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Text style={{ fontSize: 18, color: colors.secondaryText }}>
-            Did not get the code?{" "}
-          </Text>
-          <TouchableOpacity>
-            <Text
-              style={{
-                color: colors.blueText,
-                fontSize: 16,
-                fontWeight: "600",
-              }}
-            >
-              Resend code
+        {isPending ? (
+          <ActivityIndicator />
+        ) : (
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <Text style={{ fontSize: 18, color: colors.secondaryText }}>
+              Did not get the code?{" "}
             </Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: colors.blueText,
+                  fontSize: 16,
+                  fontWeight: "600",
+                }}
+              >
+                Resend code
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </Screen>
   );
 };
 
-export default OTPVerification;
+export default AccountVerification;
