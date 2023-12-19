@@ -1,5 +1,5 @@
-import { View, Text, Alert } from "react-native";
-import React, { useState } from "react";
+import { View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
 import Screen from "../../components/common/Screen";
 import BackButton from "../../components/common/BackButton";
 import { useNavigation } from "@react-navigation/native";
@@ -8,27 +8,24 @@ import ReusableInput from "../../components/common/ReusableInput";
 import { AntDesign } from "@expo/vector-icons";
 import SubmitButton from "../../components/common/SubmitButton";
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../../contexts/AuthContext";
-import OTPInputView from "@twotalltotems/react-native-otp-input";
+import { useForgottenPassword } from "../../contexts/ForgottenPasswordContext";
+import { emailValidator } from "../../utils/formValidators";
 
 const ForgotPassword: React.FC = () => {
   const navigation = useNavigation();
-  const { onForgottenPassword } = useAuth();
+  const { email, setEmail, sentEmail } = useForgottenPassword();
   const { theme, colors } = useTheme();
-  const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
 
-  const mutationEmail = (): Promise<void> => {
-    if (onForgottenPassword) {
-      return onForgottenPassword(email);
-    }
-    return Promise.reject(new Error("onLogin function is not provided"));
-  };
+  useEffect(() => {
+    const isEmailValid = emailValidator(email);
+    setDisabledBtn(!isEmailValid);
+  }, [email]);
 
-  const { mutate: mutateEmail, isPending } = useMutation({
-    mutationFn: mutationEmail,
+  const { mutate, isPending } = useMutation({
+    mutationFn: sentEmail,
     onSuccess: () => {
-      //   setIsEmailSent(true);
       setError("");
       navigation.navigate("ForgottenPasswordVerification");
     },
@@ -97,7 +94,7 @@ const ForgotPassword: React.FC = () => {
           }
         />
       </View>
-      <SubmitButton loading={isPending} text="Send" onPress={mutateEmail} />
+      <SubmitButton disabled={disabledBtn} loading={isPending} text="Send" onPress={() => mutate()} />
     </Screen>
   );
 };

@@ -13,7 +13,7 @@ const AccountVerification: React.FC = () => {
   const { colors } = useTheme();
   const [code, setCode] = useState<string>("");
   const { onConfirmAccount } = useAuth();
-
+  // TODO: when the user is not verified and logs in send a new code every time 
   const mutation = async (confirmationCode: string): Promise<void> => {
     if (onConfirmAccount) {
       return await onConfirmAccount(confirmationCode);

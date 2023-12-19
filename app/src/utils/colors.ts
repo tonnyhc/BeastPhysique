@@ -29,7 +29,7 @@ export const lightColors: Colors = {
   inputBg: "#F3F4F6FF",
   cardBg: "#FFFFFF",
 
-  error: "#B00020",
+  error: "#C12025",
 };
 
 export const darkColors: Colors = {
@@ -46,5 +46,5 @@ export const darkColors: Colors = {
   submitBtn: "#00BDD6FF",
   cardBg: "#323842FF",
 
-  error: "#B00020",
+  error: "#C12025",
 };

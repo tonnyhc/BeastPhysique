@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Screen from "../../components/common/Screen";
 import BackButton from "../../components/common/BackButton";
 import { useNavigation } from "@react-navigation/native";
@@ -7,10 +7,66 @@ import { useTheme } from "../../contexts/ThemeContext";
 import ReusableInput from "../../components/common/ReusableInput";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import SubmitButton from "../../components/common/SubmitButton";
+import { useForgottenPassword } from "../../contexts/ForgottenPasswordContext";
+import { useMutation } from "@tanstack/react-query";
+import {
+  samePasswordValidator,
+  strenghtPasswordValidator,
+} from "../../utils/formValidators";
 
 const ResetPassword: React.FC = () => {
   const navigation = useNavigation();
   const { colors, theme } = useTheme();
+  const [error, setError] = useState<string>("");
+  const [formErrors, setFormErrors] = useState<{
+    password: string;
+    rePass: string;
+  }>({
+    password: "",
+    rePass: "",
+  });
+  const { password, setPassword, rePass, setRePass, resetPassword } =
+    useForgottenPassword();
+  const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
+  const { mutate, isPending } = useMutation({
+    mutationFn: resetPassword,
+    onSuccess: () => navigation.navigate('Login'),
+    onError: (error: string) => setError(error),
+  });
+
+  useEffect(() => {
+    const isStrong = strenghtPasswordValidator(password);
+    if (!isStrong && password !== "") {
+      return setFormErrors((oldErrors) => ({
+        ...oldErrors,
+        password: "Weak password",
+      }));
+    }
+    return setFormErrors((oldErrors) => ({
+      ...oldErrors,
+      password: "",
+    }));
+  }, [password]);
+  useEffect(() => {
+    const arePasswordsDifferent = samePasswordValidator(password, rePass);
+    if (arePasswordsDifferent) {
+      return setFormErrors((oldErrors) => ({
+        ...oldErrors,
+        rePass: "Passwords are not the same",
+      }));
+    }
+    return setFormErrors((oldErrors) => ({
+      ...oldErrors,
+      rePass: "",
+    }));
+  }, [rePass]);
+  useEffect(() => {
+    const areErrors = Object.values(formErrors).some((value) => value !== "");
+    if (password == "" || rePass == "" || areErrors) {
+      return setDisabledBtn(true);
+    }
+    return setDisabledBtn(false);
+  }, [password, rePass, formErrors]);
   return (
     <Screen>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
@@ -37,8 +93,8 @@ const ResetPassword: React.FC = () => {
             fontFamily: "Acme",
           }}
         >
-          At least 8 characters at least, with uppercase letter, lowercase
-          letter, number and special symbol
+          At least 8 characters, with uppercase letter, lowercase letter, number
+          and a special symbol
         </Text>
         <Text
           style={{
@@ -48,13 +104,14 @@ const ResetPassword: React.FC = () => {
             paddingTop: 50,
           }}
         >
-          "sasd"
+          {error}
         </Text>
       </View>
+      <Text>{error}</Text>
       <View style={{ gap: 20 }}>
         <ReusableInput
-          value=""
-          onChange={() => {}}
+          value={password}
+          onChange={setPassword}
           placeholder="Password"
           label="New Password"
           isPassword={true}
@@ -72,13 +129,15 @@ const ResetPassword: React.FC = () => {
               color={theme == "dark" ? "#DEE1E6FF" : "black"}
             />
           }
+          error={formErrors.password}
         />
         <ReusableInput
-          value=""
-          onChange={() => {}}
+          value={rePass}
+          onChange={setRePass}
           placeholder="Confirm password"
           label="Confirm Password"
           isPassword={true}
+          error={formErrors.rePass}
           leftIcon={
             <AntDesign
               name="lock"
@@ -95,8 +154,13 @@ const ResetPassword: React.FC = () => {
           }
         />
       </View>
-      <View style={{marginTop: 55}}>
-        <SubmitButton text="Continue" onPress={() => {}} />
+      <View style={{ marginTop: 55 }}>
+        <SubmitButton
+          text="Continue"
+          loading={isPending}
+          onPress={() => mutate()}
+          disabled={disabledBtn}
+        />
       </View>
     </Screen>
   );

@@ -6,8 +6,6 @@ import {
   LoginReturnBody,
   RegisterBody,
 } from "../ts/types";
-import useSecureStore from "../hooks/useSecureStore";
-// import { post } from "../api/requester";
 
 import * as SecureStore from "expo-secure-store";
 import useApi from "../hooks/useApi";
@@ -17,7 +15,6 @@ type AuthProviderProps = {
 };
 
 interface AuthProps {
-  // authData?: AuthData;
   token?: string | null;
   isVerified?: boolean;
   isAuth?: boolean | null;
@@ -25,7 +22,6 @@ interface AuthProps {
   onLogin?: (body: LoginBody) => Promise<any>;
   onLogout?: () => Promise<void>;
   onConfirmAccount?: (verificationCode: string) => Promise<void>;
-  onForgottenPassword?: (email: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthProps>({});
@@ -99,14 +95,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       throw error;
     }
   }
-  async function forgottenPassword(email: string): Promise<void> {
-    const url = "authentication/forgotten-password/";
-    try {
-      return await post(url, email);
-    } catch (error) {
-      throw error;
-    }
-  }
 
   const context = {
     token: authData.token,
@@ -116,7 +104,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     onRegister: register,
     onLogout: logout,
     onConfirmAccount: confirmAccount,
-    onForgottenPassword: forgottenPassword,
   };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

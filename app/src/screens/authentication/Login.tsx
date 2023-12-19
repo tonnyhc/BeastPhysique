@@ -39,7 +39,7 @@ const Login: React.FC = () => {
   const { data, mutate, isPending } = useMutation({
     mutationFn: mutationLogin,
     onSuccess: () => {
-      !data?.is_verified ? navigation.navigate("OTPVerification") : "";
+      !data?.is_verified ? navigation.navigate("AccountVerification") : "";
     },
     onError: (error: string) => {
       setLoginErrors(error);

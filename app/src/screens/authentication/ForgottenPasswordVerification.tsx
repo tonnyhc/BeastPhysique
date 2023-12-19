@@ -1,15 +1,29 @@
 import { View, Text } from "react-native";
-import React, { useState } from "react";
+import React, {useState } from "react";
 import Screen from "../../components/common/Screen";
 import BackButton from "../../components/common/BackButton";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/ThemeContext";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
+import { useForgottenPassword } from "../../contexts/ForgottenPasswordContext";
+import { useMutation } from "@tanstack/react-query";
+import { ActivityIndicator } from "react-native-paper";
 
 const ForgottenPasswordVerification: React.FC = () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
-  const [code, setCode] = useState<string>("");
+  const { email, verificationCode, setVerificationCode, verifyCode } =
+    useForgottenPassword();
+  const [error, setError] = useState<string>("");
+
+
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: verifyCode,
+    onSuccess: () => navigation.navigate("ResetPassword"),
+    onError: (error: string) => setError(error),
+  });
+
   return (
     <Screen>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
@@ -42,22 +56,25 @@ const ForgottenPasswordVerification: React.FC = () => {
             textAlign: "center",
           }}
         >
-          smokercho56@gmail.com
+          {email}
         </Text>
       </View>
-      <View style={{alignSelf: "center"}}>
+      <Text style={{alignSelf: "center", marginTop: 15, color: colors.error, fontSize: 16, fontWeight: '600'}}>
+        {error}
+      </Text>
+      <View style={{ alignSelf: "center" }}>
         <OTPInputView
           pinCount={5}
-          code={code}
+          code={verificationCode}
           onCodeChanged={(code) => {
-            setCode(code);
+            setVerificationCode(code);
           }}
           codeInputFieldStyle={{
             borderWidth: 0,
             color: colors.primaryText,
             borderBottomWidth: 1,
           }}
-          onCodeFilled={() => navigation.navigate('ResetPassword')}
+          onCodeFilled={() => mutate()}
           style={{
             marginLeft: 25,
             width: "100%",
@@ -66,6 +83,7 @@ const ForgottenPasswordVerification: React.FC = () => {
           }}
         />
       </View>
+      {isPending && <ActivityIndicator />}
     </Screen>
   );
 };
