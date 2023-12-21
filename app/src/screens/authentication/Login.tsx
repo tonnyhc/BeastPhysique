@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { LoginBody, LoginReturnBody } from "../../ts/types";
+import UpperLogoWrapper from "../../components/common/UpperLogoWrapper";
 
 const Login: React.FC = () => {
   const { colors } = useTheme();
@@ -47,6 +48,7 @@ const Login: React.FC = () => {
   });
   return (
     <Screen>
+      <UpperLogoWrapper />
       <View style={styles.section}>
         <Text style={styles.welcomeText}>Welcome back 👋</Text>
         <LoginForm

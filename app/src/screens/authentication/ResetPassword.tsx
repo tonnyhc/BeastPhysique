@@ -30,7 +30,7 @@ const ResetPassword: React.FC = () => {
   const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
   const { mutate, isPending } = useMutation({
     mutationFn: resetPassword,
-    onSuccess: () => navigation.navigate('Login'),
+    onSuccess: () => navigation.navigate("Login"),
     onError: (error: string) => setError(error),
   });
 
@@ -82,6 +82,7 @@ const ResetPassword: React.FC = () => {
         >
           Reset Password
         </Text>
+        <Text style={{ position: "absolute", right: 0 }}>LOGO HERE</Text>
       </View>
       <View>
         <Text

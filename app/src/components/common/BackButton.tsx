@@ -22,7 +22,7 @@ const BackButton: React.FC<BackButtonProps> = ({onPress}) => {
     },
   });
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity testID="backButton" style={styles.button} onPress={onPress}>
       <AntDesign name="arrowleft" size={18} color={colors.secondaryText} />
     </TouchableOpacity>
   );

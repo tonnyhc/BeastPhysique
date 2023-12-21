@@ -18,7 +18,7 @@ export type LoginBody = {
 export type LoginReturnBody = {
   // email: string;
   token: string;
-  is_verified?: boolean
+  is_verified?: boolean;
   // user_id: number;
   // username: string;
 };
@@ -40,13 +40,14 @@ export type RegisterFormBody = {
   username: string;
   email: string;
   password: string;
-  conf_pass: string,
-}
+  conf_pass: string;
+};
 
 // Contexts
 export type AuthData = {
   token?: string | null;
-  isVerified?: boolean
+  isVerified?: boolean;
+  email?: string | null;
   // username?: string | null;
 };
 

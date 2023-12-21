@@ -7,6 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useMutation } from "@tanstack/react-query";
 import { RegisterBody } from "../../ts/types";
 import { useNavigation } from "@react-navigation/native";
+import UpperLogoWrapper from "../../components/common/UpperLogoWrapper";
 
 const Register: React.FC = () => {
   const { colors } = useTheme();
@@ -44,12 +45,13 @@ const Register: React.FC = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: mutationRegister,
     onSuccess: () => {
-      navigation.navigate("OTPVerification")
+      navigation.navigate("OTPVerification");
     },
   });
 
   return (
     <Screen>
+      <UpperLogoWrapper />
       <View style={styles.wrapper}>
         <Text style={styles.welcomeText}>Welcome.</Text>
         <Text style={styles.secondaryWelcome}>Create an account</Text>

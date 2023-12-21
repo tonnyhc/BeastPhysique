@@ -13,13 +13,14 @@ const Stack = createStackNavigator();
 
 const AuthStack: React.FC = () => {
   const { token, isVerified } = useAuth();
-
+  console.log('token:', token);
+  console.log('verified:', isVerified)
   return (
     <ForgottenPasswordProvider>
       <Stack.Navigator
         initialRouteName={
-          // token && isVerified === false ? "AccountVerification" : "Login"
-          'SuccessPasswordReset'
+          token && !isVerified ? "AccountVerification" : "Login"
+          // "AccountVerification"
         }
         screenOptions={{
           headerShown: false,

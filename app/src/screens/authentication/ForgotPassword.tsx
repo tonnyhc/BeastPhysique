@@ -47,6 +47,7 @@ const ForgotPassword: React.FC = () => {
         >
           Forgot password
         </Text>
+        <Text style={{position: "absolute", right: 0}}>LOGO HERE</Text>
       </View>
       <Text
         style={{

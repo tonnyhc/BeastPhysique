@@ -75,10 +75,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending}) => {
       password: "",
     }));
   }, [data.conf_pass]);
-  // Email Validation
-  const validateEmailField = (): any => {
+  useEffect(() => {
     const isValid = emailValidator(data.email);
-    if (!isValid) {
+    if (!isValid && data.email !== '') {
       return setFormErrors((oldErrors) => ({
         ...oldErrors,
         email: "Invalid email!",
@@ -88,7 +87,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending}) => {
       ...oldErrors,
       email: "",
     }));
-  };
+  },[data.email])
 
   const formFields: FormField[] = [
     {
@@ -117,7 +116,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending}) => {
       placeholder: "Enter email",
       value: data.email,
       onChange: (value) => setData((oldData) => ({ ...oldData, email: value })),
-      onEndEditing: validateEmailField,
       error: formErrors.email,
     },
     {
