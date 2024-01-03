@@ -102,9 +102,6 @@ export const ForgottenPasswordProvider: React.FC<
     resetPassword,
   };
 
-  useEffect(() => {
-    console.log(verificationCode);
-  }, [verificationCode]);
 
   return (
     <ForgottenPasswordContext.Provider value={context}>

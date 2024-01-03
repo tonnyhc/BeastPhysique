@@ -1,4 +1,3 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Dashboard from "../screens/Dashboard";
 
@@ -8,29 +7,19 @@ import {
   MaterialIcons,
   Feather,
 } from "@expo/vector-icons";
-import Workouts from "../screens/Workouts";
 import { useTheme } from "../contexts/ThemeContext";
+import WorkoutsStack from "../Stacks/WorkoutsStack";
 
 const Tab = createBottomTabNavigator();
 
-type Tab = {
-  name: string;
-  component: React.ReactNode;
-  icon: React.ReactNode;
-};
-
-const tabs: Tab[] = [
-  { name: "Home", component: <Dashboard />, icon: <FontAwesome name="home" /> },
-];
-
 const TabBar = () => {
-    const {colors} = useTheme();
+  const { colors } = useTheme();
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={({ route }) => ({
         tabBarStyle: {
-            backgroundColor: colors.bg
+          backgroundColor: colors.bg,
         },
         headerShown: false,
         tabBarActiveTintColor: "#00BDD6FF",
@@ -65,7 +54,7 @@ const TabBar = () => {
 
       <Tab.Screen
         name="Workouts"
-        component={Workouts}
+        component={WorkoutsStack}
         options={{
           tabBarLabel: "Workouts",
           tabBarIcon: ({ color, size }) => (
@@ -87,15 +76,3 @@ const TabBar = () => {
   );
 };
 export default TabBar;
-
-const styles = StyleSheet.create({
-  wrapper: {
-    height: 64,
-    fontSize: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    borderTopColor: "#CCC",
-    borderTopWidth: 1,
-    backgroundColor: "transparent",
-  },
-});

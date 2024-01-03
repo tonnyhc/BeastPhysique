@@ -13,8 +13,6 @@ const Stack = createStackNavigator();
 
 const AuthStack: React.FC = () => {
   const { token, isVerified } = useAuth();
-  console.log('token:', token);
-  console.log('verified:', isVerified)
   return (
     <ForgottenPasswordProvider>
       <Stack.Navigator

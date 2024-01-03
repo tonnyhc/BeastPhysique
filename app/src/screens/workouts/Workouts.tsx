@@ -1,17 +1,15 @@
 import {
-  ActivityIndicator,
   FlatList,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import Screen from "../components/common/Screen";
-import { useTheme } from "../contexts/ThemeContext";
+import Screen from "../../components/common/Screen";
+import { useTheme } from "../../contexts/ThemeContext";
 import { useQuery } from "@tanstack/react-query";
 import {
-  getWorkoutPlansByUser,
   useWorkoutPlan,
-} from "../api/services/workoutServices";
+} from "../../api/services/workoutServices";
 
 const Workouts: React.FC = () => {
   const { colors } = useTheme();

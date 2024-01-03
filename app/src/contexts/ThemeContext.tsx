@@ -4,6 +4,7 @@ import { lightColors, darkColors, Colors } from "../utils/colors";
 type ThemeContextType = {
   theme: string;
   colors: Record<any, any>;
+  shadows: Record<string, any>;
   toggleTheme: () => void;
 };
 interface ThemeProviderProps {
@@ -13,12 +14,33 @@ interface ThemeProviderProps {
 export const ThemeContext = createContext<ThemeContextType>({
   theme: "light",
   colors: lightColors,
+  shadows: { "": "" },
   toggleTheme: () => {},
 });
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState("light");
   const colors: Colors = theme === "light" ? lightColors : darkColors;
+  const shadows = {
+    "24DP_Penumbra": {
+      shadowColor: "rgba(0, 0, 0, 0.14)",
+      shadowOffset: { width: 0, height: 12 },
+      shadowOpacity: 1,
+      shadowRadius: 17,
+    },
+    "12DP_Penumbra": {
+      shadowColor: "rgba(0, 0, 0, 0.12)",
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 1,
+      shadowRadius: 22,
+    },
+    "12DP_Umbra": {
+      shadowColor: "rgba(0, 0, 0, 0.14)",
+      shadowOffset: { width: 0, height: 12 },
+      shadowOpacity: 1,
+      shadowRadius: 17,
+    },
+  };
 
   const toggleTheme = (): void => {
     setTheme((oldTheme) => (oldTheme == "light" ? "dark" : "light"));
@@ -27,6 +49,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const context = {
     theme,
     colors,
+    shadows,
     toggleTheme,
   };
 

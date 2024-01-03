@@ -58,3 +58,42 @@ export type AuthContextType = {
   onRegister: (authData: RegisterBody) => Promise<LoginReturnBody>;
   onLogout: () => void;
 };
+
+// Exercises
+export type Exercise = {
+  name: string;
+  id?: string;
+  cover_photo: string;
+  information: string;
+  video_tutorial: string;
+  tips: string;
+  created_at: string;
+  is_published: boolean;
+  // TODO: Fix created_by 
+  created_by: any | null;
+  sets?: ExerciseSet[];
+};
+
+export type ExerciseSet = {
+  weight: number;
+  reps: number;
+  minReps: number;
+  maxReps: number;
+};
+
+export type ExerciseSearch = {
+  id: string | number;
+  name: string;
+  cover_photo: string;
+  information: string;
+  video_tutorial: string;
+  tips: string;
+  created_at: string;
+};
+export type ExerciseSearchResponse = {
+  exercises_by_user: ExerciseSearch[];
+  exercises: ExerciseSearch[];
+};
+
+// Workouts
+export type Workout = { workoutName: string; exercises: Exercise[] };

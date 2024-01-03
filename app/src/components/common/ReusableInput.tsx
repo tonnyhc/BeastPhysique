@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 
-import { Text, View, TextInput, Pressable, StyleSheet } from "react-native";
+import { Text, View, TextInput, Pressable, StyleSheet, Platform } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 
 interface ReusableInputProps {
@@ -27,7 +27,14 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
   error,
 }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { colors } = useTheme();
+  const { colors, shadows } = useTheme();
+  // const shadowStyles = Platform.select({
+  //   ios: {...shadows['12DP_Penumbra']},
+  //   android: {
+  //     elevation: 12,
+  //     backgroundColor: "transparent"
+  //   }
+  // })
   const stlyes = StyleSheet.create({
     wrapper: {
       height: 80,
@@ -48,8 +55,9 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       borderRadius: 24,
       paddingLeft: 16,
       paddingRight: 16,
-      borderColor: error ? colors.error : "transparent",
+      borderColor: error ? colors.error : "#CCC",
       borderWidth: 1,
+      // ...shadowStyles
     },
     input: {
       flex: 1,

@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
+import React, { ReactNode } from "react";
 import { StyleSheet } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 import { ActivityIndicator } from "react-native-paper";
@@ -9,8 +9,11 @@ interface SubmitButtonProps {
   onPress: () => any;
   disabled?: boolean;
   loading?: boolean;
-
+  buttonStyles?: Record<string, number | string>;
+  textStyles?: Record<string, number | string>;
   testId?: string;
+  leftIcon?: ReactNode;
+  type?: "outlined" | "fill" | "text";
 }
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
@@ -19,23 +22,49 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   disabled,
   loading,
   testId,
+  buttonStyles,
+  textStyles,
+  leftIcon,
+  type,
 }) => {
-  const { colors, theme } = useTheme();
+  const { colors, shadows } = useTheme();
+
+  const shadowStyle = Platform.select({
+    ios: { ...shadows["24DP_Umbra"] },
+    android: {
+      elevation: 12,
+    },
+  });
+  const backgroundStyles =
+    type === "outlined"
+      ? {
+          backgroundColor: colors.bg,
+          borderWidth: 1,
+          borderColor: colors.submitBtn,
+        }
+      : {
+          backgroundColor: colors.submitBtn,
+        };
   const styles = StyleSheet.create({
     submitBtn: {
-      paddingLeft: 16,
-      paddingRight: 16,
+      flexDirection: "row",
+      gap: 8,
+      paddingLeft: leftIcon ? 16 : 24,
+      paddingRight: 24,
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 24,
-      height: 45,
-      backgroundColor: colors.submitBtn,
+      height: 40,
       opacity: disabled ? 0.5 : 1,
+      ...backgroundStyles,
+      ...shadowStyle,
+      ...buttonStyles,
     },
     submitBtnText: {
-      color: colors.white,
-      fontWeight: "700",
-      fontFamily: "Acme",
+      color: type !== "outlined" ? colors.white : colors.submitBtn,
+      fontWeight: "normal",
+      // fontFamily: "Acme",
+      ...textStyles,
     },
   });
   return (
@@ -46,6 +75,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
         onPress={onPress}
         style={styles.submitBtn}
       >
+        {leftIcon && leftIcon}
         {loading ? (
           <ActivityIndicator testID="loadingIndicator" />
         ) : (
