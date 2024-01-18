@@ -6,12 +6,18 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { useMutation } from "@tanstack/react-query";
 import { RegisterBody } from "../../ts/types";
-import { useNavigation } from "@react-navigation/native";
 import UpperLogoWrapper from "../../components/common/UpperLogoWrapper";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamList } from "../../Stacks/AuthStack";
 
-const Register: React.FC = () => {
+interface RegisterProps {
+  navigation: StackNavigationProp<AuthStackParamList>
+}
+
+const Register: React.FC<RegisterProps> = ({
+  navigation
+}) => {
   const { colors } = useTheme();
-  const navigation = useNavigation();
   const styles = StyleSheet.create({
     wrapper: {
       flex: 1,
@@ -55,10 +61,8 @@ const Register: React.FC = () => {
       <View style={styles.wrapper}>
         <Text style={styles.welcomeText}>Welcome.</Text>
         <Text style={styles.secondaryWelcome}>Create an account</Text>
-
         {/* register form */}
-        <RegisterForm mutate={mutate} isPending={isPending} />
-        {/* <RegisterForm /> */}
+        <RegisterForm navigation={navigation} mutate={mutate} isPending={isPending} />
       </View>
     </Screen>
   );

@@ -2,15 +2,21 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import Screen from "../../components/common/Screen";
 import BackButton from "../../components/common/BackButton";
-import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/ThemeContext";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import { useForgottenPassword } from "../../contexts/ForgottenPasswordContext";
 import { useMutation } from "@tanstack/react-query";
 import { ActivityIndicator } from "react-native-paper";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamList } from "../../Stacks/AuthStack";
 
-const ForgottenPasswordVerification: React.FC = () => {
-  const navigation = useNavigation();
+interface ForgottenPasswordVerificationProps {
+  navigation: StackNavigationProp<AuthStackParamList>;
+}
+
+const ForgottenPasswordVerification: React.FC<
+  ForgottenPasswordVerificationProps
+> = ({ navigation }) => {
   const { colors } = useTheme();
   const {
     email,

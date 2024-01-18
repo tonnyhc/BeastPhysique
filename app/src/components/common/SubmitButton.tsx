@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import { StyleSheet } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 import { ActivityIndicator } from "react-native-paper";
+import { Colors } from "../../utils/colors";
 
 interface SubmitButtonProps {
   text: string;
@@ -15,6 +16,28 @@ interface SubmitButtonProps {
   leftIcon?: ReactNode;
   type?: "outlined" | "fill" | "text";
 }
+
+const generateBackgroundStyles = (
+  colors: Colors,
+  type: "outlined" | "fill" | "text"
+) => {
+  const styles = {
+    outlined: {
+      backgroundColor: colors.bg,
+      borderWidth: 1,
+      borderColor: colors.submitBtn,
+    },
+    text: {
+      backgroundColor: "transparent",
+      borderWidth: 0,
+      borderColor: "transparent",
+    },
+    fill: {
+      backgroundColor: colors.submitBtn,
+    },
+  };
+  return styles[type];
+};
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
   text,
@@ -29,22 +52,20 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
 }) => {
   const { colors, shadows } = useTheme();
 
-  const shadowStyle = Platform.select({
-    ios: { ...shadows["24DP_Umbra"] },
-    android: {
-      elevation: 12,
-    },
-  });
-  const backgroundStyles =
-    type === "outlined"
-      ? {
-          backgroundColor: colors.bg,
-          borderWidth: 1,
-          borderColor: colors.submitBtn,
-        }
-      : {
-          backgroundColor: colors.submitBtn,
-        };
+  const shadowStyle =
+    type == "fill"
+      ? Platform.select({
+          ios: { ...shadows["24DP_Umbra"] },
+          android: {
+            elevation: 12,
+          },
+        })
+      : "";
+
+  const backgroundStyles = generateBackgroundStyles(
+    colors,
+    type ? type : "fill"
+  );
   const styles = StyleSheet.create({
     submitBtn: {
       flexDirection: "row",
@@ -53,6 +74,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
       paddingRight: 24,
       alignItems: "center",
       justifyContent: "center",
+      alignSelf: "center",
       borderRadius: 24,
       height: 40,
       opacity: disabled ? 0.5 : 1,
@@ -61,7 +83,10 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
       ...buttonStyles,
     },
     submitBtnText: {
-      color: type !== "outlined" ? colors.white : colors.submitBtn,
+      color:
+        type !== "outlined" && type !== "text"
+          ? colors.white
+          : colors.submitBtn,
       fontWeight: "normal",
       // fontFamily: "Acme",
       ...textStyles,

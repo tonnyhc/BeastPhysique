@@ -2,7 +2,6 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import Screen from "../../components/common/Screen";
 import BackButton from "../../components/common/BackButton";
-import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/ThemeContext";
 import ReusableInput from "../../components/common/ReusableInput";
 import { AntDesign, Feather } from "@expo/vector-icons";
@@ -13,9 +12,14 @@ import {
   samePasswordValidator,
   strenghtPasswordValidator,
 } from "../../utils/formValidators";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamList } from "../../Stacks/AuthStack";
 
-const ResetPassword: React.FC = () => {
-  const navigation = useNavigation();
+interface ResetPasswordProps {
+  navigation: StackNavigationProp<AuthStackParamList>;
+}
+
+const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
   const { colors, theme } = useTheme();
   const [error, setError] = useState<string>("");
   const [formErrors, setFormErrors] = useState<{

@@ -1,11 +1,14 @@
 import { ReactNode, useState } from "react";
 
-import { Text, View, TextInput, Pressable, StyleSheet, Platform } from "react-native";
+import { Text, View, TextInput, Pressable, StyleSheet, ViewStyle } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 
 interface ReusableInputProps {
-  value: string;
+  value: string | number;
   onChange: (value: string) => void;
+  multiline? : boolean,
+  maxLenght?: number,
+  numberOfLines?: number,
   label?: string;
   placeholder: string;
   leftIcon?: ReactNode;
@@ -13,6 +16,10 @@ interface ReusableInputProps {
   isPassword?: boolean;
   error?: string;
   onEndEditing?: () => void;
+  inputMode?: "text" | "decimal" | "numeric" | "email" | "search"
+  styles? :{
+    wrapper: ViewStyle
+  }
 }
 
 const ReusableInput: React.FC<ReusableInputProps> = ({
@@ -25,19 +32,20 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
   onChange,
   onEndEditing,
   error,
+  inputMode='text',
+  styles,
+  multiline,
+  numberOfLines,
+  maxLenght,
 }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { colors, shadows } = useTheme();
-  // const shadowStyles = Platform.select({
-  //   ios: {...shadows['12DP_Penumbra']},
-  //   android: {
-  //     elevation: 12,
-  //     backgroundColor: "transparent"
-  //   }
-  // })
+  const { colors} = useTheme();
+
   const stlyes = StyleSheet.create({
     wrapper: {
-      height: 80,
+      minHeight: 80,
+      height: multiline ? 150 : 'auto',
+      ...styles?.wrapper
     },
     labelText: {
       fontSize: 12,
@@ -51,20 +59,21 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       flexDirection: "row",
       alignItems: "center",
       backgroundColor: colors.inputBg,
-      height: 45,
+      minHeight: 45,
       borderRadius: 24,
       paddingLeft: 16,
       paddingRight: 16,
       borderColor: error ? colors.error : "#CCC",
       borderWidth: 1,
-      // ...shadowStyles
     },
     input: {
       flex: 1,
       marginLeft: 8,
+      height: '90%',
       color: colors.helperText,
       fontWeight: "bold",
       fontFamily: "Acme",
+      textAlignVertical: multiline? 'top' : 'auto'
     },
   });
   return (
@@ -79,6 +88,8 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       <View style={stlyes.inputWrapper}>
         {leftIcon && leftIcon}
         <TextInput
+        multiline={multiline}
+        numberOfLines={numberOfLines}
           onEndEditing={onEndEditing}
           style={stlyes.input}
           secureTextEntry={
@@ -88,6 +99,8 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
           placeholderTextColor={colors.helperText}
           value={value}
           onChangeText={onChange}
+          inputMode={inputMode}
+          maxLength={maxLenght ? maxLenght : undefined}
         />
 
         {rightIcon && isPassword && (

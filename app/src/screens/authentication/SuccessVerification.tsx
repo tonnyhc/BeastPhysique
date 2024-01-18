@@ -4,11 +4,17 @@ import Screen from "../../components/common/Screen";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "../../contexts/ThemeContext";
 import SubmitButton from "../../components/common/SubmitButton";
-import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamList } from "../../Stacks/AuthStack";
 
-const SuccessVerification: React.FC = () => {
+interface SuccessVerificationProps {
+  navigation: StackNavigationProp<AuthStackParamList>;
+}
+
+const SuccessVerification: React.FC<SuccessVerificationProps> = ({
+  navigation,
+}) => {
   const { colors } = useTheme();
-  const navigation = useNavigation();
   const styles = StyleSheet.create({
     done: {
       width: 110,

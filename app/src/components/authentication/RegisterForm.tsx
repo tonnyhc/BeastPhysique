@@ -11,16 +11,18 @@ import {
   strenghtPasswordValidator,
 } from "../../utils/formValidators";
 import ActionButtons from "./ActionButtonsContainer";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamList } from "../../Stacks/AuthStack";
 
 
 interface RegisterFormProps {
   mutate: (data: RegisterBody) => Promise<any>;
   isPending: boolean;
+  navigation: StackNavigationProp<AuthStackParamList>
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending}) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending, navigation}) => {
   const { theme, colors } = useTheme();
-  const navigation = useNavigation();
   const [data, setData] = useState<RegisterFormBody>({
     email: "",
     username: "",
@@ -214,7 +216,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending}) => {
 
       <ActionButtons
         onPrimaryAction={() => mutate(data)}
-        onSecondaryAction={() => navigation.navigate("Login" as never)}
+        onSecondaryAction={() => navigation.navigate("Login")}
         primaryActionText="Sign Up"
         secondaryActionText="SIGN IN"
         disabled={disabledSubmit}

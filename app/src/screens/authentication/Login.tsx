@@ -5,16 +5,25 @@ import Screen from "../../components/common/Screen";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigation } from "@react-navigation/native";
 import { LoginBody, LoginReturnBody } from "../../ts/types";
 import UpperLogoWrapper from "../../components/common/UpperLogoWrapper";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamList } from "../../Stacks/AuthStack";
 
-const Login: React.FC = () => {
+export interface LoginScreenProps {
+  // navigation: StackNavigationProp<{
+  //   AccountVerification: undefined,
+  //   ForgotPassword: undefined,
+
+
+  // }>
+  navigation: StackNavigationProp<AuthStackParamList>
+}
+
+const Login: React.FC<LoginScreenProps> = ({navigation}) => {
   const { colors } = useTheme();
   const { onLogin } = useAuth();
-  const navigation = useNavigation();
   const [loginErrors, setLoginErrors] = useState<string>("");
-
   const styles = StyleSheet.create({
     section: {
       flex: 1,
@@ -52,6 +61,7 @@ const Login: React.FC = () => {
       <View style={styles.section}>
         <Text style={styles.welcomeText}>Welcome back 👋</Text>
         <LoginForm
+          navigation={navigation}
           loginError={loginErrors}
           onLogin={mutate}
           isPending={isPending}

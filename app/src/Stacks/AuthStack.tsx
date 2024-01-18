@@ -9,13 +9,24 @@ import ResetPassword from "../screens/authentication/ResetPassword";
 import { ForgottenPasswordProvider } from "../contexts/ForgottenPasswordContext";
 import SuccessVerification from "../screens/authentication/SuccessVerification";
 
-const Stack = createStackNavigator();
+export type AuthStackParamList = {
+  Login: undefined,
+  Register: undefined,
+  AccountVerification: undefined;
+  ForgotPassword: undefined;
+  ForgottenPasswordVerification: undefined,
+  ResetPassword: undefined,
+  SuccessPasswordReset: undefined
+  OTPVerification: undefined;
+}
 
-const AuthStack: React.FC = () => {
+const AuthStack = createStackNavigator<AuthStackParamList>();
+
+const AuthStackScreen: React.FC = () => {
   const { token, isVerified } = useAuth();
   return (
     <ForgottenPasswordProvider>
-      <Stack.Navigator
+      <AuthStack.Navigator
         initialRouteName={
           token && !isVerified ? "AccountVerification" : "Login"
           // "AccountVerification"
@@ -24,24 +35,24 @@ const AuthStack: React.FC = () => {
           headerShown: false,
         }}
       >
-        <Stack.Group>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen
+        <AuthStack.Group>
+          <AuthStack.Screen name="Login" component={Login} />
+          <AuthStack.Screen name="Register" component={Register} />
+          <AuthStack.Screen
             name="AccountVerification"
             component={AccountVerification}
           />
-          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-          <Stack.Screen
+          <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
+          <AuthStack.Screen
             name="ForgottenPasswordVerification"
             component={ForgottenPasswordVerification}
           />
-          <Stack.Screen name="ResetPassword" component={ResetPassword} />
-          <Stack.Screen name="SuccessPasswordReset" component={SuccessVerification} />
-        </Stack.Group>
-      </Stack.Navigator>
+          <AuthStack.Screen name="ResetPassword" component={ResetPassword} />
+          <AuthStack.Screen name="SuccessPasswordReset" component={SuccessVerification} />
+        </AuthStack.Group>
+      </AuthStack.Navigator>
     </ForgottenPasswordProvider>
   );
 };
 
-export default AuthStack;
+export default AuthStackScreen;

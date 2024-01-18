@@ -62,23 +62,26 @@ export type AuthContextType = {
 // Exercises
 export type Exercise = {
   name: string;
-  id?: string;
-  cover_photo: string;
-  information: string;
-  video_tutorial: string;
-  tips: string;
-  created_at: string;
-  is_published: boolean;
-  // TODO: Fix created_by 
-  created_by: any | null;
+  id?: number;
+  cover_photo?: string;
+  information?: string;
+  video_tutorial?: string;
+  tips?: string;
+  created_at?: string;
+  is_published?: boolean;
+  // TODO: Fix created_by
+  created_by?: any | null;
   sets?: ExerciseSet[];
 };
 
 export type ExerciseSet = {
-  weight: number;
-  reps: number;
-  minReps: number;
-  maxReps: number;
+  forDelete?: boolean;
+  weight: string;
+  reps: string;
+  minReps: string;
+  maxReps: string;
+  failure: boolean;
+  bodyweight: boolean;
 };
 
 export type ExerciseSearch = {

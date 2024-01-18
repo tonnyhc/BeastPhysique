@@ -1,5 +1,5 @@
 import React from "react";
-import Screen from "./common/Screen";
+import Screen from "../components/common/Screen";
 import { View, Image, Text, StyleSheet } from "react-native";
 import { useTheme } from "../contexts/ThemeContext";
 import { TouchableOpacity } from "react-native-gesture-handler";

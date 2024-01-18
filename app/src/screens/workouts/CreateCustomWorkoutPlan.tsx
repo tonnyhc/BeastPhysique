@@ -7,17 +7,29 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "../../contexts/ThemeContext";
 import SubmitButton from "../../components/common/SubmitButton";
 import { useCustomWorkoutPlan } from "../../contexts/CustomWorkoutPlanContext";
-import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
 
-const CreateCustomWorkoutPlan: React.FC = () => {
+interface CreateCustomWorkoutPlanProps {
+  navigation: StackNavigationProp<WorkoutsStackParamList>;
+}
+
+const CreateCustomWorkoutPlan: React.FC<CreateCustomWorkoutPlanProps> = ({
+  navigation,
+}) => {
   const { colors } = useTheme();
   const { workoutPlan, dispatch } = useCustomWorkoutPlan();
-  const navigation = useNavigation();
   return (
     <Screen>
       <View style={{ flex: 1, marginTop: 150 }}>
         <View style={{ alignItems: "center" }}>
-          <Text style={{ fontSize: 32, letterSpacing: 0.25 }}>
+          <Text
+            style={{
+              fontSize: 32,
+              letterSpacing: 0.25,
+              color: colors.primaryText,
+            }}
+          >
             Create workout plan
           </Text>
         </View>
@@ -44,11 +56,22 @@ const CreateCustomWorkoutPlan: React.FC = () => {
           <SubmitButton
             buttonStyles={{ alignSelf: "center", marginTop: 35 }}
             text="Select workouts"
-            onPress={() => navigation.navigate("modal")}
+            onPress={() => navigation.navigate("WorkoutSearch")}
           />
-          <View style={{ flexDirection: "row" , justifyContent: 'center', alignItems: "center", paddingHorizontal: 100}}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 100,
+            }}
+          >
             <View
-              style={{ height: .5, flex: 1, backgroundColor: colors.helperText}}
+              style={{
+                height: 0.5,
+                flex: 1,
+                backgroundColor: colors.helperText,
+              }}
             ></View>
             <Text
               style={{
@@ -61,7 +84,11 @@ const CreateCustomWorkoutPlan: React.FC = () => {
               Or
             </Text>
             <View
-              style={{ height: .5, flex: 1, backgroundColor: colors.helperText}}
+              style={{
+                height: 0.5,
+                flex: 1,
+                backgroundColor: colors.helperText,
+              }}
             ></View>
           </View>
           <SubmitButton

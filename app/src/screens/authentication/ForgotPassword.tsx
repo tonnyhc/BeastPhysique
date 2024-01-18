@@ -2,7 +2,6 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import Screen from "../../components/common/Screen";
 import BackButton from "../../components/common/BackButton";
-import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/ThemeContext";
 import ReusableInput from "../../components/common/ReusableInput";
 import { AntDesign } from "@expo/vector-icons";
@@ -10,9 +9,16 @@ import SubmitButton from "../../components/common/SubmitButton";
 import { useMutation } from "@tanstack/react-query";
 import { useForgottenPassword } from "../../contexts/ForgottenPasswordContext";
 import { emailValidator } from "../../utils/formValidators";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamList } from "../../Stacks/AuthStack";
 
-const ForgotPassword: React.FC = () => {
-  const navigation = useNavigation();
+interface ForgotPasswordProps {
+  navigation: StackNavigationProp<AuthStackParamList>
+}
+
+const ForgotPassword: React.FC<ForgotPasswordProps> = ({
+  navigation
+}) => {
   const { email, setEmail, sentEmail } = useForgottenPassword();
   const { theme, colors } = useTheme();
   const [error, setError] = useState<string>("");

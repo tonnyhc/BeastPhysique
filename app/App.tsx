@@ -4,11 +4,8 @@ import { AuthProvider } from "./src/contexts/AuthContext";
 
 import { ThemeProvider } from "./src/contexts/ThemeContext";
 import Layout from "./_layout";
-import RightDrawer from './src/(drawer)/RightDrawer';
 
 const queryClient = new QueryClient();
-
-
 
 export default function App() {
   return (

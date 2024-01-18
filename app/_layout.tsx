@@ -7,10 +7,11 @@ import AuthStack from "./src/Stacks/AuthStack";
 import { useCallback, useEffect } from "react";
 import { useAuth } from "./src/contexts/AuthContext";
 import TabBar from "./src/Navigation/TabBar";
-import DrawerContent from "./src/components/DrawerContent";
+import DrawerContent from "./src/Navigation/DrawerContent";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "./src/contexts/ThemeContext";
+import AuthStackScreen from "./src/Stacks/AuthStack";
 // import RightDrawer from "./src/(drawer)/RightDrawer";
 
 const LightTheme = {
@@ -49,7 +50,7 @@ const Layout: React.FC = () => {
   return (
     <NavigationContainer theme={LightTheme} onReady={onLayoutRootView}>
       {!isAuth || (isAuth && !isVerified) ? (
-        <AuthStack />
+        <AuthStackScreen />
       ) : (
         <Drawer.Navigator
           drawerContent={(props) => <DrawerContent {...props} />}

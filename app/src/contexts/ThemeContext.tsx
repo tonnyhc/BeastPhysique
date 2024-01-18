@@ -3,7 +3,7 @@ import { lightColors, darkColors, Colors } from "../utils/colors";
 
 type ThemeContextType = {
   theme: string;
-  colors: Record<any, any>;
+  colors: Colors;
   shadows: Record<string, any>;
   toggleTheme: () => void;
 };

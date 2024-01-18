@@ -8,7 +8,8 @@ import {
   Feather,
 } from "@expo/vector-icons";
 import { useTheme } from "../contexts/ThemeContext";
-import WorkoutsStack from "../Stacks/WorkoutsStack";
+import WorkoutsStackScreen from "../Stacks/WorkoutsStack";
+import BarbellIcon from "../icons/BarbellIcon";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,7 @@ const TabBar = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={({ route }) => ({
+      screenOptions={() => ({
         tabBarStyle: {
           backgroundColor: colors.bg,
         },
@@ -53,12 +54,13 @@ const TabBar = () => {
       />
 
       <Tab.Screen
-        name="Workouts"
-        component={WorkoutsStack}
+        name="WorkoutsStack"
+        component={WorkoutsStackScreen}
         options={{
           tabBarLabel: "Workouts",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="fitness-center" size={size} color={color} />
+            // <MaterialIcons name="fitness-center" size={size} color={color} />
+            <BarbellIcon size={size + 10} color={color}/>
           ),
         }}
       />

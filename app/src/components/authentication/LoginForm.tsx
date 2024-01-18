@@ -9,20 +9,24 @@ import { useEffect, useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import ActionButtons from "./ActionButtonsContainer";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { LoginScreenProps } from "../../screens/authentication/Login";
+import { AuthStackParamList } from "../../Stacks/AuthStack";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 interface LoginFormProps {
   onLogin: (data?: LoginBody) => Promise<any>;
   isPending: boolean;
   loginError: string;
+  navigation: StackNavigationProp<AuthStackParamList>
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({
   onLogin,
   isPending,
   loginError,
+  navigation
 }) => {
   const { colors, theme } = useTheme();
-  const navigation = useNavigation();
   const [data, setData] = useState<LoginBody>({
     email: "",
     password: "",
