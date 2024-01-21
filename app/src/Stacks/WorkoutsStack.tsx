@@ -10,9 +10,11 @@ import WorkoutSelection from "../screens/workouts/WorkoutSelection";
 import ExerciseSearchModal from "../components/workouts/exercise/ExerciseSearchModal";
 import { useTheme } from "../contexts/ThemeContext";
 import ExerciseCreationModal from "../screens/workouts/ExerciseCreationModal";
+import WorkoutDetails from "../screens/workouts/WorkoutDetails";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
+  WorkoutDetails: undefined,
   CreateWorkoutPlan: undefined;
   CreateWorkoutsForPlan: undefined;
   WorkoutSearch: undefined;
@@ -39,10 +41,11 @@ const WorkoutsStackScreen: React.FC = () => {
             backgroundColor: colors.bg,
           },
         }}
-        initialRouteName="CreateWorkoutPlan"
+        initialRouteName="WorkoutDetails"
       >
         <WorkoutsStack.Group>
           <WorkoutsStack.Screen name="WorkoutPlans" component={Workouts} />
+          <WorkoutsStack.Screen name="WorkoutDetails" component={WorkoutDetails}/>
           <WorkoutsStack.Screen
             name="CreateWorkoutPlan"
             component={CreateCustomWorkoutPlan}

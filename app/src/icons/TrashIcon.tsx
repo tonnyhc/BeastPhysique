@@ -1,12 +1,9 @@
 import { View } from "react-native";
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
-interface TrashIconProps {
-  size: number;
-  color: string;
-}
+import { IconProps } from "../ts/interfaces";
 
-const TrashIcon: React.FC<TrashIconProps> = ({ size, color }) => {
+const TrashIcon: React.FC<IconProps> = ({ size, color }) => {
   return (
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
       <FontAwesome name="trash" size={size} color={color} />

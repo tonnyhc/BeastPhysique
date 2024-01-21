@@ -100,12 +100,13 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
         onPress={onPress}
         style={styles.submitBtn}
       >
-        {leftIcon && leftIcon}
         {loading ? (
           <ActivityIndicator testID="loadingIndicator" />
-        ) : (
-          <Text style={styles.submitBtnText}>{text}</Text>
-        )}
+        ) : leftIcon ? (
+          leftIcon
+        ) : null}
+
+        <Text style={styles.submitBtnText}>{text}</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,12 +1,6 @@
 import * as React from "react";
 import Svg, { SvgProps, Path, SvgXml, Rect } from "react-native-svg";
-
-import icon from "../../assets/svg/BarbellIcon.svg";
-
-interface IconProps {
-  size: number;
-  color: string;
-}
+import { IconProps } from "../ts/interfaces";
 
 const iconString = `
   <svg width="18" height="8" viewBox="0 0 18 8" xmlns="http://www.w3.org/2000/svg">
@@ -28,17 +22,3 @@ const BarbellIcon: React.FC<IconProps> = ({ size, color }) => {
   );
 };
 export default BarbellIcon;
-// const BarbellIcon = (props: IconProps) => (
-//   <Svg
-//     xmlns="http://www.w3.org/2000/svg"r
-//     width={20}
-//     height={10}
-//     fill="none"
-//     {...props}
-//   >
-//     <Path
-//       stroke="#000"
-//       d="M0 4h15m0 0h1m-1 0V0m0 4v4m1-4h1m-1 0V.5M16 4v3.5M17 4h1m-1 0V1.5M17 4v3M1 1.5v5m1-6v7M3 0v8"
-//     />
-//   </Svg>
-// );

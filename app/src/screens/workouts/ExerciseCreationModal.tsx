@@ -13,6 +13,12 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { ScrollView } from "react-native-gesture-handler";
 import { useMutation } from "@tanstack/react-query";
 import useExerciseService from "../../hooks/useExerciseService";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
+
+interface ExerciseCreationModalProps {
+    navigation: StackNavigationProp<WorkoutsStackParamList>
+}
 
 type CustomExerciseData = {
   name: string;
@@ -23,7 +29,7 @@ type CustomExerciseData = {
   publish: boolean;
 };
 
-const ExerciseCreationModal = () => {
+const ExerciseCreationModal:React.FC<ExerciseCreationModalProps> = ({navigation}) => {
   const { colors } = useTheme();
   const { createExercise } = useExerciseService();
   const [exerciseData, setExerciseData] = useState<CustomExerciseData>({
@@ -47,6 +53,9 @@ const ExerciseCreationModal = () => {
   const { mutate, isPending, isError } = useMutation({
     mutationFn: () => createExercise(exerciseData),
     mutationKey: ["exerciseCreate"],
+    onSuccess: () => {
+        navigation.goBack()
+    }
   });
 
   const createPublicExercise = () => {
@@ -181,6 +190,7 @@ const ExerciseCreationModal = () => {
               type={"outlined"}
               disabled={isPublishDisabled}
               onPress={() => createPublicExercise()}
+              loading={isPending}
               text="Create and publish"
             />
           </View>

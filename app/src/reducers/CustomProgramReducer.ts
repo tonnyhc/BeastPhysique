@@ -373,7 +373,6 @@ function handleEditSetWeight(
   state: ProgramState,
   action: Action
 ): ProgramState {
-  // console.log(action.payload.value);
   return handleEditSetProperty(state, action, "weight", (set, weight) => ({
     ...set,
     weight,
