@@ -57,6 +57,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loadAuthData();
   }, []);
 
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const result = await verifyToken();
+      } catch (e) {
+        console.log("has an erro");
+        logout();
+      }
+    };
+    checkToken()
+  }, []);
+
+  async function verifyToken() {
+    const url = "authentication/verify-token/";
+    try {
+      const data = await get(url);
+      return data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   async function login(body: LoginBody): Promise<LoginReturnBody> {
     const loginURL = "authentication/login/";
 
