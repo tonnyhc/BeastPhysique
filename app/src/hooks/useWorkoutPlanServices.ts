@@ -7,7 +7,7 @@ export const useWorkoutPlanServices = () => {
 
   const createWorkoutPlan = async (body: Record<string, any>): Promise<any> => {
     try {
-      const data = await post("workouts/create-workout-plan/", body);
+      const data = await post("workouts/workout-plan/create/", body);
       return data;
     } catch (e) {
       throw e;
@@ -16,7 +16,7 @@ export const useWorkoutPlanServices = () => {
 
   const getWorkoutPlansByUser = async (): Promise<any> => {
     try {
-      const data = await get("workouts/own-workout-plans/");
+      const data = await get("workouts/workout-plan/by-user/");
       return data;
     } catch (e) {
       throw e;
