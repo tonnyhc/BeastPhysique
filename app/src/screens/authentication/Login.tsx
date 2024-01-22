@@ -15,12 +15,11 @@ export interface LoginScreenProps {
   //   AccountVerification: undefined,
   //   ForgotPassword: undefined,
 
-
   // }>
-  navigation: StackNavigationProp<AuthStackParamList>
+  navigation: StackNavigationProp<AuthStackParamList>;
 }
 
-const Login: React.FC<LoginScreenProps> = ({navigation}) => {
+const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
   const { colors } = useTheme();
   const { onLogin } = useAuth();
   const [loginErrors, setLoginErrors] = useState<string>("");
@@ -41,6 +40,7 @@ const Login: React.FC<LoginScreenProps> = ({navigation}) => {
 
   const mutationLogin = async (data: LoginBody): Promise<LoginReturnBody> => {
     if (onLogin) {
+
       return onLogin(data);
     }
     return Promise.reject(new Error("onLogin function is not provided"));

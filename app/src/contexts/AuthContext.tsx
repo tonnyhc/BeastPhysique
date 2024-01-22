@@ -28,10 +28,6 @@ interface AuthProps {
 
 export const AuthContext = createContext<AuthProps>({});
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
-
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authData, setAuthData] = useState<AuthData>({
     token: null,
@@ -39,6 +35,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     email: "",
   });
   const { post, get } = useApi(authData.token || "");
+  const [verifyToken, setVerifyToken] = useState<boolean>(false);
 
   useEffect(() => {
     const loadAuthData = async (): Promise<void> => {
@@ -58,24 +55,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const checkToken = async () => {
-      try {
-        const result = await verifyToken();
-      } catch (e) {
-        console.log("has an erro");
-        logout();
-      }
-    };
-    checkToken()
-  }, []);
+    setVerifyToken(authData.token ? true : false);
+  }, [authData]);
 
-  async function verifyToken() {
+  if (verifyToken) {
+    verifyTokenFn();
+    setVerifyToken(false);
+  }
+  async function verifyTokenFn() {
     const url = "authentication/verify-token/";
     try {
       const data = await get(url);
       return data;
     } catch (e) {
-      throw e;
+      logout();
+      return;
     }
   }
 
@@ -84,6 +78,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     try {
       const data = await post(loginURL, body);
+
       setAuthData({
         token: data.token,
         isVerified: data.is_verified,
@@ -92,6 +87,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await SecureStore.setItemAsync("authData", JSON.stringify(data));
       return data;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
@@ -149,4 +145,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };

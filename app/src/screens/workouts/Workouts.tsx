@@ -7,13 +7,11 @@ import {
 import Screen from "../../components/common/Screen";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useQuery } from "@tanstack/react-query";
-import {
-  useWorkoutPlan,
-} from "../../api/services/workoutServices";
+import { useWorkoutPlanServices } from "../../hooks/useWorkoutPlanServices";
 
 const Workouts: React.FC = () => {
   const { colors } = useTheme();
-  const { getWorkoutPlansByUser } = useWorkoutPlan();
+  const { getWorkoutPlansByUser } = useWorkoutPlanServices();
   const { data, refetch, isLoading, isError, error } = useQuery({
     queryKey: ["workout-splits"],
     queryFn: getWorkoutPlansByUser,

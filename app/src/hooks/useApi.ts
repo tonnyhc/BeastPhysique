@@ -1,11 +1,11 @@
-
 interface RequestInitWithBody extends RequestInit {
   body?: string;
 }
 
 export type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE";
 
-const hostUrl = 'http://172.25.0.1:8000/'
+// const hostUrl = 'http://192.168.0.4:8000/'
+const hostUrl = "http://172.20.10.2:8000/";
 
 const useApi = (token: string) => {
   const requester = async (
@@ -35,9 +35,9 @@ const useApi = (token: string) => {
       if (response.status === 204) {
         return response;
       }
-      if (response.status === 401){
+      if (response.status === 401) {
         const data = response.json();
-        throw new Error
+        throw data;
       }
       if (!response.ok) {
         // If the response is not OK (e.g., has an error) throw the error response
@@ -64,6 +64,7 @@ const useApi = (token: string) => {
   const get = async (url: string) => {
     try {
       const data = await requester(url, "GET");
+      console.log("sending get");
       return data;
     } catch (e) {
       throw e;

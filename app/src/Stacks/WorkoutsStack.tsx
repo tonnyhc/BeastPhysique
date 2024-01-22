@@ -41,7 +41,7 @@ const WorkoutsStackScreen: React.FC = () => {
             backgroundColor: colors.bg,
           },
         }}
-        initialRouteName="WorkoutDetails"
+        // initialRouteName="WorkoutDetails"
       >
         <WorkoutsStack.Group>
           <WorkoutsStack.Screen name="WorkoutPlans" component={Workouts} />

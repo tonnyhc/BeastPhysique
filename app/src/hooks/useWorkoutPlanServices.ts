@@ -1,5 +1,5 @@
-import { useAuth } from "../../contexts/AuthContext";
-import useApi from "../../hooks/useApi";
+import { useAuth } from "../contexts/AuthContext";
+import useApi from "./useApi";
 
 export const useWorkoutPlanServices = () => {
   const { token } = useAuth();
