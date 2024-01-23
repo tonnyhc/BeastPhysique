@@ -100,3 +100,14 @@ export type ExerciseSearchResponse = {
 
 // Workouts
 export type Workout = { workoutName: string; exercises: Exercise[] };
+
+export type WorkoutPlan = {
+  id: number | string,
+  // TODO: Fix the profile type, connecting it to the profile
+  created_by: Record<any, any>,
+  created_at: string,
+  name: string,
+  total_workouts: number | string,
+  workouts: Workout[],
+  
+}

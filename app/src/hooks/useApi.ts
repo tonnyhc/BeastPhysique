@@ -64,7 +64,6 @@ const useApi = (token: string) => {
   const get = async (url: string) => {
     try {
       const data = await requester(url, "GET");
-      console.log("sending get");
       return data;
     } catch (e) {
       throw e;

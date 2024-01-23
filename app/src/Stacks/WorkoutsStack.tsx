@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import Workouts from "../screens/workouts/Workouts";
-import CreateCustomWorkoutPlan from "../screens/workouts/CreateCustomWorkoutPlan";
+import Workouts from "../screens/workout-plans/Workouts";
+import CreateCustomWorkoutPlan from "../screens/workout-plans/CreateCustomWorkoutPlan";
 import LogoIcon from "../components/header/LogoIcon";
 import DrawerMenuIcon from "../components/header/DrawerMenuIcon";
 import CreateCustomWorkoutPlanProvider from "../contexts/CustomWorkoutPlanContext";
@@ -11,9 +11,11 @@ import ExerciseSearchModal from "../components/workouts/exercise/ExerciseSearchM
 import { useTheme } from "../contexts/ThemeContext";
 import ExerciseCreationModal from "../screens/workouts/ExerciseCreationModal";
 import WorkoutDetails from "../screens/workouts/WorkoutDetails";
+import WorkoutPlanDetails from "../screens/workout-plans/WorkoutPlanDetails";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
+  WorkoutPlanDetails: undefined,
   WorkoutDetails: undefined,
   CreateWorkoutPlan: undefined;
   CreateWorkoutsForPlan: undefined;
@@ -41,10 +43,11 @@ const WorkoutsStackScreen: React.FC = () => {
             backgroundColor: colors.bg,
           },
         }}
-        // initialRouteName="WorkoutDetails"
+        initialRouteName="WorkoutPlanDetails"
       >
         <WorkoutsStack.Group>
           <WorkoutsStack.Screen name="WorkoutPlans" component={Workouts} />
+          <WorkoutsStack.Screen name="WorkoutPlanDetails" component={WorkoutPlanDetails} />
           <WorkoutsStack.Screen name="WorkoutDetails" component={WorkoutDetails}/>
           <WorkoutsStack.Screen
             name="CreateWorkoutPlan"
