@@ -1,21 +1,19 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList } from "react-native";
 import Screen from "../../components/common/Screen";
-import { useQuery } from "@tanstack/react-query";
-import { useWorkoutPlanServices } from "../../hooks/useWorkoutPlanServices";
-import WorkoutPlanCard from "../../components/workouts/WorkoutPlanCard";
 
-const Workouts: React.FC = () => {
-  const { getWorkoutPlansByUser } = useWorkoutPlanServices();
-  const { data, refetch, isLoading, isError, error } = useQuery({
-    queryKey: ["workout-splits"],
-    queryFn: getWorkoutPlansByUser,
-  });
-  // TODO: Add a skeleton 
+import WorkoutPlanCard from "../../components/workouts/WorkoutPlanCard";
+import useFetchWorkoutPlans from "../../hooks/useFetchWorkoutPlans";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
+
+interface WorkoutsProps {
+  navigation: StackNavigationProp<WorkoutsStackParamList>;
+}
+
+const Workouts: React.FC<WorkoutsProps> = ({ navigation }) => {
+  // TODO: Add data type
+  const { data } = useFetchWorkoutPlans();
+  // TODO: Add a skeleton
 
   return (
     <Screen>
@@ -24,8 +22,8 @@ const Workouts: React.FC = () => {
       <FlatList
         style={{ paddingTop: 15, paddingLeft: 5, paddingRight: 5, flex: 1 }}
         data={data}
-        renderItem={({item, index}) => (
-          <WorkoutPlanCard plan={item}/>
+        renderItem={({ item, index }) => (
+          <WorkoutPlanCard key={index} navigation={navigation} plan={item} />
         )}
       />
     </Screen>

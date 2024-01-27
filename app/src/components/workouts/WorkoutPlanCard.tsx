@@ -3,14 +3,19 @@ import React from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { WorkoutPlan } from "../../ts/types";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
 
 interface WorkoutPlanCardProps {
   plan: WorkoutPlan;
+  navigation: StackNavigationProp<WorkoutsStackParamList>;
 }
 
-const WorkoutPlanCard: React.FC<WorkoutPlanCardProps> = ({ plan }) => {
+const WorkoutPlanCard: React.FC<WorkoutPlanCardProps> = ({
+  plan,
+  navigation,
+}) => {
   const { colors } = useTheme();
-    console.log(plan)
   const styles = StyleSheet.create({
     cardWrapper: {
       paddingTop: 6,
@@ -50,8 +55,12 @@ const WorkoutPlanCard: React.FC<WorkoutPlanCardProps> = ({ plan }) => {
     },
   });
   return (
-    
-    <TouchableOpacity style={styles.cardWrapper}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("WorkoutPlanDetails", { planId: plan.id })
+      }
+      style={styles.cardWrapper}
+    >
       <View style={styles.contentWrapper}>
         <Text style={styles.heading}>{plan.name}</Text>
         <View style={styles.dateRow}>

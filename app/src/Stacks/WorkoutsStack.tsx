@@ -5,7 +5,6 @@ import LogoIcon from "../components/header/LogoIcon";
 import DrawerMenuIcon from "../components/header/DrawerMenuIcon";
 import CreateCustomWorkoutPlanProvider from "../contexts/CustomWorkoutPlanContext";
 import CreateWorkoutsForPlan from "../screens/workouts/CreateWorkoutsForPlan";
-import ExerciseCreationCard from "../components/workouts/exercise/ExerciseCreationCard";
 import WorkoutSelection from "../screens/workouts/WorkoutSelection";
 import ExerciseSearchModal from "../components/workouts/exercise/ExerciseSearchModal";
 import { useTheme } from "../contexts/ThemeContext";
@@ -15,13 +14,13 @@ import WorkoutPlanDetails from "../screens/workout-plans/WorkoutPlanDetails";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
-  WorkoutPlanDetails: undefined,
-  WorkoutDetails: undefined,
+  WorkoutPlanDetails: { planId: string | number };
+  WorkoutDetails: undefined;
   CreateWorkoutPlan: undefined;
   CreateWorkoutsForPlan: undefined;
   WorkoutSearch: undefined;
   ExerciseSearchModal: undefined;
-  CreateCustomExercise: undefined
+  CreateCustomExercise: undefined;
 };
 
 const WorkoutsStack = createStackNavigator<WorkoutsStackParamList>();
@@ -43,12 +42,18 @@ const WorkoutsStackScreen: React.FC = () => {
             backgroundColor: colors.bg,
           },
         }}
-        initialRouteName="WorkoutPlanDetails"
+        // initialRouteName="WorkoutPlanDetails"
       >
         <WorkoutsStack.Group>
           <WorkoutsStack.Screen name="WorkoutPlans" component={Workouts} />
-          <WorkoutsStack.Screen name="WorkoutPlanDetails" component={WorkoutPlanDetails} />
-          <WorkoutsStack.Screen name="WorkoutDetails" component={WorkoutDetails}/>
+          <WorkoutsStack.Screen
+            name="WorkoutPlanDetails"
+            component={WorkoutPlanDetails}
+          />
+          <WorkoutsStack.Screen
+            name="WorkoutDetails"
+            component={WorkoutDetails}
+          />
           <WorkoutsStack.Screen
             name="CreateWorkoutPlan"
             component={CreateCustomWorkoutPlan}
@@ -70,7 +75,7 @@ const WorkoutsStackScreen: React.FC = () => {
           <WorkoutsStack.Screen
             name="CreateCustomExercise"
             component={ExerciseCreationModal}
-            options={{ presentation: "modal" , headerShown: false}}
+            options={{ presentation: "modal", headerShown: false }}
           />
         </WorkoutsStack.Group>
       </WorkoutsStack.Navigator>
