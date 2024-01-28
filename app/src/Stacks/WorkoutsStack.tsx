@@ -15,7 +15,7 @@ import WorkoutPlanDetails from "../screens/workout-plans/WorkoutPlanDetails";
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
   WorkoutPlanDetails: { planId: string | number };
-  WorkoutDetails: undefined;
+  WorkoutDetails: { workoutSessionId: string | number };
   CreateWorkoutPlan: undefined;
   CreateWorkoutsForPlan: undefined;
   WorkoutSearch: undefined;

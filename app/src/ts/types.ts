@@ -73,6 +73,15 @@ export type Exercise = {
   created_by?: any | null;
   sets?: ExerciseSet[];
 };
+export type ExerciseSession = {
+  id: number | string,
+  exercise: Exercise,
+  sets: ExerciseSet[],
+  created_at: string,
+  // TODO: implement the profile type
+  profile: any
+
+}
 
 export type ExerciseSet = {
   forDelete?: boolean;
@@ -99,15 +108,32 @@ export type ExerciseSearchResponse = {
 };
 
 // Workouts
-export type Workout = { workoutName: string; exercises: Exercise[] };
+export type Workout = {
+  id: string | number;
+  name: string;
+  total_exercises: number,
+  total_sets: number,
+  total_weight_volume: number,
+  is_published: boolean,
+  exercises: Exercise[];
+};
+
+export type WorkoutSession = {
+  id: string | number;
+  name: string;
+  total_exercises: number,
+  total_sets: number,
+  total_weight_volume: number,
+  is_published: boolean,
+  exercises: ExerciseSession[];
+}
 
 export type WorkoutPlan = {
-  id: number | string,
+  id: number | string;
   // TODO: Fix the profile type, connecting it to the profile
-  created_by: Record<any, any>,
-  created_at: string,
-  name: string,
-  total_workouts: number | string,
-  workouts: Workout[],
-  
-}
+  created_by: Record<any, any>;
+  created_at: string;
+  name: string;
+  total_workouts: number | string;
+  workouts: Workout[];
+};
