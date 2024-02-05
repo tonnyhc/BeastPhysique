@@ -11,6 +11,8 @@ import { useTheme } from "../contexts/ThemeContext";
 import ExerciseCreationModal from "../screens/workouts/ExerciseCreationModal";
 import WorkoutDetails from "../screens/workouts/WorkoutDetails";
 import WorkoutPlanDetails from "../screens/workout-plans/WorkoutPlanDetails";
+import ExerciseSessionEditModal from "../screens/workouts/ExerciseSessionEditModal";
+import { ExerciseSession } from "../ts/types";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
@@ -21,6 +23,7 @@ export type WorkoutsStackParamList = {
   WorkoutSearch: undefined;
   ExerciseSearchModal: undefined;
   CreateCustomExercise: undefined;
+  EditExerciseSession: {exerciseSession: ExerciseSession};
 };
 
 const WorkoutsStack = createStackNavigator<WorkoutsStackParamList>();
@@ -75,6 +78,11 @@ const WorkoutsStackScreen: React.FC = () => {
           <WorkoutsStack.Screen
             name="CreateCustomExercise"
             component={ExerciseCreationModal}
+            options={{ presentation: "modal", headerShown: false }}
+          />
+          <WorkoutsStack.Screen
+            name="EditExerciseSession"
+            component={ExerciseSessionEditModal}
             options={{ presentation: "modal", headerShown: false }}
           />
         </WorkoutsStack.Group>

@@ -11,6 +11,9 @@ import { useTheme } from "../../contexts/ThemeContext";
 import TimelineIcon from "../../icons/TimelineIcon";
 import GearIcon from "../../icons/GearIcon";
 import { ExerciseSession, ExerciseSet } from "../../ts/types";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
 
 interface WorkoutDetailsExerciseCardProp {
   session: ExerciseSession;
@@ -21,6 +24,8 @@ const WorkoutDetailsExerciseCard: React.FC<WorkoutDetailsExerciseCardProp> = ({
   session,
   index,
 }) => {
+  const navigation =
+    useNavigation<StackNavigationProp<WorkoutsStackParamList>>();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { colors } = useTheme();
   const scaleYAnim = useRef(new Animated.Value(0)).current;
@@ -178,7 +183,14 @@ const WorkoutDetailsExerciseCard: React.FC<WorkoutDetailsExerciseCardProp> = ({
                 <TimelineIcon size={22} color={colors.submitBtn} />
                 <Text style={styles.buttonText}>Progress</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("EditExerciseSession", {
+                    exerciseSession: session,
+                  })
+                }
+                style={styles.button}
+              >
                 <GearIcon size={22} color={colors.submitBtn} />
                 <Text style={styles.buttonText}>Modify</Text>
               </TouchableOpacity>

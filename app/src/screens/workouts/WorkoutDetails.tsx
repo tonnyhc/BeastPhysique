@@ -33,7 +33,6 @@ const WorkoutDetails: React.FC<WorkoutDetailsProps> = ({ route }) => {
 
   const { data, isLoading, isError } = workoutSessionDetails(workoutId);
   const workoutData = data as WorkoutSession;
-  console.log(workoutData);
 
   return (
     <View style={styles.wrapper}>

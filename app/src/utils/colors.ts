@@ -8,6 +8,7 @@ export type Colors = {
   blueText: string;
   // backgrounds
   bg: string;
+  grayBg: string,
   submitBtn: string;
   inputBg: string;
   cardBg: string;
@@ -26,6 +27,7 @@ export const lightColors: Colors = {
   blueText: '#4572E4',
   // backgrounds
   bg: "#FFFFFF",
+  grayBg: "#DCDCDC",
   // submitBtn: "#00BDD6FF",
   submitBtn: '#4572E4',
   inputBg: "#F3F4F6FF",
@@ -47,6 +49,7 @@ export const darkColors: Colors = {
   blueText: '#4572E4',
   // backgrounds
   bg: "#171A1FFF",
+  grayBg: "#DCDCDC",
   inputBg: "#1D2128FF",
   // submitBtn: "#00BDD6FF",
   submitBtn: '#4572E4',
