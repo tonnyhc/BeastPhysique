@@ -10,6 +10,7 @@ import {
 import { useTheme } from "../contexts/ThemeContext";
 import WorkoutsStackScreen from "../Stacks/WorkoutsStack";
 import BarbellIcon from "../icons/BarbellIcon";
+import ProfileIcon from "../icons/ProfileIcon";
 
 const Tab = createBottomTabNavigator();
 
@@ -65,12 +66,12 @@ const TabBar = () => {
         }}
       />
       <Tab.Screen
-        name="Music"
+        name="Profile"
         component={Dashboard}
         options={{
-          tabBarLabel: "Music",
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Feather name="music" size={size} color={color} />
+            <ProfileIcon color={color} size={size}/>
           ),
         }}
       />

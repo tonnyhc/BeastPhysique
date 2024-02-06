@@ -1,9 +1,16 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import React from "react";
 
 import useWorkoutService from "../../hooks/useWorkoutService";
 import { ExerciseSession, Workout, WorkoutSession } from "../../ts/types";
 import WorkoutDetailsExerciseCard from "./WorkoutDetailsExerciseCard";
+import useRefreshControl from "../../hooks/useRefreshControl";
 
 interface WorkoutDetailsProps {
   route: { params: { workoutSessionId: number } };
@@ -11,6 +18,14 @@ interface WorkoutDetailsProps {
 const WorkoutDetails: React.FC<WorkoutDetailsProps> = ({ route }) => {
   const { workoutSessionDetails } = useWorkoutService();
   const workoutId = route.params.workoutSessionId;
+
+  const { data, refetch, isLoading, isError } =
+    workoutSessionDetails(workoutId);
+  const { onRefresh, refreshing } = useRefreshControl({
+    isLoading,
+    refreshFn: refetch,
+  });
+  const workoutData = data as WorkoutSession;
   const styles = StyleSheet.create({
     wrapper: {
       flex: 1,
@@ -30,13 +45,14 @@ const WorkoutDetails: React.FC<WorkoutDetailsProps> = ({ route }) => {
       padding: 10,
     },
   });
-
-  const { data, isLoading, isError } = workoutSessionDetails(workoutId);
-  const workoutData = data as WorkoutSession;
-
   return (
     <View style={styles.wrapper}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+        }
+      >
         <Text style={styles.workoutName}>{workoutData.name}</Text>
         <ScrollView style={styles.exercisesWrapper}>
           {workoutData.exercises.map((exercise, index) => (

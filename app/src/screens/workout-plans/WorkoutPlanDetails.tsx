@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, RefreshControl } from "react-native";
 import React from "react";
 import Screen from "../../components/common/Screen";
 import { ScrollView } from "react-native-gesture-handler";
@@ -6,6 +6,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 import useFetchWorkoutPlanDetails from "../../hooks/useFetchWorkoutPlanDetails";
 import { WorkoutPlan } from "../../ts/types";
 import WorkoutPlanDetailsWorkoutCard from "./WorkoutPlanDetailsWorkoutCard";
+import useRefreshControl from "../../hooks/useRefreshControl";
 
 interface WorkoutPlanDetailsProps {
   route: { params: { planId: string } };
@@ -14,7 +15,12 @@ interface WorkoutPlanDetailsProps {
 const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = ({ route }) => {
   const { colors } = useTheme();
   const planId = route.params.planId;
-  const { data, isLoading, isError } = useFetchWorkoutPlanDetails(planId);
+  const { data, refetch, isLoading, isError } =
+    useFetchWorkoutPlanDetails(planId);
+  const { refreshing, onRefresh } = useRefreshControl({
+    isLoading,
+    refreshFn: refetch,
+  });
   const planData = data as WorkoutPlan;
   const styles = StyleSheet.create({
     wrapper: {
@@ -40,6 +46,9 @@ const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = ({ route }) => {
         <ScrollView
           contentContainerStyle={styles.scrollView}
           style={styles.body}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         >
           {planData?.workouts.map((workout) => (
             <WorkoutPlanDetailsWorkoutCard workout={workout} />

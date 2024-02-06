@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { ExerciseSession } from "../../ts/types";
 import Screen from "../../components/common/Screen";
 import { ScrollView } from "react-native-gesture-handler";
@@ -7,6 +7,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 import SubmitButton from "../../components/common/SubmitButton";
 import PlusIcon from "../../icons/PlusIcon";
 import ExerciseSessionEditModalSetCard from "./ExerciseSessionEditModalSetCard";
+import { emptySet } from "../../utils/mapData";
 
 interface ExerciseSessionEditModalProps {
   route: { params: { exerciseSession: ExerciseSession } };
@@ -17,6 +18,15 @@ const ExerciseSessionEditModal: React.FC<ExerciseSessionEditModalProps> = ({
 }) => {
   const session = route.params.exerciseSession;
   const { colors } = useTheme();
+  const [exerciseSession, setExerciseSession] =
+    useState<ExerciseSession>(session);
+
+  const addSetToSession = () => {
+    setExerciseSession((oldSession) => ({
+      ...oldSession,
+      sets: [...oldSession.sets, emptySet],
+    }));
+  };
 
   const styles = StyleSheet.create({
     heading: {
@@ -29,7 +39,6 @@ const ExerciseSessionEditModal: React.FC<ExerciseSessionEditModalProps> = ({
       alignSelf: "center",
     },
   });
-
   return (
     <Screen>
       <View
@@ -43,8 +52,8 @@ const ExerciseSessionEditModal: React.FC<ExerciseSessionEditModalProps> = ({
         <Text style={styles.heading}>Modify</Text>
         <Text style={styles.subheading}>Barbell Bench press</Text>
       </View>
-      <ScrollView>
-        {session.sets.map((set, index) => (
+      <ScrollView contentContainerStyle={{ gap: 10 }}>
+        {exerciseSession.sets.map((set, index) => (
           <ExerciseSessionEditModalSetCard
             set={set}
             index={index}
@@ -55,7 +64,7 @@ const ExerciseSessionEditModal: React.FC<ExerciseSessionEditModalProps> = ({
           <SubmitButton
             leftIcon={<PlusIcon size={16} color={colors.white} />}
             text="Set"
-            onPress={() => {}}
+            onPress={() => addSetToSession()}
           />
         </View>
       </ScrollView>
