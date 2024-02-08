@@ -74,14 +74,13 @@ export type Exercise = {
   sets?: ExerciseSet[];
 };
 export type ExerciseSession = {
-  id: number | string,
-  exercise: Exercise,
-  sets: ExerciseSet[],
-  created_at: string,
+  id: number | string;
+  exercise: Exercise;
+  sets: ExerciseSet[];
+  created_at: string;
   // TODO: implement the profile type
-  profile: any
-
-}
+  profile: any;
+};
 
 export type ExerciseSet = {
   forDelete?: boolean;
@@ -91,6 +90,7 @@ export type ExerciseSet = {
   maxReps: string;
   failure: boolean;
   bodyweight: boolean;
+  id?: number;
 };
 
 export type ExerciseSearch = {
@@ -111,22 +111,22 @@ export type ExerciseSearchResponse = {
 export type Workout = {
   id: string | number;
   name: string;
-  total_exercises: number,
-  total_sets: number,
-  total_weight_volume: number,
-  is_published: boolean,
+  total_exercises: number;
+  total_sets: number;
+  total_weight_volume: number;
+  is_published: boolean;
   exercises: Exercise[];
 };
 
 export type WorkoutSession = {
   id: string | number;
   name: string;
-  total_exercises: number,
-  total_sets: number,
-  total_weight_volume: number,
-  is_published: boolean,
+  total_exercises: number;
+  total_sets: number;
+  total_weight_volume: number;
+  is_published: boolean;
   exercises: ExerciseSession[];
-}
+};
 
 export type WorkoutPlan = {
   id: number | string;

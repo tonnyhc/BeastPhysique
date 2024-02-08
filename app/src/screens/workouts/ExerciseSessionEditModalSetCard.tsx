@@ -5,14 +5,17 @@ import TrashIcon from "../../icons/TrashIcon";
 import ReusableInput from "../../components/common/ReusableInput";
 import { useState } from "react";
 
+import useDeleteSetFromExerciseSession from "../../hooks/useDeleteSetFromExerciseSession";
+
 interface ExerciseSessionEditModalSetCardProps {
   set: ExerciseSet;
   index: number;
+  deleteSetFn: (setId: number) => void;
 }
 
 const ExerciseSessionEditModalSetCard: React.FC<
   ExerciseSessionEditModalSetCardProps
-> = ({ set, index }) => {
+> = ({ set, index, deleteSetFn }) => {
   const { colors } = useTheme();
   const [setData, setSetData] = useState<ExerciseSet>(set);
 
@@ -51,13 +54,17 @@ const ExerciseSessionEditModalSetCard: React.FC<
     },
   });
 
+  const { mutate } = useDeleteSetFromExerciseSession(set.id as number, () =>
+    deleteSetFn(set.id as number)
+  );
+
+  console.log(set.id);
   const changeSetProperty = (propName: string, value?: string) => {
     if (propName == "failure" || propName == "bodyweight") {
       setSetData((oldData) => ({
         ...oldData,
         [propName]: !oldData[propName],
       }));
-      console.log(setData);
       return;
     }
     setSetData((oldData) => ({
@@ -70,7 +77,7 @@ const ExerciseSessionEditModalSetCard: React.FC<
     <View style={styles.card}>
       <View style={styles.cardHeader}>
         <Text style={styles.cardHeading}>Set {index + 1}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => mutate()}>
           <TrashIcon size={22} color={colors.error} />
         </TouchableOpacity>
       </View>
