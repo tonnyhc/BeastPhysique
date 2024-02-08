@@ -8,6 +8,7 @@ import SubmitButton from "../../components/common/SubmitButton";
 import PlusIcon from "../../icons/PlusIcon";
 import ExerciseSessionEditModalSetCard from "./ExerciseSessionEditModalSetCard";
 import { emptySet } from "../../utils/mapData";
+import useAddSetToExerciseSession from "../../hooks/useAddSetToExerciseSession";
 
 interface ExerciseSessionEditModalProps {
   route: { params: { exerciseSession: ExerciseSession } };
@@ -21,12 +22,17 @@ const ExerciseSessionEditModal: React.FC<ExerciseSessionEditModalProps> = ({
   const [exerciseSession, setExerciseSession] =
     useState<ExerciseSession>(session);
 
-  const addSetToSession = () => {
+  const addSetToState = () => {
     setExerciseSession((oldSession) => ({
       ...oldSession,
       sets: [...oldSession.sets, emptySet],
     }));
   };
+
+  const { mutate, isPending } = useAddSetToExerciseSession(
+    session.id as number,
+    addSetToState
+  );
 
   const styles = StyleSheet.create({
     heading: {
@@ -64,7 +70,8 @@ const ExerciseSessionEditModal: React.FC<ExerciseSessionEditModalProps> = ({
           <SubmitButton
             leftIcon={<PlusIcon size={16} color={colors.white} />}
             text="Set"
-            onPress={() => addSetToSession()}
+            onPress={() => mutate()}
+            loading={isPending}
           />
         </View>
       </ScrollView>
