@@ -52,7 +52,7 @@ const useApi = (token: string) => {
     }
   };
 
-  const post = async (url: string, body: any) => {
+  const post = async (url: string, body?: any) => {
     try {
       const data = await requester(url, "POST", body);
       return data;
