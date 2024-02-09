@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import { ExerciseSession } from "../../ts/types";
+import { ExerciseSession, ExerciseSet } from "../../ts/types";
 import Screen from "../../components/common/Screen";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -22,16 +22,18 @@ const ExerciseSessionEditModal: React.FC<ExerciseSessionEditModalProps> = ({
   const [exerciseSession, setExerciseSession] =
     useState<ExerciseSession>(session);
 
-  const addSetToState = () => {
+  const addSetToState = (set: ExerciseSet) => {
+    console.log(set)
     setExerciseSession((oldSession) => ({
       ...oldSession,
-      sets: [...oldSession.sets, emptySet],
+      sets: [...oldSession.sets, set],
     }));
+    console.log(exerciseSession)
   };
 
   const deleteSetFromState = (setId: number) => {
-    const newSets = [...exerciseSession.sets];
-    newSets.filter((set) => set.id !== setId);
+    console.log(setId)
+    const newSets = exerciseSession.sets.filter((set) => set.id !== setId);
     setExerciseSession((oldSession) => ({
       ...oldSession,
       sets: [...newSets],
