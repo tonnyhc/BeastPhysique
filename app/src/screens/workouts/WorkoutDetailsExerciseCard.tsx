@@ -14,6 +14,7 @@ import { ExerciseSession, ExerciseSet } from "../../ts/types";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
+import useFetchExerciseSessionProgress from "../../hooks/useFetchExerciseSessionProgress";
 
 interface WorkoutDetailsExerciseCardProp {
   session: ExerciseSession;
@@ -32,6 +33,8 @@ const WorkoutDetailsExerciseCard: React.FC<WorkoutDetailsExerciseCardProp> = ({
   const [clickedSetIndex, setClickedSetIndex] = useState<ExerciseSet | null>(
     null
   );
+
+  const {data} = useFetchExerciseSessionProgress(session.id)
 
   useEffect(() => {
     Animated.timing(scaleYAnim, {
@@ -58,7 +61,7 @@ const WorkoutDetailsExerciseCard: React.FC<WorkoutDetailsExerciseCardProp> = ({
       paddingTop: 10,
       paddingBottom: isExpanded ? 0 : 10,
       // paddingVertical: 10,
-      paddingHorizontal: 14,
+      paddingHorizontal: 10,
       borderRadius: 8,
     },
     headingWrapper: {
@@ -125,11 +128,11 @@ const WorkoutDetailsExerciseCard: React.FC<WorkoutDetailsExerciseCardProp> = ({
     },
     footer: {
       marginTop: 20,
-      paddingHorizontal: 10,
     },
     setsWrapper: {
       flexDirection: "row",
       flexWrap: "wrap",
+      justifyContent: 'space-between',
       rowGap: 10,
       columnGap: 15,
     },
@@ -179,7 +182,7 @@ const WorkoutDetailsExerciseCard: React.FC<WorkoutDetailsExerciseCardProp> = ({
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.buttonsWrapper}>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity onPress={() => navigation.navigate('ExerciseProgress')} style={styles.button}>
                 <TimelineIcon size={22} color={colors.submitBtn} />
                 <Text style={styles.buttonText}>Progress</Text>
               </TouchableOpacity>

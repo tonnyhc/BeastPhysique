@@ -3,9 +3,11 @@ import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 import { ExerciseSet } from "../../ts/types";
 import TrashIcon from "../../icons/TrashIcon";
 import ReusableInput from "../../components/common/ReusableInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import useDeleteSetFromExerciseSession from "../../hooks/useDeleteSetFromExerciseSession";
+import SubmitButton from "../../components/common/SubmitButton";
+import useUpdateSetExerciseSession from "../../hooks/useUpdateSetExerciseSession";
 
 interface ExerciseSessionEditModalSetCardProps {
   set: ExerciseSet;
@@ -18,6 +20,34 @@ const ExerciseSessionEditModalSetCard: React.FC<
 > = ({ set, index, deleteSetFn }) => {
   const { colors } = useTheme();
   const [setData, setSetData] = useState<ExerciseSet>(set);
+  const [isSaveDisabled, setIsSaveDisabled] = useState<boolean>(true);
+  useEffect(() => {
+    if (setData != set) {
+      setIsSaveDisabled(false);
+    } else {
+      setIsSaveDisabled(true);
+    }
+  }, [setData]);
+
+  const { mutate: mutateDelete } = useDeleteSetFromExerciseSession(set.id as number, () =>
+    deleteSetFn(set.id as number)
+  );
+
+  const {mutate: mutateUpdate, } = useUpdateSetExerciseSession(set.id as number, setData);
+
+  const changeSetProperty = (propName: string, value?: string) => {
+    if (propName == "failure" || propName == "bodyweight") {
+      setSetData((oldData) => ({
+        ...oldData,
+        [propName]: !oldData[propName],
+      }));
+      return;
+    }
+    setSetData((oldData) => ({
+      ...oldData,
+      [propName]: value,
+    }));
+  };
 
   const styles = StyleSheet.create({
     card: {
@@ -49,35 +79,27 @@ const ExerciseSessionEditModalSetCard: React.FC<
     },
     cardFooter: {
       flexDirection: "row",
-      justifyContent: "space-evenly",
+      justifyContent: "space-between",
       marginTop: 20,
     },
+    row: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 10,
+    },
+    switchText: {
+      fontSize: 16,
+      letterSpacing: 0.25,
+    },
+    switch: {
+      alignSelf: "center",
+    },
   });
-
-  const { mutate } = useDeleteSetFromExerciseSession(set.id as number, () =>
-    deleteSetFn(set.id as number)
-  );
-
-  console.log(set.id);
-  const changeSetProperty = (propName: string, value?: string) => {
-    if (propName == "failure" || propName == "bodyweight") {
-      setSetData((oldData) => ({
-        ...oldData,
-        [propName]: !oldData[propName],
-      }));
-      return;
-    }
-    setSetData((oldData) => ({
-      ...oldData,
-      [propName]: value,
-    }));
-  };
-
   return (
     <View style={styles.card}>
       <View style={styles.cardHeader}>
         <Text style={styles.cardHeading}>Set {index + 1}</Text>
-        <TouchableOpacity onPress={() => mutate()}>
+        <TouchableOpacity onPress={() => mutateDelete()}>
           <TrashIcon size={22} color={colors.error} />
         </TouchableOpacity>
       </View>
@@ -86,6 +108,7 @@ const ExerciseSessionEditModalSetCard: React.FC<
         <View style={styles.setInfo}>
           <Text style={styles.setProperty}>Reps</Text>
           <ReusableInput
+            inputMode="numeric"
             placeholder=""
             onChange={(value: string) => changeSetProperty("reps", value)}
             value={setData.reps.toString()}
@@ -94,6 +117,7 @@ const ExerciseSessionEditModalSetCard: React.FC<
         <View style={styles.setInfo}>
           <Text style={styles.setProperty}>Weight</Text>
           <ReusableInput
+            inputMode="decimal"
             placeholder=""
             onChange={(value: string) => changeSetProperty("weight", value)}
             value={setData.weight.toString()}
@@ -102,33 +126,46 @@ const ExerciseSessionEditModalSetCard: React.FC<
         <View style={styles.setInfo}>
           <Text style={styles.setProperty}>Min Reps</Text>
           <ReusableInput
+            inputMode="numeric"
             placeholder=""
             onChange={(value: string) => changeSetProperty("minReps", value)}
-            value={setData.maxReps.toString()}
+            value={setData.minReps.toString()}
           />
         </View>
         <View style={styles.setInfo}>
           <Text style={styles.setProperty}>Max Reps</Text>
           <ReusableInput
+            inputMode="numeric"
             placeholder=""
             onChange={(value: string) => changeSetProperty("maxReps", value)}
-            value={setData.minReps.toString()}
+            value={setData.maxReps.toString()}
           />
         </View>
       </View>
       <View style={styles.cardFooter}>
-        <View>
-          <Text style={{ fontSize: 20 }}>To failure</Text>
-          <Switch
-            value={setData.failure}
-            onChange={() => changeSetProperty("failure")}
-          />
+        <View style={styles.row}>
+          <View>
+            <Text style={styles.switchText}>To failure</Text>
+            <Switch
+              style={styles.switch}
+              value={setData.failure}
+              onChange={() => changeSetProperty("failure")}
+            />
+          </View>
+          <View>
+            <Text style={styles.switchText}>Bodyweight</Text>
+            <Switch
+              value={setData.bodyweight}
+              onChange={() => changeSetProperty("bodyweight")}
+              style={styles.switch}
+            />
+          </View>
         </View>
-        <View>
-          <Text>Bodyweight</Text>
-          <Switch
-            value={setData.bodyweight}
-            onChange={() => changeSetProperty("bodyweight")}
+        <View style={styles.row}>
+          <SubmitButton
+            disabled={isSaveDisabled}
+            onPress={() => mutateUpdate(setData)}
+            text="Save"
           />
         </View>
       </View>

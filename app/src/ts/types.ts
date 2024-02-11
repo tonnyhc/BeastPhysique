@@ -93,6 +93,13 @@ export type ExerciseSet = {
   id?: number;
 };
 
+export type ExerciseSetProgressObj = {
+  weight: number;
+  updated_at: string;
+};
+
+export type ExerciseSetProgressArray = ExerciseSetProgressObj[];
+
 export type ExerciseSearch = {
   id: string | number;
   name: string;

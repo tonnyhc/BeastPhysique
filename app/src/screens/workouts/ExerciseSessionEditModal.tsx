@@ -23,16 +23,13 @@ const ExerciseSessionEditModal: React.FC<ExerciseSessionEditModalProps> = ({
     useState<ExerciseSession>(session);
 
   const addSetToState = (set: ExerciseSet) => {
-    console.log(set)
     setExerciseSession((oldSession) => ({
       ...oldSession,
       sets: [...oldSession.sets, set],
     }));
-    console.log(exerciseSession)
   };
 
   const deleteSetFromState = (setId: number) => {
-    console.log(setId)
     const newSets = exerciseSession.sets.filter((set) => set.id !== setId);
     setExerciseSession((oldSession) => ({
       ...oldSession,
@@ -69,7 +66,7 @@ const ExerciseSessionEditModal: React.FC<ExerciseSessionEditModalProps> = ({
         <Text style={styles.heading}>Modify</Text>
         <Text style={styles.subheading}>Barbell Bench press</Text>
       </View>
-      <ScrollView contentContainerStyle={{ gap: 10 }}>
+      <ScrollView style={{marginTop: 20}} contentContainerStyle={{ gap: 10 }}>
         {exerciseSession.sets.map((set, index) => (
           <ExerciseSessionEditModalSetCard
             deleteSetFn={deleteSetFromState}
