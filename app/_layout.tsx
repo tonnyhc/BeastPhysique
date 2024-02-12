@@ -3,7 +3,6 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { useFonts } from "expo-font";
 
-import AuthStack from "./src/Stacks/AuthStack";
 import { useCallback, useEffect } from "react";
 import { useAuth } from "./src/contexts/AuthContext";
 import TabBar from "./src/Navigation/TabBar";
@@ -12,7 +11,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "./src/contexts/ThemeContext";
 import AuthStackScreen from "./src/Stacks/AuthStack";
-// import RightDrawer from "./src/(drawer)/RightDrawer";
+import { View } from "react-native";
 
 const LightTheme = {
   dark: false,
@@ -25,28 +24,29 @@ const LightTheme = {
     notification: "rgb(255, 59, 48)",
   },
 };
-// SplashScreen.preventAutoHideAsync();
+
+SplashScreen.preventAutoHideAsync();
 export const Drawer = createDrawerNavigator();
 const Layout: React.FC = () => {
   const { theme } = useTheme();
-  const [isLoaded, error] = useFonts({
-    Acme: require("./assets/fonts/Acme-Regular.ttf"),
-  });
   const { isAuth, isVerified } = useAuth();
-  useEffect(() => {
-    const loadFonts = async () => {
-      if (isLoaded) {
-        await SplashScreen.hideAsync();
-      }
-      console.log(error);
-    };
-    loadFonts();
-  }, [isLoaded]);
+
+  const [fontsLoaded, fontError] = useFonts({
+    Acme: require("./assets/fonts/Acme-Regular.ttf"),
+    ArimaBold: require("./assets/fonts/arima/Arima-Bold.ttf"),
+    ArimaRegular: require("./assets/fonts/arima/Arima-Regular.ttf"),
+    RobotoRegular: require("./assets/fonts/roboto/Roboto-Regular.ttf"),
+  });
+
   const onLayoutRootView = useCallback(async () => {
-    if (isLoaded) {
+    if (fontsLoaded || fontError) {
       await SplashScreen.hideAsync();
     }
-  }, [isLoaded]);
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
   return (
     <NavigationContainer theme={LightTheme} onReady={onLayoutRootView}>
       {!isAuth || (isAuth && !isVerified) ? (

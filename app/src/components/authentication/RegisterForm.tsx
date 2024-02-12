@@ -13,15 +13,19 @@ import {
 import ActionButtons from "./ActionButtonsContainer";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../Stacks/AuthStack";
-
+import SubmitButton from "../common/SubmitButton";
 
 interface RegisterFormProps {
   mutate: (data: RegisterBody) => Promise<any>;
   isPending: boolean;
-  navigation: StackNavigationProp<AuthStackParamList>
+  navigation: StackNavigationProp<AuthStackParamList>;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending, navigation}) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({
+  mutate,
+  isPending,
+  navigation,
+}) => {
   const { theme, colors } = useTheme();
   const [data, setData] = useState<RegisterFormBody>({
     email: "",
@@ -49,7 +53,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending, navigatio
   }, [data, formErrors]);
   useEffect(() => {
     const isValid = strenghtPasswordValidator(data.password);
-    if (!isValid  && data.password !== '') {
+    if (!isValid && data.password !== "") {
       return setFormErrors((oldErrors) => ({
         ...oldErrors,
         password: "Weak password",
@@ -79,7 +83,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending, navigatio
   }, [data.conf_pass]);
   useEffect(() => {
     const isValid = emailValidator(data.email);
-    if (!isValid && data.email !== '') {
+    if (!isValid && data.email !== "") {
       return setFormErrors((oldErrors) => ({
         ...oldErrors,
         email: "Invalid email!",
@@ -89,7 +93,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending, navigatio
       ...oldErrors,
       email: "",
     }));
-  },[data.email])
+  }, [data.email]);
 
   const formFields: FormField[] = [
     {
@@ -174,16 +178,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending, navigatio
     formFieldWrapper: {
       marginBottom: 12,
     },
-    termsConditions: {
-      flexDirection: "row",
-      gap: 8,
-      alignItems: "center",
-      marginTop: 12,
-      marginBottom: 28,
-    },
-    termsConditionsText: {
-      flex: 1,
-    },
+    row: { flexDirection: "row" , justifyContent: 'center', alignItems: "center"},
+    helperText: {
+      fontSize: 15,
+      fontFamily: "RobotoRegular"
+    }
   });
 
   return (
@@ -203,25 +202,20 @@ const RegisterForm: React.FC<RegisterFormProps> = ({mutate, isPending, navigatio
           />
         </View>
       ))}
-      {/* Terms and conditions */}
-      <View style={styles.termsConditions}>
-        <Switch value={true} />
-        <Text style={styles.termsConditionsText}>
-          I agree with{" "}
-          <Text style={{ color: colors.blueText, fontWeight: "700" }}>
-            Terms & Conditions
-          </Text>
-        </Text>
-      </View>
 
-      <ActionButtons
-        onPrimaryAction={() => mutate(data)}
-        onSecondaryAction={() => navigation.navigate("Login")}
-        primaryActionText="Sign Up"
-        secondaryActionText="SIGN IN"
+      <SubmitButton
+        text="Register"
         disabled={disabledSubmit}
-        isLoading={isPending}
+        onPress={() => mutate(data)}
       />
+      <View style={styles.row}>
+        <Text style={styles.helperText}>Already have an account?</Text>
+        <SubmitButton
+          type="text"
+          text="LOG IN"
+          onPress={() => navigation.navigate("Login")}
+        />
+      </View>
     </View>
   );
 };

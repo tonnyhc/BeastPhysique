@@ -88,7 +88,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
           ? colors.white
           : colors.submitBtn,
       fontWeight: "normal",
-      // fontFamily: "Acme",
+      fontFamily: "RobotoRegular",
       ...textStyles,
     },
   });

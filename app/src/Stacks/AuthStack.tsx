@@ -8,17 +8,19 @@ import ForgottenPasswordVerification from "../screens/authentication/ForgottenPa
 import ResetPassword from "../screens/authentication/ResetPassword";
 import { ForgottenPasswordProvider } from "../contexts/ForgottenPasswordContext";
 import SuccessVerification from "../screens/authentication/SuccessVerification";
+import WelcomeScreen from "../screens/authentication/WelcomeScreen";
 
 export type AuthStackParamList = {
-  Login: undefined,
-  Register: undefined,
+  Welcome: undefined;
+  Login: undefined;
+  Register: undefined;
   AccountVerification: undefined;
   ForgotPassword: undefined;
-  ForgottenPasswordVerification: undefined,
-  ResetPassword: undefined,
-  SuccessPasswordReset: undefined
+  ForgottenPasswordVerification: undefined;
+  ResetPassword: undefined;
+  SuccessPasswordReset: undefined;
   OTPVerification: undefined;
-}
+};
 
 const AuthStack = createStackNavigator<AuthStackParamList>();
 
@@ -28,7 +30,7 @@ const AuthStackScreen: React.FC = () => {
     <ForgottenPasswordProvider>
       <AuthStack.Navigator
         initialRouteName={
-          token && !isVerified ? "AccountVerification" : "Login"
+          token && !isVerified ? "AccountVerification" : "Welcome"
           // "AccountVerification"
         }
         screenOptions={{
@@ -36,6 +38,7 @@ const AuthStackScreen: React.FC = () => {
         }}
       >
         <AuthStack.Group>
+          <AuthStack.Screen name="Welcome" component={WelcomeScreen} />
           <AuthStack.Screen name="Login" component={Login} />
           <AuthStack.Screen name="Register" component={Register} />
           <AuthStack.Screen
@@ -48,7 +51,10 @@ const AuthStackScreen: React.FC = () => {
             component={ForgottenPasswordVerification}
           />
           <AuthStack.Screen name="ResetPassword" component={ResetPassword} />
-          <AuthStack.Screen name="SuccessPasswordReset" component={SuccessVerification} />
+          <AuthStack.Screen
+            name="SuccessPasswordReset"
+            component={SuccessVerification}
+          />
         </AuthStack.Group>
       </AuthStack.Navigator>
     </ForgottenPasswordProvider>

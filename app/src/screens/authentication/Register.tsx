@@ -9,32 +9,17 @@ import { RegisterBody } from "../../ts/types";
 import UpperLogoWrapper from "../../components/common/UpperLogoWrapper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../Stacks/AuthStack";
+import LogoWithText from "../../components/common/LogoWithText";
 
 interface RegisterProps {
-  navigation: StackNavigationProp<AuthStackParamList>
+  navigation: StackNavigationProp<AuthStackParamList>;
 }
 
-const Register: React.FC<RegisterProps> = ({
-  navigation
-}) => {
+const Register: React.FC<RegisterProps> = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = StyleSheet.create({
     wrapper: {
       flex: 1,
-      justifyContent: "center",
-    },
-    welcomeText: {
-      fontSize: 30,
-      fontWeight: "700",
-      color: colors.primaryText,
-      marginBottom: 4,
-      fontFamily: "Acme",
-    },
-    secondaryWelcome: {
-      fontSize: 20,
-      fontWeight: "700",
-      color: colors.secondaryText,
-      fontFamily: "Acme",
     },
   });
 
@@ -49,7 +34,7 @@ const Register: React.FC<RegisterProps> = ({
   };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: mutationRegister,
+    mutationFn:  mutationRegister,
     onSuccess: () => {
       navigation.navigate("OTPVerification");
     },
@@ -57,12 +42,19 @@ const Register: React.FC<RegisterProps> = ({
 
   return (
     <Screen>
-      <UpperLogoWrapper />
+
       <View style={styles.wrapper}>
-        <Text style={styles.welcomeText}>Welcome.</Text>
-        <Text style={styles.secondaryWelcome}>Create an account</Text>
+        <View style={{flex: 1}}>
+          <LogoWithText width={300} height={300} />
+        </View>
         {/* register form */}
-        <RegisterForm navigation={navigation} mutate={mutate} isPending={isPending} />
+        <View style={{flex: 2}}>
+          <RegisterForm
+            navigation={navigation}
+            mutate={mutate}
+            isPending={isPending}
+          />
+        </View>
       </View>
     </Screen>
   );
