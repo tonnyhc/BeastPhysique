@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Chip from "../../common/Chip";
 import ExerciseSearchCard from "./ExerciseSearchCard";
 import { Exercise } from "../../../ts/types";
-import SubmitButton from "../../common/SubmitButton";
+import SubmitButton from "../../common/Button";
 import { useCustomWorkoutPlan } from "../../../contexts/CustomWorkoutPlanContext";
 import { useNavigation } from "@react-navigation/native";
 

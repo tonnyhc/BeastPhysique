@@ -30,3 +30,9 @@ export const emptyWorkout: Workout = {
   workoutName: "",
   exercises: [emptyExercise],
 };
+
+export const gendersForPicker = [
+  {label: "Man", value: 'Man'},
+  {label: "Woman", value: "Woman"},
+  
+]

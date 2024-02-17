@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@testing-library/react-native";
-import SubmitButton from "../../../components/common/SubmitButton";
+import SubmitButton from "../../../components/common/Button";
 
 describe("SubmitButton", () => {
   const defaultProps = {

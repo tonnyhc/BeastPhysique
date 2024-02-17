@@ -6,7 +6,7 @@ import ReusableInput from "../../components/common/ReusableInput";
 import { useEffect, useState } from "react";
 
 import useDeleteSetFromExerciseSession from "../../hooks/useDeleteSetFromExerciseSession";
-import SubmitButton from "../../components/common/SubmitButton";
+import SubmitButton from "../../components/common/Button";
 import useUpdateSetExerciseSession from "../../hooks/useUpdateSetExerciseSession";
 
 interface ExerciseSessionEditModalSetCardProps {

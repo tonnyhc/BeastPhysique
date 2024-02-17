@@ -5,7 +5,7 @@ import Screen from "../../components/common/Screen";
 import ReusableInput from "../../components/common/ReusableInput";
 import { FlatList, View, Text } from "react-native";
 import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
-import SubmitButton from "../../components/common/SubmitButton";
+import SubmitButton from "../../components/common/Button";
 import ExerciseCreationCard from "../../components/workouts/exercise/ExerciseCreationCard";
 import { emptyExercise, emptySet } from "../../utils/mapData";
 import TrashIcon from "../../icons/TrashIcon";

@@ -13,7 +13,7 @@ import {
 import ActionButtons from "./ActionButtonsContainer";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../Stacks/AuthStack";
-import SubmitButton from "../common/SubmitButton";
+import SubmitButton from "../common/Button";
 
 interface RegisterFormProps {
   mutate: (data: RegisterBody) => Promise<any>;

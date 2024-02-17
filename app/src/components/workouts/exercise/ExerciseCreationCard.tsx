@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Animated } from "react-native";
 import React, { ReactNode } from "react";
-import SubmitButton from "../../common/SubmitButton";
+import SubmitButton from "../../common/Button";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useNavigation } from "@react-navigation/native";
 import { Exercise } from "../../../ts/types";

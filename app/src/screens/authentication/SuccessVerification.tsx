@@ -3,7 +3,7 @@ import React from "react";
 import Screen from "../../components/common/Screen";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "../../contexts/ThemeContext";
-import SubmitButton from "../../components/common/SubmitButton";
+import SubmitButton from "../../components/common/Button";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../Stacks/AuthStack";
 

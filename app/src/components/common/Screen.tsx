@@ -1,6 +1,10 @@
 import { ReactNode } from "react";
-import { View, SafeAreaView } from "react-native";
-// import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  View,
+  SafeAreaView,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 
 interface ScreenProps {
@@ -8,14 +12,16 @@ interface ScreenProps {
 }
 
 const Screen: React.FC<ScreenProps> = ({ children }) => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
       <View
         style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 12, flex: 1 }}
       >
-        {children}
+        <TouchableWithoutFeedback  onPress={() => Keyboard.dismiss()}>
+          {children}
+        </TouchableWithoutFeedback>
       </View>
     </SafeAreaView>
   );

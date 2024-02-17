@@ -4,7 +4,7 @@ import { ExerciseSession, ExerciseSet } from "../../ts/types";
 import Screen from "../../components/common/Screen";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "../../contexts/ThemeContext";
-import SubmitButton from "../../components/common/SubmitButton";
+import SubmitButton from "../../components/common/Button";
 import PlusIcon from "../../icons/PlusIcon";
 import ExerciseSessionEditModalSetCard from "./ExerciseSessionEditModalSetCard";
 import { emptySet } from "../../utils/mapData";

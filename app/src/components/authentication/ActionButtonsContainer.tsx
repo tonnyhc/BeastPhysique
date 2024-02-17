@@ -4,7 +4,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { useTheme } from "../../contexts/ThemeContext";
-import SubmitButton from "../common/SubmitButton";
+import SubmitButton from "../common/Button";
 
 interface ActionButtonsProps {
   onPrimaryAction: () => void;

@@ -5,7 +5,7 @@ import ReusableInput from "../../components/common/ReusableInput";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "../../contexts/ThemeContext";
-import SubmitButton from "../../components/common/SubmitButton";
+import SubmitButton from "../../components/common/Button";
 import { useCustomWorkoutPlan } from "../../contexts/CustomWorkoutPlanContext";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";

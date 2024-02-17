@@ -1,10 +1,12 @@
 import { ReactNode, createContext, useContext, useState } from "react";
 import { lightColors, darkColors, Colors } from "../utils/colors";
+import { sizes } from "../utils/sizes";
 
 type ThemeContextType = {
   theme: string;
   colors: Colors;
   shadows: Record<string, any>;
+  sizes: Record<string, any>;
   toggleTheme: () => void;
 };
 interface ThemeProviderProps {
@@ -15,6 +17,7 @@ export const ThemeContext = createContext<ThemeContextType>({
   theme: "light",
   colors: lightColors,
   shadows: { "": "" },
+  sizes: sizes,
   toggleTheme: () => {},
 });
 
@@ -50,6 +53,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     theme,
     colors,
     shadows,
+    sizes,
     toggleTheme,
   };
 

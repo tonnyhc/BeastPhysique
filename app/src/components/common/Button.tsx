@@ -5,7 +5,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { ActivityIndicator } from "react-native-paper";
 import { Colors } from "../../utils/colors";
 
-interface SubmitButtonProps {
+interface ButtonProps {
   text: string;
   onPress: () => any;
   disabled?: boolean;
@@ -14,6 +14,7 @@ interface SubmitButtonProps {
   textStyles?: Record<string, number | string>;
   testId?: string;
   leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
   type?: "outlined" | "fill" | "text";
 }
 
@@ -39,7 +40,7 @@ const generateBackgroundStyles = (
   return styles[type];
 };
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   text,
   onPress,
   disabled,
@@ -48,6 +49,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   buttonStyles,
   textStyles,
   leftIcon,
+  rightIcon,
   type,
 }) => {
   const { colors, shadows } = useTheme();
@@ -71,7 +73,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
       flexDirection: "row",
       gap: 8,
       paddingLeft: leftIcon ? 16 : 24,
-      paddingRight: 24,
+      paddingRight: rightIcon ? 16 : 24,
       alignItems: "center",
       justifyContent: "center",
       alignSelf: "center",
@@ -107,9 +109,10 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
         ) : null}
 
         <Text style={styles.submitBtnText}>{text}</Text>
+        {rightIcon ? rightIcon : null}
       </TouchableOpacity>
     </View>
   );
 };
 
-export default SubmitButton;
+export default Button;

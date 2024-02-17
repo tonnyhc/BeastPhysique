@@ -14,6 +14,8 @@ export type Colors = {
   cardBg: string;
   iconColor: string
   error: string;
+  // border
+  borderGrey: string
 };
 
 export const lightColors: Colors = {
@@ -36,6 +38,8 @@ export const lightColors: Colors = {
   iconColor: 'black',
 
   error: "#C12025",
+  // Borders
+  borderGrey: "#CCC"
 };
 
 export const darkColors: Colors = {
@@ -57,4 +61,7 @@ export const darkColors: Colors = {
 
   iconColor: '#DEE1E6FF',
   error: "#C12025",
+
+  // Borders
+  borderGrey: "#CCC"
 };

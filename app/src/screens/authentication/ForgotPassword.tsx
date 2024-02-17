@@ -5,7 +5,7 @@ import BackButton from "../../components/common/BackButton";
 import { useTheme } from "../../contexts/ThemeContext";
 import ReusableInput from "../../components/common/ReusableInput";
 import { AntDesign } from "@expo/vector-icons";
-import SubmitButton from "../../components/common/SubmitButton";
+import SubmitButton from "../../components/common/Button";
 import { useMutation } from "@tanstack/react-query";
 import { useForgottenPassword } from "../../contexts/ForgottenPasswordContext";
 import { emailValidator } from "../../utils/formValidators";

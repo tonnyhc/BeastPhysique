@@ -1,7 +1,7 @@
 import React from "react";
 
 import { AntDesign } from "@expo/vector-icons";
-import SubmitButton from "../../components/common/SubmitButton";
+import SubmitButton from "../../components/common/Button";
 import { FontAwesome } from "@expo/vector-icons";
 
 import { useCustomWorkoutPlan } from "../../contexts/CustomWorkoutPlanContext";

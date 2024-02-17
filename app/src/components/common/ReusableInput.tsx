@@ -63,7 +63,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       borderRadius: 24,
       paddingLeft: 16,
       paddingRight: 16,
-      borderColor: error ? colors.error : "#CCC",
+      borderColor: error ? colors.error : colors.borderGrey,
       borderWidth: 1,
     },
     input: {
@@ -72,7 +72,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       height: '90%',
       color: colors.helperText,
       fontWeight: "bold",
-      fontFamily: "Acme",
+      fontFamily: "RobotoBold",
       textAlignVertical: multiline? 'top' : 'auto'
     },
   });

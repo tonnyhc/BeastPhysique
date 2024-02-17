@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 import Screen from "../../components/common/Screen";
 import ReusableInput from "../../components/common/ReusableInput";
-import SubmitButton from "../../components/common/SubmitButton";
+import SubmitButton from "../../components/common/Button";
 import { useTheme } from "../../contexts/ThemeContext";
 import { ScrollView } from "react-native-gesture-handler";
 import { useMutation } from "@tanstack/react-query";
