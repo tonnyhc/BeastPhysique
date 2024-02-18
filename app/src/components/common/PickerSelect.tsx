@@ -4,17 +4,23 @@ import RNPickerSelect from "react-native-picker-select";
 import { useTheme } from "../../contexts/ThemeContext";
 
 type SelectItem = {
-  label:string ,
-  value: string | number
-}
+  label: string;
+  value: string | number;
+};
 
 interface PickerSelectProps {
   label?: string;
   placeholder?: string;
-  items: SelectItem[]
+  items: SelectItem[];
+  onChange: (value: any) => void;
 }
 
-const PickerSelect: React.FC<PickerSelectProps> = ({ label,placeholder, items }) => {
+const PickerSelect: React.FC<PickerSelectProps> = ({
+  label,
+  placeholder,
+  items,
+  onChange,
+}) => {
   const { colors } = useTheme();
   const styles = StyleSheet.create({
     wrapper: {
@@ -48,11 +54,10 @@ const PickerSelect: React.FC<PickerSelectProps> = ({ label,placeholder, items })
       fontFamily: "RobotoBold",
     },
     inputText: {
-        fontFamily: "RobotoBold",
-        color: colors.helperText,
-        marginLeft: 8
-    }
-    
+      fontFamily: "RobotoBold",
+      color: colors.helperText,
+      marginLeft: 8,
+    },
   });
   return (
     <View style={styles.wrapper}>
@@ -64,20 +69,20 @@ const PickerSelect: React.FC<PickerSelectProps> = ({ label,placeholder, items })
             ...styles.inputWrapper,
           },
           placeholder: {
-            ...styles.placeholder
+            ...styles.placeholder,
           },
           inputIOS: {
-            ...styles.inputText
+            ...styles.inputText,
           },
           inputAndroid: {
-            ...styles.inputText
-          }
+            ...styles.inputText,
+          },
         }}
         placeholder={{
           value: "",
           label: placeholder,
         }}
-        onValueChange={(value) => console.log(value)}
+        onValueChange={(value) => onChange(value)}
         items={items}
       />
     </View>

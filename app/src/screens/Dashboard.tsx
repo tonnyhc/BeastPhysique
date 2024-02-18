@@ -11,9 +11,7 @@ import { Ionicons, Entypo } from "@expo/vector-icons";
 
 import Screen from "../components/common/Screen";
 import { useTheme } from "../contexts/ThemeContext";
-import { SvgUri } from "react-native-svg";
 
-import SVGImg from '../../assets/svg/BarbellIcon.svg'
 import BarbellIcon from "../icons/BarbellIcon";
 
 const Dashboard: React.FC = () => {

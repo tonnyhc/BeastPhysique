@@ -3,15 +3,13 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { useFonts } from "expo-font";
 
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useAuth } from "./src/contexts/AuthContext";
 import TabBar from "./src/Navigation/TabBar";
-import DrawerContent from "./src/Navigation/DrawerContent";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "./src/contexts/ThemeContext";
 import AuthStackScreen from "./src/Stacks/AuthStack";
-import { View } from "react-native";
+import ProfileSetupStackScreen from "./src/Stacks/ProfileSetupStack";
 
 const LightTheme = {
   dark: false,
@@ -26,17 +24,16 @@ const LightTheme = {
 };
 
 SplashScreen.preventAutoHideAsync();
-export const Drawer = createDrawerNavigator();
 const Layout: React.FC = () => {
   const { theme } = useTheme();
-  const { isAuth, isVerified } = useAuth();
+  const { isAuth, isVerified, setupProfile } = useAuth();
 
   const [fontsLoaded, fontError] = useFonts({
     Acme: require("./assets/fonts/Acme-Regular.ttf"),
     ArimaBold: require("./assets/fonts/arima/Arima-Bold.ttf"),
     ArimaRegular: require("./assets/fonts/arima/Arima-Regular.ttf"),
     RobotoRegular: require("./assets/fonts/roboto/Roboto-Regular.ttf"),
-    RobotoBold:require("./assets/fonts/roboto/Roboto-Bold.ttf"),
+    RobotoBold: require("./assets/fonts/roboto/Roboto-Bold.ttf"),
     RobotoSlabRegular: require("./assets/fonts/roboto-slab/RobotoSlab-Regular.ttf"),
     RobotoSlabBold: require("./assets/fonts/roboto-slab/RobotoSlab-Bold.ttf"),
   });
@@ -50,20 +47,20 @@ const Layout: React.FC = () => {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
+  const renderFn = () => {
+    if (setupProfile) {
+      return <ProfileSetupStackScreen />;
+    }
+    if (!isAuth || (isAuth && !isVerified)) {
+      return <AuthStackScreen />;
+    }
+    return <TabBar />;
+  };
+
   return (
     <NavigationContainer theme={LightTheme} onReady={onLayoutRootView}>
-      {!isAuth || (isAuth && !isVerified) ? (
-        <AuthStackScreen />
-      ) : (
-        <Drawer.Navigator
-          drawerContent={(props) => <DrawerContent {...props} />}
-          screenOptions={{ headerShown: false }}
-        >
-          <Drawer.Screen name="Home" component={TabBar} />
-          <Drawer.Screen name="Settings" component={TabBar} />
-          <Drawer.Screen name="Feed" component={TabBar} />
-        </Drawer.Navigator>
-      )}
+      {renderFn()}
       <StatusBar style={theme == "light" ? "dark" : "light"} />
     </NavigationContainer>
   );

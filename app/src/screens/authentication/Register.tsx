@@ -36,7 +36,7 @@ const Register: React.FC<RegisterProps> = ({ navigation }) => {
   const { mutate, isPending } = useMutation({
     mutationFn:  mutationRegister,
     onSuccess: () => {
-      navigation.navigate("OTPVerification");
+      navigation.navigate("AccountVerification");
     },
   });
 

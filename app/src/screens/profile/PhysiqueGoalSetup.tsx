@@ -4,6 +4,7 @@ import Screen from "../../components/common/Screen";
 import { useTheme } from "../../contexts/ThemeContext";
 import Button from "../../components/common/Button";
 import PhysiqueGoalCard from "../../components/profile/setup/PhysiqueGoalCard";
+import { useAuth } from "../../contexts/AuthContext";
 
 const goalsMap = [
   {
@@ -16,6 +17,7 @@ const goalsMap = [
 
 const PhysiqueGoalSetup: React.FC = () => {
   const { colors } = useTheme();
+  const { skipSetupProfile } = useAuth();
   const [goal, setGoal] = useState<string>("");
   const styles = StyleSheet.create({
     wrapper: {
@@ -69,7 +71,7 @@ const PhysiqueGoalSetup: React.FC = () => {
           <Button
             text="SET UP LATER IN PROFILE"
             type="text"
-            onPress={() => {}}
+            onPress={() => (skipSetupProfile ? skipSetupProfile() : null)}
           />
         </View>
       </View>

@@ -24,6 +24,9 @@ interface AuthProps {
   onLogout?: () => Promise<void>;
   onConfirmAccount?: (verificationCode: string) => Promise<void>;
   onResendVerificationCode?: () => Promise<void>;
+  // TODO: Can move this to the profile context later on
+  setupProfile?: boolean;
+  skipSetupProfile?: () => void;
 }
 
 export const AuthContext = createContext<AuthProps>({});
@@ -33,6 +36,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     token: null,
     isVerified: false,
     email: "",
+    // TODO: Can move this to the profile context later on
+    setupProfile: false,
   });
   const { post, get } = useApi(authData.token || "");
   const [verifyToken, setVerifyToken] = useState<boolean>(false);
@@ -117,6 +122,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setAuthData((oldData) => ({
         ...oldData,
         isVerified: true,
+        setupProfile: true,
       }));
     } catch (error) {
       throw error;
@@ -131,6 +137,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }
 
+  function skipSetupProfile() {
+    setAuthData((oldData) => ({
+      ...oldData,
+      setupProfile: false,
+    }));
+  }
+
   const context = {
     token: authData.token,
     isAuth: authData.token ? true : false,
@@ -141,6 +154,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     onLogout: logout,
     onConfirmAccount: confirmAccount,
     onResendVerificationCode: resendVerificationCode,
+    // TODO: Can move this to the profile context later on
+    setupProfile: authData.setupProfile,
+    skipSetupProfile,
   };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

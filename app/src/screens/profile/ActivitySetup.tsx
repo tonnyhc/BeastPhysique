@@ -7,6 +7,7 @@ import Button from "../../components/common/Button";
 import ChevronRight from "../../icons/ChevronRight";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProfileSetupStackParamsList } from "../../Stacks/ProfileSetupStack";
+import { useAuth } from "../../contexts/AuthContext";
 const activityMap = [
   {
     label: "Sedentary",
@@ -40,7 +41,7 @@ interface ActivitySetupProps {
 }
 const ActivitySetup: React.FC<ActivitySetupProps> = ({ navigation }) => {
   const { colors } = useTheme();
-
+  const {skipSetupProfile} = useAuth()
   const styles = StyleSheet.create({
     headingText: {
       fontSize: 20,
@@ -88,7 +89,7 @@ const ActivitySetup: React.FC<ActivitySetupProps> = ({ navigation }) => {
           <Button
             text="SET UP LATER IN PROFILE"
             type="text"
-            onPress={() => {}}
+            onPress={() => (skipSetupProfile ? skipSetupProfile() : null)}
           />
         </View>
       </View>

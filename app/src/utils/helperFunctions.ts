@@ -41,3 +41,27 @@ export function generateWeightArray(us: boolean = false): Weight[] {
 
   return weightArray;
 }
+
+export function checkForEmptyValuesInObject(values: {
+  [key: string]: any;
+}): boolean {
+  for (const [key, value] of Object.entries(values)) {
+    if (!value || value === "") {
+      return true;
+    }
+  }
+  return false;
+}
+
+function padTo2Digits(num: number) {
+  return num.toString().padStart(2, "0");
+}
+
+export function removeTimeFromDate(date: Date): string {
+  date.setHours(0, 0, 0, 0);
+  return [
+    date.getFullYear(),
+    padTo2Digits(date.getMonth() + 1),
+    padTo2Digits(date.getDate()),
+  ].join("-");
+}

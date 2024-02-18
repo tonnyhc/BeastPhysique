@@ -19,7 +19,7 @@ const WelcomeScreen: React.FC = () => {
       fontSize: 20,
       alignSelf: "center",
       fontFamily: "ArimaRegular",
-      color: colors.primaryText
+      color: colors.primaryText,
     },
     row: {
       flexDirection: "row",
@@ -30,34 +30,36 @@ const WelcomeScreen: React.FC = () => {
       gap: 18,
       marginTop: 30,
     },
-    helperText:{
-        fontSize: 15,
-        color: colors.helperText,
-        fontFamily: "RobotoRegular"
-    }
+    helperText: {
+      fontSize: 15,
+      color: colors.helperText,
+      fontFamily: "RobotoRegular",
+    },
   });
   return (
     <Screen>
-      <View style={{ flex: 3.5 }}>
-        <LogoWithText width={450} height={522}/>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.text}>Become the best version of yourself</Text>
-        <View style={styles.actionBtns}>
-          <SubmitButton
-            text="JOIN US"
-            onPress={() => navigation.navigate("Register")}
-          />
-          <View style={styles.row}>
-            <Text style={styles.helperText}>Already have an account?</Text>
+      <>
+        <View style={{ flex: 3.5 }}>
+          <LogoWithText width={450} height={522} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.text}>Become the best version of yourself</Text>
+          <View style={styles.actionBtns}>
             <SubmitButton
-              type="text"
-              text="LOG IN"
-              onPress={() => navigation.navigate("Login")}
+              text="JOIN US"
+              onPress={() => navigation.navigate("Register")}
             />
+            <View style={styles.row}>
+              <Text style={styles.helperText}>Already have an account?</Text>
+              <SubmitButton
+                type="text"
+                text="LOG IN"
+                onPress={() => navigation.navigate("Login")}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </>
     </Screen>
   );
 };

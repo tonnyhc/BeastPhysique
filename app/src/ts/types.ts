@@ -48,6 +48,7 @@ export type AuthData = {
   token?: string | null;
   isVerified?: boolean;
   email?: string | null;
+  setupProfile?: boolean;
   // username?: string | null;
 };
 
@@ -143,4 +144,13 @@ export type WorkoutPlan = {
   name: string;
   total_workouts: number | string;
   workouts: Workout[];
+};
+
+
+
+// Profile
+export type ProfileDataForSetup = {
+  full_name: string;
+  birthday: Date;
+  gender: string;
 };

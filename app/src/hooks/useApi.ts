@@ -2,10 +2,9 @@ interface RequestInitWithBody extends RequestInit {
   body?: string;
 }
 
-export type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE";
+export type RequestMethod = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 
-const hostUrl = "http://192.168.100.4:8000/"
-
+const hostUrl = "http://192.168.100.5:8000/";
 
 const useApi = (token: string) => {
   const requester = async (
@@ -79,6 +78,15 @@ const useApi = (token: string) => {
     }
   };
 
+  const put = async (url: string, body: any) => {
+    try {
+      const data = await requester(url, "PUT", body);
+      return data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
   const del = async (url: string, body?: any) => {
     try {
       const data = await requester(url, "DELETE", body);
@@ -88,7 +96,7 @@ const useApi = (token: string) => {
     }
   };
 
-  return { post, get, patch, del };
+  return { post, get, patch, put, del };
 };
 
 export default useApi;

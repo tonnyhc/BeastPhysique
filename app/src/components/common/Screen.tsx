@@ -16,13 +16,13 @@ const Screen: React.FC<ScreenProps> = ({ children }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
-      <View
-        style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 12, flex: 1 }}
-      >
-        <TouchableWithoutFeedback  onPress={() => Keyboard.dismiss()}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View
+          style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 12, flex: 1 }}
+        >
           {children}
-        </TouchableWithoutFeedback>
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };

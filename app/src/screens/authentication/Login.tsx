@@ -40,7 +40,6 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   const mutationLogin = async (data: LoginBody): Promise<LoginReturnBody> => {
     if (onLogin) {
-
       return onLogin(data);
     }
     return Promise.reject(new Error("onLogin function is not provided"));
@@ -57,16 +56,18 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
   });
   return (
     <Screen>
-      <UpperLogoWrapper />
-      <View style={styles.section}>
-        <Text style={styles.welcomeText}>Welcome back 👋</Text>
-        <LoginForm
-          navigation={navigation}
-          loginError={loginErrors}
-          onLogin={mutate}
-          isPending={isPending}
-        />
-      </View>
+      <>
+        <UpperLogoWrapper />
+        <View style={styles.section}>
+          <Text style={styles.welcomeText}>Welcome back 👋</Text>
+          <LoginForm
+            navigation={navigation}
+            loginError={loginErrors}
+            onLogin={mutate}
+            isPending={isPending}
+          />
+        </View>
+      </>
     </Screen>
   );
 };

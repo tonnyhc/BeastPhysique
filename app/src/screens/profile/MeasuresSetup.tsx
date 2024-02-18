@@ -12,6 +12,7 @@ import {
   generateHeightArray,
   generateWeightArray,
 } from "../../utils/helperFunctions";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface MeasuresSetupProps {
   navigation: StackNavigationProp<ProfileSetupStackParamsList>;
@@ -19,6 +20,7 @@ interface MeasuresSetupProps {
 
 const MeasuresSetup: React.FC<MeasuresSetupProps> = ({ navigation }) => {
   const { colors } = useTheme();
+  const { skipSetupProfile } = useAuth();
 
   const heights = generateHeightArray();
   const pickerHeightItems = heights.map((height) => ({
@@ -65,7 +67,7 @@ const MeasuresSetup: React.FC<MeasuresSetupProps> = ({ navigation }) => {
           <Button
             text="SET UP LATER IN PROFILE"
             type="text"
-            onPress={() => {}}
+            onPress={() => (skipSetupProfile ? skipSetupProfile() : null)}
           />
         </View>
       </View>

@@ -32,12 +32,12 @@ const AuthStackScreen: React.FC = () => {
   return (
     <ForgottenPasswordProvider>
       <AuthStack.Navigator
-        // initialRouteName={
-        //   token && !isVerified ? "AccountVerification" : "Welcome"
-        // }
-        initialRouteName="Profile setup 1"
+        initialRouteName={
+          token && !isVerified ? "AccountVerification" : "Welcome"
+        }
+        // initialRouteName="Profile setup 1"
         screenOptions={{
-          headerShown: true,
+          headerShown: false,
           headerTitleStyle: { fontSize: 22, fontFamily: "RobotoSlab" },
         }}
       >
