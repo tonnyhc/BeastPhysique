@@ -25,6 +25,7 @@ import {
 } from "../../utils/helperFunctions";
 import { ProfileDataForSetup } from "../../ts/types";
 import useSetupProfileData from "../../hooks/useSetupProfileData";
+import useProfileSetup from "../../hooks/useProfileSetup";
 
 interface NameBirthdaySetupProps {
   navigation: StackNavigationProp<ProfileSetupStackParamsList>;
@@ -41,9 +42,11 @@ const NameBirthdaySetup: React.FC<NameBirthdaySetupProps> = ({
     gender: "",
   });
   const emptyFields = checkForEmptyValuesInObject(data);
-  const { mutate, isPending } = useSetupProfileData(() =>
-    navigation.navigate("MeasuresSetup")
-  );
+
+  const { mutate, isPending} = useProfileSetup({
+    url: "profile/edit/",
+    onSuccessFn: () => navigation.navigate("MeasuresSetup"),
+  });
   const styles = StyleSheet.create({
     wrapper: {
       paddingHorizontal: 20,
@@ -63,7 +66,7 @@ const NameBirthdaySetup: React.FC<NameBirthdaySetupProps> = ({
     const dateWithoutTime = removeTimeFromDate(body.birthday);
     body.birthday = dateWithoutTime;
 
-    mutate(body)
+    mutate(body);
   };
 
   return (
@@ -119,6 +122,7 @@ const NameBirthdaySetup: React.FC<NameBirthdaySetupProps> = ({
             rightIcon={<ChevronRight color={colors.white} size={18} />}
             onPress={() => onSubmit()}
             disabled={emptyFields}
+            loading={isPending}
           />
           <Button
             text="SET UP LATER IN PROFILE"

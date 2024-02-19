@@ -16,46 +16,55 @@ export type ProfileSetupStackParamsList = {
   PhysiqueGoalSetup: undefined;
 };
 
-
 const ProfileSetupStack = createStackNavigator<ProfileSetupStackParamsList>();
 
 const ProfileSetupStackScreen: React.FC = () => {
-  // const route = useRoute();
-  // const navigation = useNavigation<StackNavigationProp<ProfileSetupStackParamsList>>()
-  // const skipCurrentScreen = () => {
-  //   const currentRouteName = route.name;
+  const skipCurrentScreen = (
+    route: any,
+    navigation: StackNavigationProp<ProfileSetupStackParamsList>
+  ) => {
+    const currentRouteName = route.name;
 
-  //   switch (currentRouteName) {
-  //     case "NameBirthDaySetup":
-  //       navigation.navigate("MeasuresSetup");
-  //       break;
-  //     case "MeasuresSetup":
-  //       navigation.navigate("ActivitySetup");
-  //       break;
-  //     // Add more cases for other screens as needed
-  //     default:
-  //       // Navigate to a default screen or handle the case accordingly
-  //       break;
-  //   }
-  // };
+    switch (currentRouteName) {
+      case "NameBirthDaySetup":
+        navigation.navigate("MeasuresSetup");
+        break;
+      case "MeasuresSetup":
+        navigation.navigate("ActivitySetup");
+        break;
+      case "ActivitySetup":
+        navigation.navigate("PhysiqueGoalSetup");
+        break;
+      // Add more cases for other screens as needed
+      default:
+        // Navigate to a default screen or handle the case accordingly
+        break;
+    }
+  };
 
   return (
     <ProfileSetupStack.Navigator
-      screenOptions={{
+      screenOptions={({ route, navigation }) => ({
         headerTitleStyle: {
           fontFamily: "RobotoSlabRegular",
           fontWeight: "500",
         },
         headerShadowVisible: false,
-        headerRight: () => (
-          <Button
-            onPress={() => {}}
-            text="Skip"
-            textStyles={{ fontSize: 16 }}
-            type="text"
-          />
-        ),
-      }}
+        headerRight: () => {
+          if (route.name !== "PhysiqueGoalSetup") {
+            return (
+              <Button
+                onPress={() => skipCurrentScreen(route, navigation)}
+                text="Skip"
+                textStyles={{ fontSize: 16 }}
+                type="text"
+              />
+            );
+          } else {
+            return null
+          }
+        },
+      })}
     >
       <ProfileSetupStack.Screen
         name="NameBirthDaySetup"

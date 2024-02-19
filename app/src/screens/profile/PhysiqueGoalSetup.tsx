@@ -5,6 +5,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 import Button from "../../components/common/Button";
 import PhysiqueGoalCard from "../../components/profile/setup/PhysiqueGoalCard";
 import { useAuth } from "../../contexts/AuthContext";
+import useProfileSetup from "../../hooks/useProfileSetup";
 
 const goalsMap = [
   {
@@ -18,7 +19,11 @@ const goalsMap = [
 const PhysiqueGoalSetup: React.FC = () => {
   const { colors } = useTheme();
   const { skipSetupProfile } = useAuth();
-  const [goal, setGoal] = useState<string>("");
+  const [data, setData] = useState<{goal: string}>({goal: ""});
+  const {mutate, isPending} = useProfileSetup({
+    url: "health/fitness/goal/edit/",
+    onSuccessFn: () => (skipSetupProfile ? skipSetupProfile() : null)
+  })
   const styles = StyleSheet.create({
     wrapper: {
       flex: 1,
@@ -42,7 +47,7 @@ const PhysiqueGoalSetup: React.FC = () => {
   });
 
   const selectGoal = (name: string) => {
-    setGoal(name);
+    setData({goal: name});
   };
 
   return (
@@ -57,16 +62,18 @@ const PhysiqueGoalSetup: React.FC = () => {
                 key={index}
                 heading={item.heading}
                 helperText={item.helperText}
-                isActive={goal === item.heading}
+                isActive={data.goal === item.heading}
               />
             ))}
           </View>
         </View>
         <View>
           <Button
-            onPress={() => {}}
+            onPress={() => mutate(data)}
             text="Done"
             buttonStyles={{ width: "100%" }}
+            loading={isPending}
+
           />
           <Button
             text="SET UP LATER IN PROFILE"

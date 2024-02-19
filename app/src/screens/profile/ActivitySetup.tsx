@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Screen from "../../components/common/Screen";
 import { Picker } from "@react-native-picker/picker";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -8,30 +8,32 @@ import ChevronRight from "../../icons/ChevronRight";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProfileSetupStackParamsList } from "../../Stacks/ProfileSetupStack";
 import { useAuth } from "../../contexts/AuthContext";
+import useActivitySetup from "../../hooks/useActivitySetup";
+import useProfileSetup from "../../hooks/useProfileSetup";
 const activityMap = [
   {
     label: "Sedentary",
-    value: "sedentary",
+    value: "Sedentary",
     helperText: "(little or no exercise)",
   },
   {
     label: "Lightly active",
-    value: "lightly",
+    value: "Light",
     helperText: "(light exercise/sports 1-3 days/week",
   },
   {
     label: "Moderate active",
-    value: "moderate",
+    value: "Moderate",
     helperText: "(moderate exercise/sports 3-5 days/week)",
   },
   {
     label: "Very active",
-    value: "very",
+    value: "Very",
     helperText: "(hard exercise/sports 6-7 days/week)",
   },
   {
     label: "Extreme active",
-    value: "super",
+    value: "Extreme",
     helperText: "(very hard exercise/sports & physical job)",
   },
 ];
@@ -41,7 +43,13 @@ interface ActivitySetupProps {
 }
 const ActivitySetup: React.FC<ActivitySetupProps> = ({ navigation }) => {
   const { colors } = useTheme();
-  const {skipSetupProfile} = useAuth()
+  const { skipSetupProfile } = useAuth();
+  const [data, setData] = useState<{ activity: string }>({ activity: "" });
+  // const {mutate, isPending} = useActivitySetup(() => navigation.navigate("PhysiqueGoalSetup"))
+  const { mutate, isPending } = useProfileSetup({
+    url: "health/fitness/activity/edit/",
+    onSuccessFn: () => navigation.navigate("PhysiqueGoalSetup"),
+  });
   const styles = StyleSheet.create({
     headingText: {
       fontSize: 20,
@@ -64,8 +72,10 @@ const ActivitySetup: React.FC<ActivitySetupProps> = ({ navigation }) => {
         </Text>
         <View style={styles.formWrapper}>
           <Picker
-            selectedValue={"java"}
-            onValueChange={(itemValue, itemIndex) => ({})}
+            selectedValue={data.activity}
+            onValueChange={(itemValue, itemIndex) =>
+              setData({ activity: itemValue })
+            }
             numberOfLines={2}
           >
             {activityMap.map((item, index) => (
@@ -84,7 +94,8 @@ const ActivitySetup: React.FC<ActivitySetupProps> = ({ navigation }) => {
             buttonStyles={{ width: "100%" }}
             text="Continue"
             rightIcon={<ChevronRight color={colors.white} size={18} />}
-            onPress={() => navigation.navigate("PhysiqueGoalSetup")}
+            onPress={() => mutate(data)}
+            loading={isPending}
           />
           <Button
             text="SET UP LATER IN PROFILE"
