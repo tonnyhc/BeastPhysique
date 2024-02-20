@@ -15,12 +15,12 @@ interface ButtonProps {
   testId?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
-  type?: "outlined" | "fill" | "text";
+  type?: "outlined" | "primary" | "text" | "secondary";
 }
 
 const generateBackgroundStyles = (
   colors: Colors,
-  type: "outlined" | "fill" | "text"
+  type: "outlined" | "primary" | "text" | "secondary"
 ) => {
   const styles = {
     outlined: {
@@ -33,8 +33,32 @@ const generateBackgroundStyles = (
       borderWidth: 0,
       borderColor: "transparent",
     },
-    fill: {
+    primary: {
       backgroundColor: colors.submitBtn,
+    },
+    secondary: {
+      backgroundColor: colors.btnSecondary,
+    },
+  };
+  return styles[type];
+};
+
+const generateTextStyles = (
+  colors: Colors,
+  type: "outlined" | "primary" | "text" | "secondary"
+) => {
+  const styles = {
+    outlined: {
+      color: colors.btnPrimary,
+    },
+    text: {
+      color: colors.btnPrimary,
+    },
+    primary: {
+      color: colors.white,
+    },
+    secondary: {
+      color: colors.secondaryBtnText,
     },
   };
   return styles[type];
@@ -55,7 +79,7 @@ const Button: React.FC<ButtonProps> = ({
   const { colors, shadows } = useTheme();
 
   const shadowStyle =
-    type == "fill"
+    type == "primary"
       ? Platform.select({
           ios: { ...shadows["24DP_Umbra"] },
           android: {
@@ -66,8 +90,9 @@ const Button: React.FC<ButtonProps> = ({
 
   const backgroundStyles = generateBackgroundStyles(
     colors,
-    type ? type : "fill"
+    type ? type : "primary"
   );
+  const textColor = generateTextStyles(colors, type ? type : "primary");
   const styles = StyleSheet.create({
     submitBtn: {
       flexDirection: "row",
@@ -77,7 +102,8 @@ const Button: React.FC<ButtonProps> = ({
       alignItems: "center",
       justifyContent: "center",
       alignSelf: "center",
-      borderRadius: 24,
+      // borderRadius: 24,
+      borderRadius: 12,
       height: 40,
       opacity: disabled ? 0.5 : 1,
       ...backgroundStyles,
@@ -85,33 +111,31 @@ const Button: React.FC<ButtonProps> = ({
       ...buttonStyles,
     },
     submitBtnText: {
-      color:
-        type !== "outlined" && type !== "text"
-          ? colors.white
-          : colors.submitBtn,
       fontWeight: "normal",
-      fontFamily: "RobotoRegular",
+      fontFamily: "RobotoBold",
+      letterSpacing: 0.21,
+      lineHeight: 21,
       ...textStyles,
+      ...textColor,
     },
   });
-  return (
-    <View>
-      <TouchableOpacity
-        testID={testId}
-        disabled={disabled}
-        onPress={onPress}
-        style={styles.submitBtn}
-      >
-        {loading ? (
-          <ActivityIndicator testID="loadingIndicator" />
-        ) : leftIcon ? (
-          leftIcon
-        ) : null}
 
-        <Text style={styles.submitBtnText}>{text}</Text>
-        {rightIcon ? rightIcon : null}
-      </TouchableOpacity>
-    </View>
+  return (
+    <TouchableOpacity
+      testID={testId}
+      disabled={disabled}
+      onPress={onPress}
+      style={styles.submitBtn}
+    >
+      {loading ? (
+        <ActivityIndicator testID="loadingIndicator" />
+      ) : leftIcon ? (
+        leftIcon
+      ) : null}
+
+      <Text style={styles.submitBtnText}>{text}</Text>
+      {rightIcon ? rightIcon : null}
+    </TouchableOpacity>
   );
 };
 
