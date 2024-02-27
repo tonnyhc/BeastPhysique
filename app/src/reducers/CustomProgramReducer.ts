@@ -160,7 +160,7 @@ function handleChangeWorkoutName(
   // Update the specific workout's name
   updatedWorkouts[index] = {
     ...updatedWorkouts[index],
-    workoutName: name,
+    name: name,
   };
 
   return {
@@ -170,22 +170,29 @@ function handleChangeWorkoutName(
 }
 
 // Workouts functionality
-function handleAddWorkout(state: ProgramState, action: Action): ProgramState {
+function handleAddWorkout(state: ProgramState): ProgramState {
   return {
     ...state,
     workouts: [...state.workouts, emptyWorkout],
   };
 }
-function handleDeleteWorkout(state: ProgramState, action :Action): ProgramState{
+function handleDeleteWorkout(
+  state: ProgramState,
+  action: Action
+): ProgramState {
   const workoutIndex = action.payload;
   const updatedWorkouts = [...state.workouts];
-  if (workoutIndex >= 0 && workoutIndex < updatedWorkouts.length && updatedWorkouts.length > 1) {
+  if (
+    workoutIndex >= 0 &&
+    workoutIndex < updatedWorkouts.length &&
+    updatedWorkouts.length > 1
+  ) {
     updatedWorkouts.splice(workoutIndex, 1);
   }
   return {
     ...state,
-    workouts: [...updatedWorkouts]
-  }
+    workouts: [...updatedWorkouts],
+  };
 }
 
 // Exercise functionality

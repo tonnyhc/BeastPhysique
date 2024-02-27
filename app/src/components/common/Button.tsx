@@ -26,7 +26,7 @@ const generateBackgroundStyles = (
     outlined: {
       backgroundColor: colors.bg,
       borderWidth: 1,
-      borderColor: colors.submitBtn,
+      borderColor: colors.btnPrimary,
     },
     text: {
       backgroundColor: "transparent",
@@ -34,7 +34,7 @@ const generateBackgroundStyles = (
       borderColor: "transparent",
     },
     primary: {
-      backgroundColor: colors.submitBtn,
+      backgroundColor: colors.btnPrimary,
     },
     secondary: {
       backgroundColor: colors.btnSecondary,
@@ -45,7 +45,7 @@ const generateBackgroundStyles = (
 
 const generateTextStyles = (
   colors: Colors,
-  type: "outlined" | "primary" | "text" | "secondary"
+  type: "outlined" | "primary" | "text" | "secondary" 
 ) => {
   const styles = {
     outlined: {
@@ -62,6 +62,31 @@ const generateTextStyles = (
     },
   };
   return styles[type];
+};
+
+const generatePaddingStyles = (
+  type: "outlined" | "primary" | "text" | "secondary",
+  leftIcon?: ReactNode,
+  rightIcon?: ReactNode
+) => {
+  let styles = {
+    paddingLeft: 24,
+    paddingRight: 24,
+  };
+  if (type === "text") {
+    styles = {
+      paddingLeft: 0,
+      paddingRight: 0,
+    };
+  }
+  if (leftIcon) {
+    styles.paddingLeft = 16;
+  }
+  if (rightIcon) {
+    styles.paddingLeft = 16;
+  }
+
+  return styles;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -93,12 +118,18 @@ const Button: React.FC<ButtonProps> = ({
     type ? type : "primary"
   );
   const textColor = generateTextStyles(colors, type ? type : "primary");
+  const paddingStyles = generatePaddingStyles(
+    type ? type : "primary",
+    leftIcon,
+    rightIcon
+  );
   const styles = StyleSheet.create({
     submitBtn: {
       flexDirection: "row",
       gap: 8,
-      paddingLeft: leftIcon ? 16 : 24,
-      paddingRight: rightIcon ? 16 : 24,
+      // paddingLeft: leftIcon ? 16 : 24,
+      // paddingRight: rightIcon ? 16 : 24,
+      ...paddingStyles,
       alignItems: "center",
       justifyContent: "center",
       alignSelf: "center",
@@ -111,6 +142,7 @@ const Button: React.FC<ButtonProps> = ({
       ...buttonStyles,
     },
     submitBtnText: {
+      fontSize: 16,
       fontWeight: "normal",
       fontFamily: "RobotoBold",
       letterSpacing: 0.21,

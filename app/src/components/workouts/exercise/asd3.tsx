@@ -12,7 +12,6 @@ import { ExerciseSet } from "../../../ts/types";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useCustomWorkoutPlan } from "../../../contexts/CustomWorkoutPlanContext";
 import { Swipeable } from "react-native-gesture-handler";
-import { FontAwesome } from "@expo/vector-icons";
 
 interface SetSwipeableCardProps {
   set: ExerciseSet;
@@ -56,37 +55,9 @@ const SetSwipeableCard: React.FC<SetSwipeableCardProps> = ({
       color: colors.helperText,
     },
   });
-  const handleDelete = () => {
-    dispatch({
-      type: "removeSetFromExercise",
-      payload: {
-        exerciseIndex,
-        setIndex,
-        workoutIndex,
-      },
-    });
-  };
 
-  const renderRightActions = () => {
-    return (
-      <TouchableOpacity
-        style={{ height: "100%", justifyContent: "flex-end" }}
-        onPress={handleDelete}
-      >
-        <Animated.View
-          style={{
-            backgroundColor: colors.error,
-            justifyContent: "center",
-            height: "50%",
-            alignItems: "center",
-            marginBottom: 16,
-          }}
-        >
-          <FontAwesome name="trash" size={20} color={colors.white} />
-        </Animated.View>
-      </TouchableOpacity>
-    );
-  };
+
+
 
   return (
     <Swipeable

@@ -34,8 +34,10 @@ const Layout: React.FC = () => {
     ArimaRegular: require("./assets/fonts/arima/Arima-Regular.ttf"),
     RobotoRegular: require("./assets/fonts/roboto/Roboto-Regular.ttf"),
     RobotoBold: require("./assets/fonts/roboto/Roboto-Bold.ttf"),
+    RobotoMedium: require("./assets/fonts/roboto/Roboto-Medium.ttf"),
     RobotoSlabRegular: require("./assets/fonts/roboto-slab/RobotoSlab-Regular.ttf"),
     RobotoSlabBold: require("./assets/fonts/roboto-slab/RobotoSlab-Bold.ttf"),
+    
   });
 
   const onLayoutRootView = useCallback(async () => {

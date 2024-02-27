@@ -6,7 +6,7 @@ import ReusableInput from "../../components/common/ReusableInput";
 import { FlatList, View, Text } from "react-native";
 import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 import SubmitButton from "../../components/common/Button";
-import ExerciseCreationCard from "../../components/workouts/exercise/ExerciseCreationCard";
+import ExerciseCreationCard from "../../components/workouts/exercise/asd";
 import { emptyExercise, emptySet } from "../../utils/mapData";
 import TrashIcon from "../../icons/TrashIcon";
 import { TouchableOpacity } from "react-native-gesture-handler";

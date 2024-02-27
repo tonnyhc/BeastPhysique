@@ -13,8 +13,15 @@ import { Exercise } from "../../../ts/types";
 import SubmitButton from "../../common/Button";
 import { useCustomWorkoutPlan } from "../../../contexts/CustomWorkoutPlanContext";
 import { useNavigation } from "@react-navigation/native";
+import { ScrollView } from "react-native-gesture-handler";
 
-const ExerciseSearchModal: React.FC = () => {
+interface ExerciseSearchModalProps {
+  route: { params: { workoutIndex: number } };
+}
+
+const ExerciseSearchModal: React.FC<ExerciseSearchModalProps> = ({
+  route
+}) => {
   const { colors } = useTheme();
   const { dispatch } = useCustomWorkoutPlan();
   const [searchValue, setSearchValue] = useState<string>("");
@@ -43,68 +50,67 @@ const ExerciseSearchModal: React.FC = () => {
     }
   };
   const addExercisesToState = () => {
+    const workoutIndex = route.params.workoutIndex
     dispatch({
       type: "addExerciseToWorkout",
       payload: {
-        workoutIndex: 0,
+        workoutIndex: workoutIndex,
         exercises: selectedExercises,
       },
     });
     navigation.goBack();
   };
 
+  const FlatListHeader = () => {
+    return (
+      <>
+        <ReusableInput
+          value={searchValue}
+          onChange={(value: string) => setSearchValue(value)}
+          placeholder="Exercise name"
+          leftIcon={
+            <MaterialCommunityIcons
+              name="magnify"
+              size={18}
+              color={colors.primaryText}
+            />
+          }
+        />
+        {data && (
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 12,
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ flexDirection: "row", gap: 12 }}>
+              <Chip
+                text="Exercises"
+                isActive={filter === "exercises"}
+                onPress={() => setFilter("exercises")}
+              />
+              <Chip
+                text="My exercises"
+                isActive={filter === "myExercises"}
+                onPress={() => setFilter("myExercises")}
+              />
+            </View>
+          </View>
+        )}
+      </>
+    );
+  };
+
   const exercisesForFlatList =
     filter === "exercises" ? data?.exercises : data?.exercises_by_user;
+
   return (
-    <Screen>
-      <Text
-        style={{ fontSize: 26, textAlign: "center", color: colors.primaryText }}
-      >
-        Search exercise
-      </Text>
-      <ReusableInput
-        value={searchValue}
-        onChange={(value: string) => setSearchValue(value)}
-        placeholder="Exercise name"
-        leftIcon={
-          <MaterialCommunityIcons
-            name="magnify"
-            size={18}
-            color={colors.primaryText}
-          />
-        }
-      />
-      {data && (
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 12,
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", gap: 12 }}>
-            <Chip
-              text="Exercises"
-              isActive={filter === "exercises"}
-              onPress={() => setFilter("exercises")}
-            />
-            <Chip
-              text="My exercises"
-              isActive={filter === "myExercises"}
-              onPress={() => setFilter("myExercises")}
-            />
-          </View>
-          <View>
-            <SubmitButton
-              onPress={() => addExercisesToState()}
-              text={`Select ${selectedExercises.length}`}
-            />
-          </View>
-        </View>
-      )}
+    <View style={{ paddingHorizontal: 10, backgroundColor: colors.bg }}>
       {isPending && <ActivityIndicator />}
       <FlatList
-        contentContainerStyle={{ marginTop: 24, gap: 14 }}
+        ListHeaderComponent={() => <FlatListHeader />}
+        contentContainerStyle={{ gap: 14 }}
         keyExtractor={(item) => item.id.toString()}
         key={"exercisesSearchList"}
         data={exercisesForFlatList}
@@ -117,7 +123,13 @@ const ExerciseSearchModal: React.FC = () => {
           />
         )}
       />
-    </Screen>
+      <View style={{ position: "absolute", bottom: 20, left: 0, right: 0 }}>
+        <SubmitButton
+          onPress={() => addExercisesToState()}
+          text={`Select ${selectedExercises.length}`}
+        />
+      </View>
+    </View>
   );
 };
 

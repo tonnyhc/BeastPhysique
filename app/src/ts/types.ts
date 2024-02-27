@@ -115,6 +115,8 @@ export type ExerciseSearchResponse = {
   exercises: ExerciseSearch[];
 };
 
+
+
 // Workouts
 export type Workout = {
   id: string | number;
@@ -153,4 +155,15 @@ export type ProfileDataForSetup = {
   full_name: string;
   birthday: Date;
   gender: string;
+};
+
+export type ProfilePropertyCardProps = {
+  icon: ReactNode;
+  heading: string;
+  description: string;
+};
+
+export type PropertySection = {
+  title: string;
+  cards: ProfilePropertyCardProps[];
 };

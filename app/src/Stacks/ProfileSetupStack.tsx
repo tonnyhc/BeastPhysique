@@ -61,7 +61,7 @@ const ProfileSetupStackScreen: React.FC = () => {
               />
             );
           } else {
-            return null
+            return null;
           }
         },
       })}

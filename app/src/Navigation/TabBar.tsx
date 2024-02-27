@@ -11,6 +11,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import WorkoutsStackScreen from "../Stacks/WorkoutsStack";
 import BarbellIcon from "../icons/BarbellIcon";
 import ProfileIcon from "../icons/ProfileIcon";
+import ProfileStackScreen from "../Stacks/ProfileStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,9 +24,14 @@ const TabBar = () => {
         tabBarStyle: {
           backgroundColor: colors.bg,
         },
+        tabBarLabelStyle: {
+          fontFamily: "RobotoSlabRegular",
+          // TODO: When is active make the font "RobotoSlabBold"
+        },
+
         headerShown: false,
-        tabBarActiveTintColor: "#00BDD6FF",
         tabBarInactiveTintColor: "#565E6CFF",
+        tabBarActiveTintColor: colors.submitBtn,
       })}
     >
       <Tab.Screen
@@ -61,17 +67,17 @@ const TabBar = () => {
           tabBarLabel: "Workouts",
           tabBarIcon: ({ color, size }) => (
             // <MaterialIcons name="fitness-center" size={size} color={color} />
-            <BarbellIcon size={size + 10} color={color}/>
+            <BarbellIcon size={size + 10} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Dashboard}
+        name="ProfileStack"
+        component={ProfileStackScreen}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <ProfileIcon color={color} size={size}/>
+            <ProfileIcon color={color} size={size} />
           ),
         }}
       />

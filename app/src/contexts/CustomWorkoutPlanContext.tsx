@@ -12,7 +12,6 @@ import CustomProgramReducer, {
 } from "../reducers/CustomProgramReducer";
 import useApi from "../hooks/useApi";
 import { useAuth } from "./AuthContext";
-import { emptySet } from "../utils/mapData";
 
 interface CreateCustomWorkoutPlanContextProps {
   workoutPlan: ProgramState;
@@ -22,17 +21,7 @@ interface CreateCustomWorkoutPlanContextProps {
 
 const defaultWorkoutPlanState: ProgramState = {
   planName: "",
-  workouts: [
-    {
-      workoutName: "",
-      exercises: [
-        {
-          name: "",
-          sets: [emptySet]
-        },
-      ],
-    },
-  ],
+  workouts: [],
 };
 
 export const CreateCustomWorkoutPlanContext =

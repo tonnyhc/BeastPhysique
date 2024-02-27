@@ -1,10 +1,10 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  StackNavigationProp,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import Workouts from "../screens/workout-plans/Workouts";
 import CreateCustomWorkoutPlan from "../screens/workout-plans/CreateCustomWorkoutPlan";
-import LogoIcon from "../components/header/LogoIcon";
-import DrawerMenuIcon from "../components/header/DrawerMenuIcon";
 import CreateCustomWorkoutPlanProvider from "../contexts/CustomWorkoutPlanContext";
-import CreateWorkoutsForPlan from "../screens/workouts/CreateWorkoutsForPlan";
 import WorkoutSelection from "../screens/workouts/WorkoutSelection";
 import ExerciseSearchModal from "../components/workouts/exercise/ExerciseSearchModal";
 import { useTheme } from "../contexts/ThemeContext";
@@ -12,17 +12,26 @@ import ExerciseCreationModal from "../screens/workouts/ExerciseCreationModal";
 import WorkoutDetails from "../screens/workouts/WorkoutDetails";
 import WorkoutPlanDetails from "../screens/workout-plans/WorkoutPlanDetails";
 import ExerciseSessionEditModal from "../screens/workouts/ExerciseSessionEditModal";
-import { ExerciseSession } from "../ts/types";
+import { ExerciseSession, Workout } from "../ts/types";
 import ExerciseSessionProgressModal from "../screens/workouts/ExerciseSessionProgressModal";
+import CloseIcon from "../icons/CloseIcon";
+import Button from "../components/common/Button";
+import BackButton from "../components/common/BackButton";
+import CreateCustomWorkout from "../screens/workouts/CreateCustomWorkout";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
   WorkoutPlanDetails: { planId: string | number };
-  WorkoutDetails: { workoutSessionId: string | number };
+  WorkoutDetails: { workoutSessionId: number };
   CreateWorkoutPlan: undefined;
-  CreateWorkoutsForPlan: undefined;
+  CreateCustomWorkout: {
+    workoutIndex: string | number;
+  };
+  // CreateWorkoutsForPlan: undefined;
   WorkoutSearch: undefined;
-  ExerciseSearchModal: undefined;
+  ExerciseSearchModal: {
+    workoutIndex: number;
+  };
   CreateCustomExercise: undefined;
   EditExerciseSession: { exerciseSession: ExerciseSession };
   ExerciseProgress: undefined;
@@ -38,8 +47,9 @@ const WorkoutsStackScreen: React.FC = () => {
         screenOptions={{
           headerShown: true,
           headerTitle: "",
-          headerRight: (props) => <LogoIcon />,
-          headerLeft: (props) => <DrawerMenuIcon />,
+          headerTitleStyle: {
+            color: colors.helperText,
+          },
           headerStyle: {
             elevation: 0,
             shadowOpacity: 0,
@@ -47,7 +57,7 @@ const WorkoutsStackScreen: React.FC = () => {
             backgroundColor: colors.bg,
           },
         }}
-        // initialRouteName="WorkoutPlanDetails"
+        initialRouteName="CreateWorkoutPlan"
       >
         <WorkoutsStack.Group>
           <WorkoutsStack.Screen name="WorkoutPlans" component={Workouts} />
@@ -59,28 +69,88 @@ const WorkoutsStackScreen: React.FC = () => {
             name="WorkoutDetails"
             component={WorkoutDetails}
           />
+          {/* CREATE */}
           <WorkoutsStack.Screen
             name="CreateWorkoutPlan"
             component={CreateCustomWorkoutPlan}
-          />
-          <WorkoutsStack.Screen
-            name="CreateWorkoutsForPlan"
-            component={CreateWorkoutsForPlan}
+            options={{
+              headerLeft: (props) => (
+                <Button
+                  type="text"
+                  text=""
+                  onPress={() => {}}
+                  leftIcon={<CloseIcon size={24} color={colors.helperText} />}
+                />
+              ),
+              headerTitle: "Create Workout Plan",
+            }}
           />
           <WorkoutsStack.Screen
             name="WorkoutSearch"
             component={WorkoutSelection}
-            options={{ presentation: "modal", headerShown: false }}
+            options={{
+              headerShown: true,
+              headerLeft: (props) => <BackButton onPress={() => {}} />,
+              headerLeftContainerStyle: {
+                paddingLeft: 10,
+              },
+
+              headerTitle: "Workout search",
+            }}
           />
+          <WorkoutsStack.Screen
+            name="CreateCustomWorkout"
+            component={CreateCustomWorkout}
+            options={{
+              headerTitle: "Create workout",
+              headerLeft: (props) => <BackButton onPress={() => {}} />,
+              headerLeftContainerStyle: {
+                paddingLeft: 10,
+              },
+            }}
+          />
+
           <WorkoutsStack.Screen
             name="ExerciseSearchModal"
             component={ExerciseSearchModal}
-            options={{ presentation: "modal", headerShown: false }}
+            options={({ navigation }) => ({
+              presentation: "modal",
+              headerShown: true,
+              headerTitle: "Search exercise",
+              headerLeft: (props) => (
+                <Button
+                  type="text"
+                  text=""
+                  onPress={() => navigation.goBack()}
+                  leftIcon={<CloseIcon size={24} color={colors.helperText} />}
+                />
+              ),
+
+              headerRight: (props) => (
+                <Button
+                  onPress={() => navigation.navigate("CreateCustomExercise")}
+                  text="Create exercise"
+                  type="text"
+                />
+              ),
+            })}
           />
           <WorkoutsStack.Screen
             name="CreateCustomExercise"
             component={ExerciseCreationModal}
-            options={{ presentation: "modal", headerShown: false }}
+            options={({ navigation }) => ({
+              presentation: "modal",
+              headerShown: true,
+              headerTitle: "Create exercise",
+              headerLeft: (props) => (
+                <Button
+                  type="text"
+                  text=""
+                  onPress={() => navigation.goBack()}
+                  leftIcon={<CloseIcon size={24} color={colors.helperText} />}
+                />
+              ),
+            })}
           />
           <WorkoutsStack.Screen
             name="EditExerciseSession"

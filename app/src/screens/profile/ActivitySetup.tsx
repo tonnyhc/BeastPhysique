@@ -45,7 +45,6 @@ const ActivitySetup: React.FC<ActivitySetupProps> = ({ navigation }) => {
   const { colors } = useTheme();
   const { skipSetupProfile } = useAuth();
   const [data, setData] = useState<{ activity: string }>({ activity: "" });
-  // const {mutate, isPending} = useActivitySetup(() => navigation.navigate("PhysiqueGoalSetup"))
   const { mutate, isPending } = useProfileSetup({
     url: "health/fitness/activity/edit/",
     onSuccessFn: () => navigation.navigate("PhysiqueGoalSetup"),
