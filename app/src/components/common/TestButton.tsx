@@ -1,14 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { ReactNode } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Colors } from "../../utils/colors";
-
-type ButtonType = {
-  primary: string;
-  outlined: string;
-  text: string;
-};
 
 interface ButtonProps {
   onPress: () => void;
@@ -17,6 +11,7 @@ interface ButtonProps {
   disabled?: boolean;
   icon?: ReactNode;
   type?: "primary" | "outlined" | "text";
+  loading?: boolean;
 }
 
 const generateBackgroundStyles = (
@@ -48,7 +43,7 @@ const generateTextColors = (
       color: disabled ? colors.helperText : colors.white,
     },
     outlined: {
-      color: disabled ? colors.helperText : colors.button,
+      color: disabled ? colors.helperText : colors.outlinedButtonText,
     },
     text: {
       color: disabled ? colors.helperText : colors.button,
@@ -64,6 +59,7 @@ const TestButton: React.FC<ButtonProps> = ({
   icon,
   onPress,
   type = "primary",
+  loading,
 }) => {
   const { colors } = useTheme();
 
@@ -110,6 +106,7 @@ const TestButton: React.FC<ButtonProps> = ({
       testID={testId}
       onPress={onPress}
     >
+      {loading ? <ActivityIndicator testID="loadingIndicator" /> : null}
       <View style={styles.textIconWrapper}>
         <Text style={styles.text}>{text}</Text>
         {icon}

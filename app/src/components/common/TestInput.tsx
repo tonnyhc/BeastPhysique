@@ -45,6 +45,9 @@ const TestInput: React.FC<ReusableInputProps> = ({
   const [emailError, setEmailError] = useState<boolean>(false);
 
   useEffect(() => {
+    if (value === ''){
+      return setEmailError(false)
+    }
     if (inputMode !== "email") {
       return;
     }
@@ -134,12 +137,14 @@ const TestInput: React.FC<ReusableInputProps> = ({
           </TouchableWithoutFeedback>
         )}
       </View>
-      <View style={styles.helperRow}>
-        <Text style={styles.helpText}>
-          {emailError ? "Please enter a valid email!" : helperTextLeft}
-        </Text>
-        <Text style={styles.helpText}>{helperTextRight}</Text>
-      </View>
+      {helperTextLeft || helperTextRight || emailError ? (
+        <View style={styles.helperRow}>
+          <Text style={styles.helpText}>
+            {emailError ? "Please enter a valid email!" : helperTextLeft}
+          </Text>
+          <Text style={styles.helpText}>{helperTextRight}</Text>
+        </View>
+      ) : null}
     </View>
   );
 };
