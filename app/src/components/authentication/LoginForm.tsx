@@ -42,7 +42,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   const styles = StyleSheet.create({
     form: {
-      marginTop: keyboard ? 10 : 50,
+      flex: 1,
       justifyContent: "space-between",
     },
     inputWrapper: {
@@ -59,7 +59,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   });
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <View style={styles.form}>
         <Text
           style={{
@@ -71,9 +71,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         >
           {loginError}
         </Text>
-        <View
-          style={{ gap: keyboard ? 10 : 20, marginBottom: keyboard ? 10 : 50 }}
-        >
+        <View style={{ gap: 20 }}>
           <TestInput
             inputMode="email"
             label="Email"
@@ -101,19 +99,20 @@ const LoginForm: React.FC<LoginFormProps> = ({
             />
           </View>
         </View>
-
-        <Button
-          disabled={disabledSubmit}
-          type="primary"
-          text="Login"
-          onPress={() => onLogin(data)}
-          loading={isPending}
-        />
-        <Button
-          type="text"
-          text="Dont have an account?"
-          onPress={() => navigation.navigate("Register")}
-        />
+        <View style={{marginBottom: 20}}>
+          <Button
+            disabled={disabledSubmit}
+            type="primary"
+            text="Login"
+            onPress={() => onLogin(data)}
+            loading={isPending}
+          />
+          <Button
+            type="text"
+            text="Dont have an account?"
+            onPress={() => navigation.navigate("Register")}
+          />
+        </View>
       </View>
     </View>
   );

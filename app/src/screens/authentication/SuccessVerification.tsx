@@ -3,15 +3,15 @@ import React from "react";
 import Screen from "../../components/common/Screen";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "../../contexts/ThemeContext";
-import SubmitButton from "../../components/common/Button";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../Stacks/AuthStack";
+import Button from "../../components/common/Button";
 
-interface SuccessVerificationProps {
+interface SuccessPasswordResetProps {
   navigation: StackNavigationProp<AuthStackParamList>;
 }
 
-const SuccessVerification: React.FC<SuccessVerificationProps> = ({
+const SuccessPasswordReset: React.FC<SuccessPasswordResetProps> = ({
   navigation,
 }) => {
   const { colors } = useTheme();
@@ -19,17 +19,17 @@ const SuccessVerification: React.FC<SuccessVerificationProps> = ({
     done: {
       width: 110,
       height: 110,
-      backgroundColor: colors.submitBtn,
+      backgroundColor: colors.button,
       borderRadius: 100,
       justifyContent: "center",
       alignItems: "center",
-      shadowColor: colors.submitBtn,
+      shadowColor: colors.button,
       shadowOffset: { width: 0, height: 0 },
       shadowOpacity: 30,
-      shadowRadius: 15,
+      shadowRadius: 5,
     },
     successText: {
-      color: colors.submitBtn,
+      color: colors.button,
       fontSize: 30,
       marginTop: 30,
       fontWeight: "600",
@@ -44,7 +44,7 @@ const SuccessVerification: React.FC<SuccessVerificationProps> = ({
 
   return (
     <Screen>
-      <View style={{ flex: 1, marginTop: 80 }}>
+      <View style={{ flex: 1, marginTop: 80, justifyContent: 'space-between' }}>
         <View style={{ alignItems: "center", marginBottom: 80 }}>
           <View style={styles.done}>
             <MaterialIcons name="done" size={80} color={colors.white} />
@@ -54,14 +54,17 @@ const SuccessVerification: React.FC<SuccessVerificationProps> = ({
             Your password have been reset successfully!
           </Text>
         </View>
+        <View style={{marginBottom: 20}}>
 
-        <SubmitButton
-          text="Done"
+        <Button
+          text="Continue"
           onPress={() => navigation.navigate("Login")}
         />
+        </View>
+
       </View>
     </Screen>
   );
 };
 
-export default SuccessVerification;
+export default SuccessPasswordReset;

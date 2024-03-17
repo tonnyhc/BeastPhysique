@@ -18,6 +18,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import BackButton from "../components/common/BackButton";
 import AuthStackHeader from "../components/authentication/AuthStackHeader";
 import Onboarding from "../screens/authentication/Onboarding";
+import SuccessPasswordReset from "../screens/authentication/SuccessVerification";
 
 export type AuthStackParamList = {
   Welcome: undefined;
@@ -90,7 +91,7 @@ const AuthStackScreen: React.FC = () => {
           <AuthStack.Screen name="ResetPassword" component={ResetPassword} />
           <AuthStack.Screen
             name="SuccessPasswordReset"
-            component={SuccessVerification}
+            component={SuccessPasswordReset}
           />
         </AuthStack.Group>
       </AuthStack.Navigator>

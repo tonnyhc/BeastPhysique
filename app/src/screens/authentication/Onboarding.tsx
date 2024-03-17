@@ -12,6 +12,7 @@ import Button from "../../components/common/Button";
 const Onboarding: React.FC = () => {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
+  const videoUrl = require('../../../assets/videos/onboarding-video.mp4')
   const navigation = useNavigation<StackNavigationProp<AuthStackParamList>>();
   const { colors } = useTheme();
 
@@ -71,9 +72,11 @@ const Onboarding: React.FC = () => {
           <Video
             ref={video}
             style={{ flex: 1 }}
-            source={{
-              uri: "https://static.vecteezy.com/system/resources/previews/033/025/828/mp4/ripped-african-male-bodybuilder-smiling-to-the-camera-after-lifting-barbell-video.mp4",
-            }}
+            // source={{
+            //   uri: "https://static.vecteezy.com/system/resources/previews/033/025/828/mp4/ripped-african-male-bodybuilder-smiling-to-the-camera-after-lifting-barbell-video.mp4",
+            // }}
+            source={videoUrl}
+            isMuted={true}
             useNativeControls={false}
             resizeMode={ResizeMode.COVER}
             isLooping

@@ -30,7 +30,6 @@ const AuthStackHeader: React.FC<AuthStackHeaderProps> = ({
       <View
         style={{
           alignItems: "center",
-          // marginBottom: 20,
           backgroundColor: "rgba(0,0,0,0.3)",
           flex: 1,
           justifyContent: "flex-end",

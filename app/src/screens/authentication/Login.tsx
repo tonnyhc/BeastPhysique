@@ -63,7 +63,7 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1, backgroundColor: "#1C1C1E" }}
     >
-      <AuthStackHeader decreaseOnKeyboard={true} decreasedHeight={140} />
+      <AuthStackHeader/>
       <Screen closeKeyboardOnClick={true}>
         <View style={styles.section}>
           <View style={{ gap: 10 }}>

@@ -37,7 +37,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
   const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
   const { mutate, isPending } = useMutation({
     mutationFn: resetPassword,
-    onSuccess: () => navigation.navigate("Login"),
+    onSuccess: () => navigation.navigate("SuccessPasswordReset"),
     onError: (error: string) => setError(error),
   });
 
