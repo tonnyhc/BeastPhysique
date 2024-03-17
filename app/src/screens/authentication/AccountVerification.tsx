@@ -1,16 +1,15 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet, Keyboard } from "react-native";
 import Screen from "../../components/common/Screen";
 import React, { useEffect, useState } from "react";
-import UpperLogoWrapper from "../../components/common/UpperLogoWrapper";
 import { useTheme } from "../../contexts/ThemeContext";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useAuth } from "../../contexts/AuthContext";
 import { useMutation } from "@tanstack/react-query";
 import { ActivityIndicator } from "react-native-paper";
+import Button from "../../components/common/Button";
 
 const AccountVerification: React.FC = () => {
-  const { colors } = useTheme();
+  const { colors, theme } = useTheme();
   const [code, setCode] = useState<string>("");
   const { onConfirmAccount, email, onResendVerificationCode } = useAuth();
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
@@ -60,46 +59,48 @@ const AccountVerification: React.FC = () => {
     }
   };
 
+  const styles = StyleSheet.create({
+    heading: {
+      fontFamily: "IntegralRegular",
+      fontSize: 24,
+      color: colors.primaryText,
+    },
+    helperText: {
+      fontSize: 14,
+      fontFamily: "RobotoRegular",
+      color: colors.helperText,
+    },
+  });
+
   return (
     <Screen>
-      <UpperLogoWrapper />
-      <View style={{ flex: 1, marginTop: 100, alignItems: "center" }}>
-        <View>
-          <Text
-            style={{
-              fontSize: 18,
-              color: colors.primaryText,
-              textAlign: "center",
-            }}
-          >
+      <View style={{ flex: 1, marginTop: 15, paddingHorizontal: 20 }}>
+        <View style={{ marginTop: 0 }}>
+          <Text style={styles.helperText}>
             Enter the verification code we sent to email:{" "}
           </Text>
-          <Text
-            style={{
-              color: colors.secondaryText,
-              textAlign: "center",
-            }}
-          >
-            {email}
-          </Text>
+          <Text style={styles.helperText}>{email}</Text>
         </View>
         <View>
           <OTPInputView
             pinCount={5}
             code={code}
+            keyboardAppearance={theme as 'light' || 'dark'}
+            codeInputHighlightStyle={{
+              borderBottomColor: colors.button,
+            }}
             onCodeChanged={(code) => {
               setCode(code);
             }}
             codeInputFieldStyle={{
               borderWidth: 0,
               color: colors.primaryText,
-              borderBottomWidth: 1,
+              borderBottomWidth: 2,
             }}
             onCodeFilled={(code) => {
               mutate(code);
             }}
             style={{
-              marginLeft: 25,
               width: "100%",
               height: 200,
               justifyContent: "center",
@@ -117,23 +118,21 @@ const AccountVerification: React.FC = () => {
               justifyContent: "center",
             }}
           >
-            <Text style={{ fontSize: 18, color: colors.secondaryText }}>
-              {isTimerRunning
-                ? `You can send another code in ${timer}s`
-                : `Did not get the code? `}
+            <Text style={{ fontSize: 18, color: colors.helperText }}>
+              {isTimerRunning ? (
+                <Text style={{ color: colors.button }}>
+                  You can send another code in {timer}s
+                </Text>
+              ) : (
+                `Did not get the code? `
+              )}
             </Text>
             {!isTimerRunning && (
-              <TouchableOpacity onPress={() => handleResentCode()}>
-                <Text
-                  style={{
-                    color: colors.blueText,
-                    fontSize: 16,
-                    fontWeight: "600",
-                  }}
-                >
-                  Resend code
-                </Text>
-              </TouchableOpacity>
+              <Button
+                type="text"
+                text="Resend code"
+                onPress={() => handleResentCode()}
+              />
             )}
           </View>
         )}

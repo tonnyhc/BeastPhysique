@@ -1,14 +1,21 @@
 import { StyleSheet, Text, View, Modal, Pressable, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ReusableInput from "./ReusableInput";
 
 interface ReusableModalProps {
   visible: boolean;
   closeFn: () => void;
+  children: ReactNode;
+  title?: string;
 }
 
-const ReusableModal: React.FC<ReusableModalProps> = ({ visible, closeFn }) => {
+const ReusableModal: React.FC<ReusableModalProps> = ({
+  visible,
+  closeFn,
+  children,
+  title,
+}) => {
   const styles = StyleSheet.create({
     centeredView: {
       position: "absolute",
@@ -58,8 +65,8 @@ const ReusableModal: React.FC<ReusableModalProps> = ({ visible, closeFn }) => {
     },
 
     title: {
-      fontFamily: "RobotoSlabBold",
-      fontSize: 28,
+      fontFamily: "RobotoMedium",
+      fontSize: 22,
     },
     modalBody: {},
     overlay: {
@@ -89,13 +96,8 @@ const ReusableModal: React.FC<ReusableModalProps> = ({ visible, closeFn }) => {
         <Pressable onPress={() => closeFn()} style={styles.overlay}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.title}>Measures</Text>
-              <View style={styles.modalBody}>
-                <View>
-                    <Text>Height</Text>
-                    <ReusableInput placeholder="Height"/>
-                </View>
-              </View>
+              {title ? <Text style={styles.title}>{title}</Text> : null}
+              <View style={styles.modalBody}>{children}</View>
             </View>
           </View>
         </Pressable>

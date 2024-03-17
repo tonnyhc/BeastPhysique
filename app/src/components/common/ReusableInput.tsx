@@ -27,6 +27,7 @@ interface ReusableInputProps {
   styles?: {
     wrapper: ViewStyle;
   };
+  type?: "underline" | "fill";
 }
 
 const ReusableInput: React.FC<ReusableInputProps> = ({
@@ -44,6 +45,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
   multiline,
   numberOfLines,
   maxLenght,
+  type = "fill",
 }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const { colors } = useTheme();
@@ -51,14 +53,14 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
   const stlyes = StyleSheet.create({
     wrapper: {
       // minHeight: 80,
-      minHeight: 55, 
+      minHeight: 48,
       height: multiline ? 150 : "auto",
       ...styles?.wrapper,
     },
     labelText: {
       fontSize: 12,
-      fontWeight: "700",
-      fontFamily: "Acme",
+      // fontWeight: "700",
+      fontFamily: "RobotoMedium",
       marginBottom: 12,
       color: colors.primaryText,
     },
@@ -66,9 +68,10 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       flex: 1,
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor: colors.inputBg,
+      // backgroundColor: type == "underline" ? "transparent" : colors.inputBg,
+      // backgroundColor: '#8A8A8A',
       minHeight: 45,
-      borderRadius: 12,
+      borderRadius: 4,
       paddingLeft: 16,
       paddingRight: 16,
       borderColor: error ? colors.error : colors.borderGrey,
@@ -78,7 +81,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       flex: 1,
       marginLeft: 8,
       height: "90%",
-      color: colors.helperText,
+      color: type == "underline" ? colors.white : colors.helperText,
       fontWeight: "bold",
       fontFamily: "RobotoBold",
       textAlignVertical: multiline ? "top" : "auto",
@@ -104,7 +107,8 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
             isPassword && passwordVisible == false ? true : false
           }
           placeholder={placeholder}
-          placeholderTextColor={colors.helperText}
+          // TODO: change this to primary text
+          placeholderTextColor={type == 'underline' ? colors.white : colors.helperText}
           value={value}
           onChangeText={onChange}
           inputMode={inputMode}

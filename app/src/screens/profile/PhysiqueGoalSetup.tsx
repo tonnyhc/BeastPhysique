@@ -1,88 +1,79 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import Screen from "../../components/common/Screen";
-import { useTheme } from "../../contexts/ThemeContext";
-import Button from "../../components/common/Button";
 import PhysiqueGoalCard from "../../components/profile/setup/PhysiqueGoalCard";
-import { useAuth } from "../../contexts/AuthContext";
 import useProfileSetup from "../../hooks/useProfileSetup";
+import AuthStackHeader from "../../components/authentication/AuthStackHeader";
+import SetupScreenHeader from "../../components/profile/setup/SetupScreenHeader";
+import SetupScreenFooterBtns from "../../components/profile/setup/SetupScreenFooterBtns";
+import { useAuth } from "../../contexts/AuthContext";
 
 const goalsMap = [
+  { heading: "Maintain", helperText: "Maintain current physique" },
+
   {
     heading: "Bulk",
     helperText: "Build muscle and strength",
   },
   { heading: "Cut", helperText: "Loose fat and get lean" },
-  { heading: "Maintain", helperText: "Maintain current physique" },
 ];
 
 const PhysiqueGoalSetup: React.FC = () => {
-  const { colors } = useTheme();
+  const [data, setData] = useState<string>("");
   const { skipSetupProfile } = useAuth();
-  const [data, setData] = useState<{goal: string}>({goal: ""});
-  const {mutate, isPending} = useProfileSetup({
+
+  const { mutate, isPending } = useProfileSetup({
     url: "health/fitness/goal/edit/",
-    onSuccessFn: () => (skipSetupProfile ? skipSetupProfile() : null)
-  })
+    onSuccessFn: () => (skipSetupProfile ? skipSetupProfile() : null),
+  });
   const styles = StyleSheet.create({
     wrapper: {
       flex: 1,
       paddingHorizontal: 20,
     },
-    headingText: {
-      fontSize: 20,
-      textAlign: "center",
-      color: colors.primaryText,
-      fontWeight: "500",
-      fontFamily: "RobotoBold",
-    },
-    body: {
-      flex: 1,
-    },
+
     formWrapper: {
-      flex: 1,
+      flex: 2,
       gap: 20,
-      marginTop: 20,
+      marginTop: 30,
     },
   });
 
   const selectGoal = (name: string) => {
-    setData({goal: name});
+    setData(name);
   };
 
   return (
-    <Screen>
-      <View style={styles.wrapper}>
-        <Text style={styles.headingText}>What is your current goal?</Text>
-        <View style={styles.body}>
-          <View style={styles.formWrapper}>
-            {goalsMap.map((item, index) => (
-              <PhysiqueGoalCard
-                onPress={selectGoal}
-                key={index}
-                heading={item.heading}
-                helperText={item.helperText}
-                isActive={data.goal === item.heading}
-              />
-            ))}
-          </View>
-        </View>
+    <>
+      <AuthStackHeader />
+      <Screen>
         <View>
-          <Button
-            onPress={() => mutate(data)}
-            text="Done"
-            buttonStyles={{ width: "100%" }}
-            loading={isPending}
-
-          />
-          <Button
-            text="SET UP LATER IN PROFILE"
-            type="text"
-            onPress={() => (skipSetupProfile ? skipSetupProfile() : null)}
+          <SetupScreenHeader
+            header="What is your current goal?"
+            subheader="We ask this so we can calculate your needed calorie intake."
           />
         </View>
-      </View>
-    </Screen>
+
+        <View style={styles.formWrapper}>
+          {goalsMap.map((item, index) => (
+            <PhysiqueGoalCard
+              onPress={selectGoal}
+              key={index}
+              heading={item.heading}
+              helperText={item.helperText}
+              isActive={data === item.heading}
+            />
+          ))}
+        </View>
+        <View style={{ flex: 1 }}>
+          <SetupScreenFooterBtns
+            submitFn={() => mutate(data)}
+            pendingSubmit={isPending}
+            disabledSubmit={data === ""}
+          />
+        </View>
+      </Screen>
+    </>
   );
 };
 

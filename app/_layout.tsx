@@ -29,14 +29,17 @@ const Layout: React.FC = () => {
   const { isAuth, isVerified, setupProfile } = useAuth();
 
   const [fontsLoaded, fontError] = useFonts({
-    Acme: require("./assets/fonts/Acme-Regular.ttf"),
     ArimaBold: require("./assets/fonts/arima/Arima-Bold.ttf"),
     ArimaRegular: require("./assets/fonts/arima/Arima-Regular.ttf"),
     RobotoRegular: require("./assets/fonts/roboto/Roboto-Regular.ttf"),
     RobotoBold: require("./assets/fonts/roboto/Roboto-Bold.ttf"),
     RobotoMedium: require("./assets/fonts/roboto/Roboto-Medium.ttf"),
     RobotoSlabRegular: require("./assets/fonts/roboto-slab/RobotoSlab-Regular.ttf"),
+    RobotoSlabMedium:require("./assets/fonts/roboto-slab/RobotoSlab-Medium.ttf"),
     RobotoSlabBold: require("./assets/fonts/roboto-slab/RobotoSlab-Bold.ttf"),
+
+    IntegralRegular: require("./assets/fonts/integral/integralcf-regular.otf"),
+    IntegralBold: require("./assets/fonts/integral/integralcf-bold.otf"),
     
   });
 

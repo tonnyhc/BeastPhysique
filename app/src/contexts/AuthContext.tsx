@@ -102,7 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const data = await post(registerURL, body);
       setAuthData({
         token: data.token,
-        isVerified: data.is_verified,
+        isVerified: false,
         email: data.email,
       });
       await SecureStore.setItemAsync("authData", JSON.stringify(data));

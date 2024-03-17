@@ -182,13 +182,7 @@ function handleDeleteWorkout(
 ): ProgramState {
   const workoutIndex = action.payload;
   const updatedWorkouts = [...state.workouts];
-  if (
-    workoutIndex >= 0 &&
-    workoutIndex < updatedWorkouts.length &&
-    updatedWorkouts.length > 1
-  ) {
-    updatedWorkouts.splice(workoutIndex, 1);
-  }
+  updatedWorkouts.splice(workoutIndex, 1);
   return {
     ...state,
     workouts: [...updatedWorkouts],
@@ -318,7 +312,7 @@ function handleAddSetToExercise(
   state: ProgramState,
   action: Action
 ): ProgramState {
-  const newSet = { weight: "", reps: "", minReps: "", maxReps: "" };
+  const newSet:ExerciseSet = { weight: "", reps: "", minReps: "", maxReps: "", failure: false, bodyweight: false };
   const workoutIndexToAddSet = action.payload.workoutIndex;
   const exerciseIndex = action.payload.exerciseIndex;
 

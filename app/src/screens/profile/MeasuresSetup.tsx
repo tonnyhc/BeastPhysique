@@ -1,37 +1,32 @@
-import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
-import React, { useEffect, useState } from "react";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import AuthStackHeader from "../../components/authentication/AuthStackHeader";
 import Screen from "../../components/common/Screen";
-import ReusableInput from "../../components/common/ReusableInput";
-import Button from "../../components/common/Button";
-import ChevronRight from "../../icons/ChevronRight";
-import { useTheme } from "../../contexts/ThemeContext";
+import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProfileSetupStackParamsList } from "../../Stacks/ProfileSetupStack";
+import useProfileSetup from "../../hooks/useProfileSetup";
+import SetupScreenHeader from "../../components/profile/setup/SetupScreenHeader";
+import SetupScreenFooterBtns from "../../components/profile/setup/SetupScreenFooterBtns";
+
 import PickerSelect from "../../components/common/PickerSelect";
 import {
   checkForEmptyValuesInObject,
   generateHeightArray,
   generateWeightArray,
 } from "../../utils/helperFunctions";
-import { useAuth } from "../../contexts/AuthContext";
-import useMeasuresSetup from "../../hooks/useMeasuresSetup";
-import useProfileSetup from "../../hooks/useProfileSetup";
 
-interface MeasuresSetupProps {
-  navigation: StackNavigationProp<ProfileSetupStackParamsList>;
-}
-
-const MeasuresSetup: React.FC<MeasuresSetupProps> = ({ navigation }) => {
-  const { colors } = useTheme();
-  const { skipSetupProfile } = useAuth();
+const MeasuresSetup: React.FC = () => {
+  const navigation =
+    useNavigation<StackNavigationProp<ProfileSetupStackParamsList>>();
   const [data, setData] = useState<{ height: string; weight: string }>({
     height: "",
     weight: "",
   });
 
-  const {mutate, isPending} = useProfileSetup({
+  const { mutate, isPending } = useProfileSetup({
     url: "health/measures/edit/",
-    onSuccessFn: () => navigation.navigate("ActivitySetup"),
+    onSuccessFn: () => navigation.navigate("GenderSelectScreen"),
   });
 
   const emptyFields = checkForEmptyValuesInObject(data);
@@ -48,61 +43,51 @@ const MeasuresSetup: React.FC<MeasuresSetupProps> = ({ navigation }) => {
     label: `${String(weight.kilograms)} kg`,
   }));
 
-  const styles = StyleSheet.create({
-    wrapper: {
-      paddingHorizontal: 20,
-      flex: 1,
-    },
-    formWrapper: {
-      flex: 1,
-      gap: 10,
-    },
-  });
   return (
-    <Screen>
-      <View style={styles.wrapper}>
-        <View style={styles.formWrapper}>
+    <>
+      <AuthStackHeader />
+
+      <Screen>
+        <SetupScreenHeader
+          header="Profile info"
+          subheader="Your profile info helps us calculate your needed macro nutrients and give you the best workouts. To choose who see this info, go to setting in your Account > Social & Sharing > Privacy. "
+        />
+
+        <View style={{ gap: 16, marginTop: 50 }}>
           <PickerSelect
-            items={pickerHeightItems}
-            label="Height"
-            placeholder="Select height"
+            value={data.height ? `${data.height}cm` : ""}
             onChange={(value: string) =>
               setData((oldData) => ({
                 ...oldData,
                 height: value,
               }))
             }
+            label="Height"
+            items={pickerHeightItems}
           />
           <PickerSelect
-            items={pickerWeightItems}
-            label="Weight"
-            placeholder="Select weight"
+            value={data.weight ? `${data.weight}kg` : ""}
             onChange={(value: string) =>
               setData((oldData) => ({
                 ...oldData,
                 weight: value,
               }))
             }
+            label="Weight"
+            items={pickerWeightItems}
           />
         </View>
-        <View>
-          <Button
-            buttonStyles={{ width: "100%" }}
-            text="Continue"
-            rightIcon={<ChevronRight color={colors.white} size={18} />}
-            onPress={() => mutate(data)}
-            disabled={emptyFields}
-            loading={isPending}
-          />
-          <Button
-            text="SET UP LATER IN PROFILE"
-            type="text"
-            onPress={() => (skipSetupProfile ? skipSetupProfile() : null)}
-          />
-        </View>
-      </View>
-    </Screen>
+
+        <SetupScreenFooterBtns
+          disabledSubmit={emptyFields}
+          pendingSubmit={isPending}
+          submitFn={() => mutate(data)}
+        />
+      </Screen>
+    </>
   );
 };
 
 export default MeasuresSetup;
+
+const styles = StyleSheet.create({});

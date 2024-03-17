@@ -1,31 +1,35 @@
 import { useEffect, useState } from "react";
-import { View, Text, Switch, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { AntDesign, Feather } from "@expo/vector-icons";
-import ReusableInput from "../common/ReusableInput";
 import { FormField, RegisterBody, RegisterFormBody } from "../../ts/types";
-import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/ThemeContext";
 import {
   emailValidator,
   samePasswordValidator,
   strenghtPasswordValidator,
 } from "../../utils/formValidators";
-import ActionButtons from "./ActionButtonsContainer";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../Stacks/AuthStack";
-import SubmitButton from "../common/Button";
+import Button from "../common/Button";
+import TestInput from "../common/TestInput";
+import EyeOnIcon from "../../icons/EyeOnIcon";
+import EmailIcon from "../../icons/EmailIcon";
+import useKeyboard from "../../hooks/useKeyboard";
 
 interface RegisterFormProps {
   mutate: (data: RegisterBody) => Promise<any>;
   isPending: boolean;
   navigation: StackNavigationProp<AuthStackParamList>;
+  errors: any;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
   mutate,
   isPending,
   navigation,
+  errors,
 }) => {
+  const keyboard = useKeyboard();
   const { theme, colors } = useTheme();
   const [data, setData] = useState<RegisterFormBody>({
     email: "",
@@ -98,71 +102,39 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   const formFields: FormField[] = [
     {
       label: "Username",
-      leftIcon: (
-        <AntDesign
-          name="user"
-          size={18}
-          color={theme == "dark" ? "#DEE1E6FF" : "black"}
-        />
-      ),
-      placeholder: "Enter username",
+      leftIcon: <AntDesign name="user" size={18} color={colors.helperText} />,
+      placeholder: "example",
       value: data.username,
+      error: formErrors.username || errors.username,
       onChange: (value) =>
         setData((oldData) => ({ ...oldData, username: value })),
     },
     {
       label: "Email",
-      leftIcon: (
-        <AntDesign
-          name="mail"
-          size={18}
-          color={theme == "dark" ? "#DEE1E6FF" : "black"}
-        />
-      ),
-      placeholder: "Enter email",
+      leftIcon: <EmailIcon size={24} color={colors.helperText} />,
+      placeholder: "example@example.com",
       value: data.email,
       onChange: (value) => setData((oldData) => ({ ...oldData, email: value })),
-      error: formErrors.email,
+      error: formErrors.email || errors.email,
+      inputMode: "email",
     },
     {
       label: "Password",
-      leftIcon: (
-        <AntDesign
-          name="lock"
-          size={18}
-          color={theme == "dark" ? "#DEE1E6FF" : "black"}
-        />
-      ),
-      rightIcon: (
-        <Feather
-          name="eye-off"
-          size={18}
-          color={theme == "dark" ? "#DEE1E6FF" : "black"}
-        />
-      ),
+      leftIcon: <AntDesign name="lock" size={18} color={colors.helperText} />,
+      rightIcon: <EyeOnIcon size={24} color={colors.helperText} />,
       placeholder: "Enter password",
       isPassword: true,
       value: data.password,
       onChange: (value) =>
         setData((oldData) => ({ ...oldData, password: value })),
-      error: formErrors.password,
+      error: formErrors.password || errors.password,
+      helperTextLeft:
+        "At least 9 characters, at least 1 uppercase and 1 special symbol",
     },
     {
       label: "Confirm password",
-      leftIcon: (
-        <AntDesign
-          name="lock"
-          size={18}
-          color={theme == "dark" ? "#DEE1E6FF" : "black"}
-        />
-      ),
-      rightIcon: (
-        <Feather
-          name="eye-off"
-          size={18}
-          color={theme == "dark" ? "#DEE1E6FF" : "black"}
-        />
-      ),
+      leftIcon: <AntDesign name="lock" size={18} color={colors.helperText} />,
+      rightIcon: <Feather name="eye-off" size={18} color={colors.helperText} />,
       placeholder: "Confirm password",
       isPassword: true,
       value: data.conf_pass,
@@ -172,49 +144,57 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
     },
   ];
   const styles = StyleSheet.create({
-    formWrapper: {
-      marginTop: 24,
+    form: {
+      justifyContent: "space-between",
     },
-    formFieldWrapper: {
-      marginBottom: 12,
+
+    row: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
     },
-    row: { flexDirection: "row" , justifyContent: 'center', alignItems: "center"},
     helperText: {
       fontSize: 15,
-      fontFamily: "RobotoRegular"
-    }
+      fontFamily: "RobotoRegular",
+    },
   });
 
   return (
-    <View style={styles.formWrapper}>
-      {formFields.map((field) => (
-        <View style={styles.formFieldWrapper} key={field.label}>
-          <ReusableInput
-            value={field.value}
-            onChange={field.onChange}
-            placeholder={field.placeholder}
-            label={field.label}
-            leftIcon={field.leftIcon}
-            rightIcon={field.rightIcon}
-            isPassword={field.isPassword}
-            error={field.error}
-            onEndEditing={field.onEndEditing}
+    <View style={styles.form}>
+      <View style={{ gap: keyboard ? 12 : 64 }}>
+        <View style={{ gap: 14 }}>
+          {formFields.map((field) => (
+            <View key={field.label}>
+              <TestInput
+                value={field.value}
+                onChange={field.onChange}
+                placeholder={field.placeholder}
+                leftIcon={field.leftIcon}
+                rightIcon={field.rightIcon}
+                isPassword={field.isPassword}
+                label={field.label}
+                error={field.error}
+                inputMode={field.inputMode ? field.inputMode : "text"}
+                onEndEditing={field.onEndEditing}
+                helperTextLeft={field.helperTextLeft}
+              />
+            </View>
+          ))}
+        </View>
+
+        <View style={{ gap: keyboard ? 6 : 20 }}>
+          <Button
+            text="Create Account"
+            onPress={() => mutate(data)}
+            disabled={disabledSubmit}
+            loading={isPending}
+          />
+          <Button
+            type="text"
+            text="Sign in with an existing account"
+            onPress={() => navigation.navigate("Login")}
           />
         </View>
-      ))}
-
-      <SubmitButton
-        text="Register"
-        disabled={disabledSubmit}
-        onPress={() => mutate(data)}
-      />
-      <View style={styles.row}>
-        <Text style={styles.helperText}>Already have an account?</Text>
-        <SubmitButton
-          type="text"
-          text="LOG IN"
-          onPress={() => navigation.navigate("Login")}
-        />
       </View>
     </View>
   );

@@ -34,6 +34,8 @@ export type FormField = {
   placeholder: string;
   isPassword?: boolean;
   error?: string;
+  inputMode?: "email" | "text" | "search" | "decimal";
+  helperTextLeft?: string;
 };
 
 export type RegisterFormBody = {
@@ -115,8 +117,6 @@ export type ExerciseSearchResponse = {
   exercises: ExerciseSearch[];
 };
 
-
-
 // Workouts
 export type Workout = {
   id: string | number;
@@ -147,8 +147,6 @@ export type WorkoutPlan = {
   total_workouts: number | string;
   workouts: Workout[];
 };
-
-
 
 // Profile
 export type ProfileDataForSetup = {

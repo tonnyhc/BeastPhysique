@@ -55,6 +55,7 @@ const CreateCustomWorkout: React.FC<CreateCustomWorkoutProps> = ({
             {currentWorkout?.exercises.map(
               (exercise: Exercise, index: number) => (
                 <ExerciseCreationCard
+                  key={exercise.id || index}
                   workoutIndex={workoutIndex as number}
                   exerciseIndex={index}
                   exercise={exercise}

@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, KeyboardAvoidingView, Platform } from "react-native";
 import React, { useEffect, useState } from "react";
 import Screen from "../../components/common/Screen";
 import BackButton from "../../components/common/BackButton";
@@ -14,6 +14,9 @@ import {
 } from "../../utils/formValidators";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../Stacks/AuthStack";
+import TestInput from "../../components/common/TestInput";
+import EyeOnIcon from "../../icons/EyeOnIcon";
+import LockIcon from "../../icons/LockIcon";
 
 interface ResetPasswordProps {
   navigation: StackNavigationProp<AuthStackParamList>;
@@ -72,102 +75,80 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
     return setDisabledBtn(false);
   }, [password, rePass, formErrors]);
   return (
-    <Screen>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-        <BackButton onPress={() => navigation.goBack()} />
-        <Text
-          style={{
-            color: colors.primaryText,
-            fontSize: 24,
-            fontWeight: "700",
-            lineHeight: 36,
-            fontFamily: "Acme",
-          }}
-        >
-          Reset Password
-        </Text>
-        <Text style={{ position: "absolute", right: 0 }}>LOGO HERE</Text>
-      </View>
-      <View>
-        <Text
-          style={{
-            marginTop: 45,
-            width: 300,
-            fontSize: 16,
-            color: colors.helperText,
-            fontFamily: "Acme",
-          }}
-        >
-          At least 8 characters, with uppercase letter, lowercase letter, number
-          and a special symbol
-        </Text>
-        <Text
-          style={{
-            color: colors.error,
-            fontWeight: "600",
-            textAlign: "center",
-            paddingTop: 50,
-          }}
-        >
-          {error}
-        </Text>
-      </View>
-      <Text>{error}</Text>
-      <View style={{ gap: 20 }}>
-        <ReusableInput
-          value={password}
-          onChange={setPassword}
-          placeholder="Password"
-          label="New Password"
-          isPassword={true}
-          leftIcon={
-            <AntDesign
-              name="lock"
-              size={18}
-              color={theme == "dark" ? "#DEE1E6FF" : "black"}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1, backgroundColor: "transparent" }}
+    >
+      <Screen>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
+          <BackButton onPress={() => navigation.goBack()} />
+          <Text
+            style={{
+              color: colors.primaryText,
+              fontSize: 20,
+              lineHeight: 36,
+              fontFamily: "IntegralRegular",
+            }}
+          >
+            Reset Password
+          </Text>
+        </View>
+        <View>
+          <Text
+            style={{
+              marginTop: 18,
+              fontSize: 16,
+              color: colors.primaryText,
+              fontFamily: "RobotoRegular",
+            }}
+          >
+            At least 8 characters, with uppercase letter, lowercase letter,
+            number and a special symbol
+          </Text>
+          <Text
+            style={{
+              color: colors.error,
+              textAlign: "center",
+              fontFamily: "RobotoMedium",
+              paddingTop: 50,
+            }}
+          >
+            {error}
+          </Text>
+        </View>
+        <Text>{error}</Text>
+        <View style={{ flex: 1, justifyContent: "space-between" }}>
+          <View style={{ gap: 20 }}>
+            <TestInput
+              value={password}
+              onChange={setPassword}
+              placeholder="Password"
+              label="New Password"
+              isPassword={true}
+              leftIcon={<LockIcon size={24} color={colors.helperText} />}
+              error={formErrors.password}
             />
-          }
-          rightIcon={
-            <Feather
-              name="eye-off"
-              size={18}
-              color={theme == "dark" ? "#DEE1E6FF" : "black"}
+            <TestInput
+              value={rePass}
+              onChange={setRePass}
+              placeholder="Confirm password"
+              label="Confirm Password"
+              isPassword={true}
+              error={formErrors.rePass}
+              leftIcon={<LockIcon size={24} color={colors.helperText} />}
             />
-          }
-          error={formErrors.password}
-        />
-        <ReusableInput
-          value={rePass}
-          onChange={setRePass}
-          placeholder="Confirm password"
-          label="Confirm Password"
-          isPassword={true}
-          error={formErrors.rePass}
-          leftIcon={
-            <AntDesign
-              name="lock"
-              size={18}
-              color={theme == "dark" ? "#DEE1E6FF" : "black"}
+          </View>
+          <View style={{ marginBottom: 20 }}>
+            <SubmitButton
+              text="Continue"
+              loading={isPending}
+              onPress={() => mutate()}
+              disabled={disabledBtn}
             />
-          }
-          rightIcon={
-            <Feather
-              name="eye-off"
-              size={18}
-              color={theme == "dark" ? "#DEE1E6FF" : "black"}
-            />
-          }
-        />
-      </View>
-      <View style={{ marginTop: 55 }}>
-        <SubmitButton
-          text="Continue"
-          loading={isPending}
-          onPress={() => mutate()}
-          disabled={disabledBtn}
-        />
-      </View>
-    </Screen>
+          </View>
+        </View>
+      </Screen>
+    </KeyboardAvoidingView>
   );
 };
 

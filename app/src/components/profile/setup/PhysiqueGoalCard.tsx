@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Platform } from "react-native";
 import React from "react";
 import { useTheme } from "../../../contexts/ThemeContext";
-import Button from "../../common/Button";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface PhysiqueGoalCardProps {
@@ -17,12 +16,11 @@ const PhysiqueGoalCard: React.FC<PhysiqueGoalCardProps> = ({
   helperText,
   onPress,
 }) => {
-  const { colors, shadows } = useTheme();
-
+  const { colors, theme } = useTheme();
   const styles = StyleSheet.create({
     card: {
-      backgroundColor: isActive ? "#000" : "transparent",
-      borderColor: colors.inputBg,
+      backgroundColor: isActive ? colors.button : "transparent",
+      borderColor: colors.helperText,
       borderWidth: 2,
       borderRadius: 8,
       padding: 20,

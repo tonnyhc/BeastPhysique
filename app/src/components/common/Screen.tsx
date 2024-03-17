@@ -9,20 +9,38 @@ import { useTheme } from "../../contexts/ThemeContext";
 
 interface ScreenProps {
   children: ReactNode;
+  closeKeyboardOnClick?: boolean;
 }
 
-const Screen: React.FC<ScreenProps> = ({ children }) => {
+const Screen: React.FC<ScreenProps> = ({ children, closeKeyboardOnClick }) => {
   const { colors } = useTheme();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      {closeKeyboardOnClick ? (
+        <TouchableWithoutFeedback
+          style={{ flexGrow: 1 }}
+          onPress={() => Keyboard.dismiss()}
+          accessible={false}
+        >
+          <View
+            style={{
+              paddingLeft: 24,
+              paddingRight: 24,
+              paddingTop: 12,
+              flex: 1,
+            }}
+          >
+            {children}
+          </View>
+        </TouchableWithoutFeedback>
+      ) : (
         <View
-          style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 12, flex: 1 }}
+          style={{ paddingLeft: 24, paddingRight: 24, paddingTop: 12, flex: 1 }}
         >
           {children}
         </View>
-      </TouchableWithoutFeedback>
+      )}
     </SafeAreaView>
   );
 };

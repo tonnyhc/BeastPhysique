@@ -16,17 +16,12 @@ interface WorkoutSelectionProps {
 const WorkoutSelection: React.FC<WorkoutSelectionProps> = ({ navigation }) => {
   const { colors } = useTheme();
   const { workoutPlan, dispatch } = useCustomWorkoutPlan();
-  console.log(workoutPlan.workouts)
   const onCreateCustomWorkout = () => {
-    console.log("firstLen:");
-    console.log(workoutPlan.workouts.length);
     dispatch({
       type: "addWorkout",
     });
     const workoutsLen = workoutPlan.workouts.length;
     const workoutIndex = workoutsLen;
-    console.log('secondLen')
-    console.log(workoutPlan.workouts.length)
     navigation.navigate("CreateCustomWorkout", {
       workoutIndex,
     });
@@ -38,7 +33,7 @@ const WorkoutSelection: React.FC<WorkoutSelectionProps> = ({ navigation }) => {
         <ReusableInput
           value=""
           onChange={() => {}}
-          placeholder="Workout plan name"
+          placeholder="Workout name"
           leftIcon={<SearchIcon size={24} color={colors.helperText} />}
         />
       </View>

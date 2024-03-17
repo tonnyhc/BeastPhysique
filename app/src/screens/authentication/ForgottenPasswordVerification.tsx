@@ -66,35 +66,35 @@ const ForgottenPasswordVerification: React.FC<
 
   return (
     <Screen>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
         <BackButton onPress={() => navigation.goBack()} />
         <Text
           style={{
             color: colors.primaryText,
-            fontSize: 24,
-            fontWeight: "700",
+            fontSize: 20,
             lineHeight: 36,
-            fontFamily: "Acme",
+            fontFamily: "IntegralRegular",
           }}
         >
           Verification
         </Text>
-        <Text style={{ position: "absolute", right: 0 }}>LOGO HERE</Text>
       </View>
-      <View style={{ marginTop: 100 }}>
-        <Text
+      <View>
+      <Text
           style={{
-            fontSize: 18,
+            marginTop: 18,
+            width: 250,
+            fontSize: 16,
             color: colors.primaryText,
-            textAlign: "center",
+            fontFamily: "RobotoRegular",
           }}
         >
           Enter the verification code we sent to email:{" "}
         </Text>
         <Text
           style={{
-            color: colors.secondaryText,
-            textAlign: "center",
+            color: colors.helperText,
+            marginTop: 10
           }}
         >
           {email}
@@ -106,17 +106,21 @@ const ForgottenPasswordVerification: React.FC<
           marginTop: 15,
           color: colors.error,
           fontSize: 16,
-          fontWeight: "600",
+          fontFamily: "RobotoMedium"
         }}
       >
         {error}
       </Text>
-      <View style={{ alignSelf: "center" }}>
+      <View style={{ alignItems: "center", justifyContent: 'center' }}>
         <OTPInputView
           pinCount={5}
           code={verificationCode}
           onCodeChanged={(code) => {
             setVerificationCode(code);
+          }}
+          codeInputHighlightStyle={{
+            borderBottomWidth: 1,
+            borderBottomColor: colors.button
           }}
           codeInputFieldStyle={{
             borderWidth: 0,
@@ -125,7 +129,6 @@ const ForgottenPasswordVerification: React.FC<
           }}
           onCodeFilled={() => mutate()}
           style={{
-            marginLeft: 25,
             width: "100%",
             height: 200,
             justifyContent: "center",
@@ -144,7 +147,7 @@ const ForgottenPasswordVerification: React.FC<
             justifyContent: "center",
           }}
         >
-          <Text style={{ fontSize: 18, color: colors.secondaryText }}>
+          <Text style={{ fontSize: 18, color: colors.helperText }}>
             {isTimerRunning
               ? `You can send another code in ${timer}s`
               : `Did not get the code? `}
@@ -153,9 +156,9 @@ const ForgottenPasswordVerification: React.FC<
             <TouchableOpacity onPress={() => handleResentCode()}>
               <Text
                 style={{
-                  color: colors.blueText,
+                  color: colors.button,
                   fontSize: 16,
-                  fontWeight: "600",
+                  fontFamily: "RobotoMedium"
                 }}
               >
                 Resend code

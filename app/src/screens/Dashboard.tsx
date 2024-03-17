@@ -12,10 +12,11 @@ import { Ionicons, Entypo } from "@expo/vector-icons";
 import Screen from "../components/common/Screen";
 import { useTheme } from "../contexts/ThemeContext";
 
-import BarbellIcon from "../icons/BarbellIcon";
+import { useAuth } from "../contexts/AuthContext";
 
 const Dashboard: React.FC = () => {
   const { colors } = useTheme();
+  const { onLogout } = useAuth();
 
   const styles = StyleSheet.create({
     helperText: {
@@ -31,13 +32,13 @@ const Dashboard: React.FC = () => {
       marginTop: 12,
     },
     primaryHeading: {
-      fontFamily: "Acme",
+      // fontFamily: "Acme",
       fontSize: 32,
       fontWeight: "700",
       color: colors.primaryText,
     },
     secondaryHeading: {
-      fontFamily: "Acme",
+      // fontFamily: "Acme",
       fontSize: 20,
       fontWeight: "700",
       color: colors.primaryText,
@@ -48,7 +49,7 @@ const Dashboard: React.FC = () => {
       paddingRight: 8,
       alignItems: "center",
       justifyContent: "center",
-      fontFamily: "Acme",
+      // fontFamily: "Acme",
       fontSize: 12,
 
       backgroundColor: "transparent",
@@ -68,6 +69,10 @@ const Dashboard: React.FC = () => {
   return (
     <Screen>
       {/* Pictures + Date */}
+      <TouchableOpacity onPress={() => onLogout()}>
+        <Text style={{ color: "#fff" }}>LOGOUT</Text>
+      </TouchableOpacity>
+
       <View style={{ gap: 22 }}>
         <View style={styles.rowActionBtns}>
           <Image
@@ -120,9 +125,6 @@ const Dashboard: React.FC = () => {
             />
           </TouchableOpacity>
         </View>
-      </View>
-      <View>
-        <BarbellIcon />
       </View>
     </Screen>
   );

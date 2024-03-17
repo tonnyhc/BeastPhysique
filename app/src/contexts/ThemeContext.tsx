@@ -70,6 +70,4 @@ export const useTheme = () => {
   return context;
 };
 
-const colors = {
-  grayText: "#BCC1CAFF",
-};
+

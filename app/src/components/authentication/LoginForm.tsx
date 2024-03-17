@@ -1,32 +1,33 @@
-import { AntDesign, Feather } from "@expo/vector-icons";
-
-import { FormField, LoginBody} from "../../ts/types";
+import { LoginBody } from "../../ts/types";
 import { View, Text, StyleSheet } from "react-native";
-import ReusableInput from "../common/ReusableInput";
-import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 
 import { useTheme } from "../../contexts/ThemeContext";
-import ActionButtons from "./ActionButtonsContainer";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { LoginScreenProps } from "../../screens/authentication/Login";
+
 import { AuthStackParamList } from "../../Stacks/AuthStack";
 import { StackNavigationProp } from "@react-navigation/stack";
+import TestInput from "../common/TestInput";
+import EmailIcon from "../../icons/EmailIcon";
+import EyeOnIcon from "../../icons/EyeOnIcon";
+import LockIcon from "../../icons/LockIcon";
+import useKeyboard from "../../hooks/useKeyboard";
+import Button from "../common/Button";
 
 interface LoginFormProps {
   onLogin: (data?: LoginBody) => Promise<any>;
   isPending: boolean;
   loginError: string;
-  navigation: StackNavigationProp<AuthStackParamList>
+  navigation: StackNavigationProp<AuthStackParamList>;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({
   onLogin,
   isPending,
   loginError,
-  navigation
+  navigation,
 }) => {
   const { colors, theme } = useTheme();
+  const keyboard = useKeyboard();
   const [data, setData] = useState<LoginBody>({
     email: "",
     password: "",
@@ -39,48 +40,15 @@ const LoginForm: React.FC<LoginFormProps> = ({
     setDisabledSubmit(false);
   }, [data]);
 
-  const formFields: FormField[] = [
-    {
-      label: "Email",
-      leftIcon: (
-        <AntDesign
-          name="mail"
-          size={18}
-          color={theme == "dark" ? "#DEE1E6FF" : "black"}
-        />
-      ),
-      placeholder: "Enter email",
-      value: data.email,
-      onChange: (value) => setData((oldData) => ({ ...oldData, email: value })),
-    },
-    {
-      label: "Password",
-      leftIcon: (
-        <AntDesign
-          name="lock"
-          size={18}
-          color={theme == "dark" ? "#DEE1E6FF" : "black"}
-        />
-      ),
-      rightIcon: (
-        <Feather
-          name="eye-off"
-          size={18}
-          color={theme == "dark" ? "#DEE1E6FF" : "black"}
-        />
-      ),
-      placeholder: "Enter password",
-      isPassword: true,
-      value: data.password,
-      onChange: (value) =>
-        setData((oldData) => ({ ...oldData, password: value })),
-    },
-  ];
-
   const styles = StyleSheet.create({
+    form: {
+      marginTop: keyboard ? 10 : 50,
+      justifyContent: "space-between",
+    },
     inputWrapper: {
       marginBottom: 12,
     },
+
     forgotPass: {
       color: colors.blueText,
       fontWeight: "700",
@@ -92,41 +60,61 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   return (
     <View>
-      <Text
-        style={{
-          alignSelf: "center",
-          lineHeight: 50,
-          fontWeight: "600",
-          color: "red",
-        }}
-      >
-        {loginError}
-      </Text>
-      {formFields.map((field) => (
-        <View style={styles.inputWrapper} key={field.label}>
-          <ReusableInput
-            value={field.value}
-            onChange={field.onChange}
-            placeholder={field.placeholder}
-            label={field.label}
-            leftIcon={field.leftIcon}
-            rightIcon={field.rightIcon}
-            isPassword={field.isPassword}
+      <View style={styles.form}>
+        <Text
+          style={{
+            alignSelf: "center",
+            lineHeight: 50,
+            fontWeight: "600",
+            color: "red",
+          }}
+        >
+          {loginError}
+        </Text>
+        <View
+          style={{ gap: keyboard ? 10 : 20, marginBottom: keyboard ? 10 : 50 }}
+        >
+          <TestInput
+            inputMode="email"
+            label="Email"
+            onChange={(value) =>
+              setData((oldData) => ({ ...oldData, email: value }))
+            }
+            leftIcon={<EmailIcon size={24} color={colors.helperText} />}
+            placeholder="john@doe.com"
+            value={data.email}
           />
+          <View>
+            <TestInput
+              inputMode="text"
+              value={data.password}
+              onChange={(value) =>
+                setData((oldData) => ({ ...oldData, password: value }))
+              }
+              placeholder="Enter password"
+              label="Password"
+              isPassword={true}
+              leftIcon={<LockIcon size={24} color={colors.helperText} />}
+              rightIcon={<EyeOnIcon size={24} color={colors.helperText} />}
+              helperTextRight="Forgot password?"
+              onPressHelperRight={() => navigation.navigate("ForgotPassword")}
+            />
+          </View>
         </View>
-      ))}
 
-      <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
-        <Text style={styles.forgotPass}>Forgot password?</Text>
-      </TouchableOpacity>
-      <ActionButtons
-        onPrimaryAction={() => onLogin(data)}
-        onSecondaryAction={() => navigation.navigate("Register")}
-        primaryActionText="Sign In"
-        secondaryActionText="SIGN UP"
-        disabled={disabledSubmit}
-        isLoading={isPending}
-      />
+        <Button
+          disabled={disabledSubmit}
+          type="primary"
+          text="Login"
+          onPress={() => onLogin(data)}
+          loading={isPending}
+        />
+        <Button
+          type="text"
+          text="Dont have an account?"
+          onPress={() => navigation.navigate("Register")}
+        />
+      </View>
     </View>
   );
 };

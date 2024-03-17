@@ -11,6 +11,7 @@ import useWorkoutService from "../../hooks/useWorkoutService";
 import { ExerciseSession, Workout, WorkoutSession } from "../../ts/types";
 import WorkoutDetailsExerciseCard from "./WorkoutDetailsExerciseCard";
 import useRefreshControl from "../../hooks/useRefreshControl";
+import Screen from "../../components/common/Screen";
 
 interface WorkoutDetailsProps {
   route: { params: { workoutSessionId: number } };
@@ -46,6 +47,8 @@ const WorkoutDetails: React.FC<WorkoutDetailsProps> = ({ route }) => {
     },
   });
   return (
+    <Screen>
+
     <View style={styles.wrapper}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
@@ -65,6 +68,8 @@ const WorkoutDetails: React.FC<WorkoutDetailsProps> = ({ route }) => {
         </ScrollView>
       </ScrollView>
     </View>
+    </Screen>
+
   );
 };
 

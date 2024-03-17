@@ -12,6 +12,7 @@ import WorkoutsStackScreen from "../Stacks/WorkoutsStack";
 import BarbellIcon from "../icons/BarbellIcon";
 import ProfileIcon from "../icons/ProfileIcon";
 import ProfileStackScreen from "../Stacks/ProfileStack";
+import HomeIcon from "../icons/HomeIcon";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +32,7 @@ const TabBar = () => {
 
         headerShown: false,
         tabBarInactiveTintColor: "#565E6CFF",
-        tabBarActiveTintColor: colors.submitBtn,
+        tabBarActiveTintColor: colors.orangeText,
       })}
     >
       <Tab.Screen
@@ -41,6 +42,7 @@ const TabBar = () => {
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="home" size={size} color={color} />
+            // <HomeIcon size={48} color={color}/>
           ),
         }}
       />

@@ -21,7 +21,16 @@ export type Colors = {
   error: string;
   // border
   borderGrey: string;
-  mercury: string
+  mercury: string;
+
+  // other
+  green: string;
+
+  // new design
+  button: string;
+  buttonDisabled: string;
+  outlinedButtonText: string;
+  physiqueGoalCardHelperText: string;
 };
 
 export const lightColors: Colors = {
@@ -32,8 +41,8 @@ export const lightColors: Colors = {
   thirtiaryText: "#565E6CFF",
   secondaryBtnText: "#0D141C",
   orangeText: "#FB8C00",
-  // helperText: "#6E7787FF",
-  helperText: "#666666",
+  // helperText: "#2C2C2E",
+
   // blueText: "#00BDD6FF",
   blueText: "#4572E4",
   // backgrounds
@@ -50,10 +59,19 @@ export const lightColors: Colors = {
 
   iconColor: "black",
 
-  error: "#C12025",
+  error: "#FF0000",
   // Borders
   borderGrey: "#CCC",
-  mercury: '#E6E6E6'
+  mercury: "#E6E6E6",
+  // other
+  green: "#D0FD3E",
+
+  // new design
+  button: "#03234C",
+  buttonDisabled: "#D9DEE4",
+  outlinedButtonText: "#03234C",
+  helperText: "#8A8A8A",
+  physiqueGoalCardHelperText: "#8A8A8A",
 };
 
 export const darkColors: Colors = {
@@ -64,12 +82,10 @@ export const darkColors: Colors = {
   thirtiaryText: "#FFFFFF",
   secondaryBtnText: "#0D141C",
   orangeText: "#4572E4",
-  // helperText: "#6E7787FF",
-  helperText: "#666666",
-  // blueText: "#00BDD6FF",
+  // helperText: "#2C2C2E",
   blueText: "#4572E4",
   // backgrounds
-  bg: "#171A1FFF",
+  bg: "#1C1C1E",
   grayBg: "#DCDCDC",
   inputBg: "#1D2128FF",
   // submitBtn: "#00BDD6FF",
@@ -80,9 +96,19 @@ export const darkColors: Colors = {
   porcelain: "#F1F2F3",
 
   iconColor: "#DEE1E6FF",
-  error: "#C12025",
+  error: "#FF0000",
 
   // Borders
   borderGrey: "#CCC",
-  mercury: '#E6E6E6'
+  mercury: "#E6E6E6",
+  // other
+  green: "#D0FD3E",
+
+  // new design
+  button: "#9FB120",
+  buttonDisabled: "#E1E7BA",
+  outlinedButtonText: "#FFF",
+  helperText: "#8A8A8A",
+
+  physiqueGoalCardHelperText: "#fff",
 };

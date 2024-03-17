@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import Screen from "../../components/common/Screen";
 import { Picker } from "@react-native-picker/picker";
@@ -8,8 +8,10 @@ import ChevronRight from "../../icons/ChevronRight";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProfileSetupStackParamsList } from "../../Stacks/ProfileSetupStack";
 import { useAuth } from "../../contexts/AuthContext";
-import useActivitySetup from "../../hooks/useActivitySetup";
 import useProfileSetup from "../../hooks/useProfileSetup";
+import AuthStackHeader from "../../components/authentication/AuthStackHeader";
+import SetupScreenHeader from "../../components/profile/setup/SetupScreenHeader";
+import SetupScreenFooterBtns from "../../components/profile/setup/SetupScreenFooterBtns";
 const activityMap = [
   {
     label: "Sedentary",
@@ -43,67 +45,87 @@ interface ActivitySetupProps {
 }
 const ActivitySetup: React.FC<ActivitySetupProps> = ({ navigation }) => {
   const { colors } = useTheme();
-  const { skipSetupProfile } = useAuth();
-  const [data, setData] = useState<{ activity: string }>({ activity: "" });
+  const [data, setData] = useState<string>("");
   const { mutate, isPending } = useProfileSetup({
     url: "health/fitness/activity/edit/",
     onSuccessFn: () => navigation.navigate("PhysiqueGoalSetup"),
   });
   const styles = StyleSheet.create({
-    headingText: {
-      fontSize: 20,
-      textAlign: "center",
+    activityCard: {
+      backgroundColor: "transparent",
+      gap: 8,
+      paddingHorizontal: 8,
+      paddingVertical: 8,
+      width: 160,
+      height: 100,
+      borderRadius: 20,
+
+      borderColor: colors.helperText,
+      borderWidth: 2,
+      padding: 20,
+    },
+    activityCardTitle: {
+      fontFamily: "RobotoSlabBold",
+      fontSize: 16,
       color: colors.primaryText,
     },
-    wrapper: {
-      flex: 1,
-      paddingHorizontal: 20,
+    activityCardtext: {
+      fontFamily: "RobotoRegular",
+      color: colors.helperText,
     },
-    formWrapper: { flex: 1 },
+    activeCard: {
+      backgroundColor: colors.button,
+    },
   });
 
   return (
-    <Screen>
-      <View style={styles.wrapper}>
-        <Text style={styles.headingText}>
-          This helps us calculate your calorie intake, and provide personalized
-          recommendations
-        </Text>
-        <View style={styles.formWrapper}>
-          <Picker
-            selectedValue={data.activity}
-            onValueChange={(itemValue, itemIndex) =>
-              setData({ activity: itemValue })
-            }
-            numberOfLines={2}
-          >
-            {activityMap.map((item, index) => (
-              <Picker.Item
-                style={{ flexWrap: "wrap", flex: 1 }}
-                key={index}
-                label={item.label + " " + item.helperText}
-                value={item.value}
-              />
-            ))}
-          </Picker>
+    <>
+      <AuthStackHeader />
+      <Screen>
+        <SetupScreenHeader
+          header="How active are you?"
+          subheader="Based on your activity level we can calculate your base calorie needs."
+        />
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 16,
+            marginTop: 50,
+          }}
+        >
+          {activityMap.map((item) => (
+            <TouchableOpacity
+              onPress={() => setData(item.value)}
+              style={[
+                styles.activityCard,
+                item.value === data ? styles.activeCard : null,
+              ]}
+            >
+              <Text
+                style={[
+                  styles.activityCardTitle,
+                  item.value === data ? { color: colors.white } : null,
+                ]}
+              >
+                {" "}
+                {item.label}
+              </Text>
+              <Text style={styles.activityCardtext}>{item.helperText}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
-
-        <View>
-          <Button
-            buttonStyles={{ width: "100%" }}
-            text="Continue"
-            rightIcon={<ChevronRight color={colors.white} size={18} />}
-            onPress={() => mutate(data)}
-            loading={isPending}
-          />
-          <Button
-            text="SET UP LATER IN PROFILE"
-            type="text"
-            onPress={() => (skipSetupProfile ? skipSetupProfile() : null)}
+        <View style={{ flex: 1 }}>
+          <SetupScreenFooterBtns
+            disabledSubmit={data === ""}
+            submitFn={() => mutate(data)}
+            pendingSubmit={isPending}
           />
         </View>
-      </View>
-    </Screen>
+      </Screen>
+    </>
   );
 };
 

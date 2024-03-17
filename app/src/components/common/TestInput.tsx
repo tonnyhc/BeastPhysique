@@ -3,8 +3,8 @@ import React, { ReactNode, useEffect, useState } from "react";
 import UserIcon from "../../icons/UserIcon";
 import { useTheme } from "../../contexts/ThemeContext";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import EyeIcon from "../../icons/EyeIcon";
 import { emailRegex } from "../../utils/regexes";
+import EyeOnIcon from "../../icons/EyeOnIcon";
 
 interface ReusableInputProps {
   value: string;
@@ -17,7 +17,8 @@ interface ReusableInputProps {
   isPassword?: boolean;
   helperTextLeft?: string;
   helperTextRight?: string;
-  error?: boolean;
+  onPressHelperRight?: () => void;
+  error?: string;
 
   onEndEditing?: () => void;
   inputMode?: "text" | "decimal" | "numeric" | "email" | "search";
@@ -37,6 +38,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
   inputMode,
   helperTextLeft,
   helperTextRight,
+  onPressHelperRight,
 }) => {
   const { colors } = useTheme();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(
@@ -45,8 +47,8 @@ const TestInput: React.FC<ReusableInputProps> = ({
   const [emailError, setEmailError] = useState<boolean>(false);
 
   useEffect(() => {
-    if (value === ''){
-      return setEmailError(false)
+    if (value === "") {
+      return setEmailError(false);
     }
     if (inputMode !== "email") {
       return;
@@ -83,11 +85,8 @@ const TestInput: React.FC<ReusableInputProps> = ({
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      // color: type == "underline" ? colors.white : colors.helperText,
       color: colors.helperText,
-      fontWeight: "bold",
-      fontFamily: "RobotoBold",
-      // textAlignVertical: multiline ? "top" : "auto",
+      fontFamily: "RobotoRegular",
     },
     placeholderText: {
       fontSize: 16,
@@ -100,14 +99,14 @@ const TestInput: React.FC<ReusableInputProps> = ({
     },
     helpText: {
       fontFamily: "RobotoRegular",
-      fontSize: 12,
+      fontSize: 13,
       color: error || emailError ? colors.error : colors.helperText,
     },
   });
 
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.label}>{error ? error : label}</Text>
       <View style={styles.master}>
         {/* left icon */}
         {leftIcon ? (
@@ -129,7 +128,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
           <TouchableWithoutFeedback
             onPress={() => setPasswordVisible((oldPassword) => !oldPassword)}
           >
-            <EyeIcon size={24} color={colors.helperText} />
+            <EyeOnIcon size={24} color={colors.helperText} />
           </TouchableWithoutFeedback>
         ) : (
           <TouchableWithoutFeedback onPress={() => rightIconOnPress()}>
@@ -142,7 +141,9 @@ const TestInput: React.FC<ReusableInputProps> = ({
           <Text style={styles.helpText}>
             {emailError ? "Please enter a valid email!" : helperTextLeft}
           </Text>
-          <Text style={styles.helpText}>{helperTextRight}</Text>
+          <TouchableWithoutFeedback onPress={onPressHelperRight}>
+            <Text style={styles.helpText}>{helperTextRight}</Text>
+          </TouchableWithoutFeedback>
         </View>
       ) : null}
     </View>

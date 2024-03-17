@@ -16,7 +16,7 @@ import { useAuth } from "./AuthContext";
 interface CreateCustomWorkoutPlanContextProps {
   workoutPlan: ProgramState;
   dispatch: Dispatch<Action>; // Replace 'any' with your specific action types if available
-  createWorkoutPlan: () => void;
+  createWorkoutPlan: () => Promise<any>;
 }
 
 const defaultWorkoutPlanState: ProgramState = {
@@ -28,7 +28,7 @@ export const CreateCustomWorkoutPlanContext =
   createContext<CreateCustomWorkoutPlanContextProps>({
     workoutPlan: defaultWorkoutPlanState,
     dispatch: () => {}, // Provide a default function or replace with your specific action types
-    createWorkoutPlan: () => {},
+    createWorkoutPlan: () => Promise.reject("A"),
   });
 
 interface CreateCustomWorkoutPlanProviderProps {

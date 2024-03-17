@@ -1,6 +1,10 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  StackNavigationProp,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import Login from "../screens/authentication/Login";
 import Register from "../screens/authentication/Register";
+
 import AccountVerification from "../screens/authentication/AccountVerification";
 import { useAuth } from "../contexts/AuthContext";
 import ForgotPassword from "../screens/authentication/ForgotPassword";
@@ -8,9 +12,12 @@ import ForgottenPasswordVerification from "../screens/authentication/ForgottenPa
 import ResetPassword from "../screens/authentication/ResetPassword";
 import { ForgottenPasswordProvider } from "../contexts/ForgottenPasswordContext";
 import SuccessVerification from "../screens/authentication/SuccessVerification";
-import WelcomeScreen from "../screens/authentication/WelcomeScreen";
-import SubmitButton from "../components/common/Button";
 import ProfileSetupScreen from "./ProfileSetupStack";
+import AuthButtonsNavigation from "../components/authentication/AuthButtonsNavigation";
+import { useTheme } from "../contexts/ThemeContext";
+import BackButton from "../components/common/BackButton";
+import AuthStackHeader from "../components/authentication/AuthStackHeader";
+import Onboarding from "../screens/authentication/Onboarding";
 
 export type AuthStackParamList = {
   Welcome: undefined;
@@ -22,40 +29,58 @@ export type AuthStackParamList = {
   ResetPassword: undefined;
   SuccessPasswordReset: undefined;
   OTPVerification: undefined;
-  "Profile setup 1": undefined;
+  ProfileSetup: undefined;
 };
 
 const AuthStack = createStackNavigator<AuthStackParamList>();
 
 const AuthStackScreen: React.FC = () => {
-  const { token, isVerified } = useAuth();
+  const { colors } = useTheme();
+  const { token, isVerified, onLogout } = useAuth();
+
+  const handleBackClick = (
+    navigation: StackNavigationProp<AuthStackParamList>
+  ) => {
+    onLogout ? onLogout() : null;
+    navigation.navigate("Register");
+  };
+
   return (
     <ForgottenPasswordProvider>
       <AuthStack.Navigator
         initialRouteName={
           token && !isVerified ? "AccountVerification" : "Welcome"
+          // "Welcome"
         }
-        // initialRouteName="Profile setup 1"
         screenOptions={{
           headerShown: false,
-          headerTitleStyle: { fontSize: 22, fontFamily: "RobotoSlab" },
         }}
       >
         <AuthStack.Group>
           <AuthStack.Screen
-            name="Profile setup 1"
+            name="ProfileSetup"
             options={{
               headerShown: false,
             }}
             component={ProfileSetupScreen}
           />
-          <AuthStack.Screen name="Welcome" component={WelcomeScreen} />
+          <AuthStack.Screen name="Welcome" component={Onboarding} />
           <AuthStack.Screen name="Login" component={Login} />
           <AuthStack.Screen name="Register" component={Register} />
           <AuthStack.Screen
             name="AccountVerification"
             component={AccountVerification}
-            options={{ headerShown: false }}
+            options={({ navigation }) => ({
+              headerShown: true,
+
+              headerTitle: "Account verification",
+              headerLeft: () => (
+                <BackButton onPress={() => handleBackClick(navigation)} />
+              ),
+              headerLeftContainerStyle: {
+                paddingLeft: 24,
+              },
+            })}
           />
           <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
           <AuthStack.Screen

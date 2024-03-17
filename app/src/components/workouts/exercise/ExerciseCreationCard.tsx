@@ -8,11 +8,12 @@ import {
 } from "react-native";
 import { useCustomWorkoutPlan } from "../../../contexts/CustomWorkoutPlanContext";
 import { useTheme } from "../../../contexts/ThemeContext";
-import { Exercise } from "../../../ts/types";
+import { Exercise, ExerciseSet } from "../../../ts/types";
 import ReusableInput from "../../common/ReusableInput";
 import Button from "../../common/Button";
 import { Swipeable } from "react-native-gesture-handler";
-import { FontAwesome } from "@expo/vector-icons";
+import ReusableModal from "../../common/Modal";
+import { useEffect, useState } from "react";
 
 interface ExerciseCreationCardProps {
   exercise: Exercise;
@@ -25,8 +26,24 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
   exerciseIndex,
   exercise,
 }) => {
-  const { dispatch } = useCustomWorkoutPlan();
+  const { workoutPlan, dispatch } = useCustomWorkoutPlan();
+  const [isRepRangeModalVisible, setIsRepRangeModalVisible] =
+    useState<boolean>(false);
+  const [repRangeModalSet, setRepRangeModalSet] = useState<ExerciseSet | null>(
+    null
+  );
+  const [repRangeModalSetIndex, setRepRangeModalSetIndex] = useState<
+    number | null
+  >(null);
   const { colors } = useTheme();
+  useEffect(() => {
+    const newState =
+      workoutPlan.workouts[workoutIndex].exercises[exerciseIndex].sets[
+        repRangeModalSetIndex
+      ];
+    setRepRangeModalSet(newState);
+    console.log(exercise);
+  }, [workoutPlan]);
 
   const renderRightSetActions = (setIndex: number) => {
     return (
@@ -108,6 +125,16 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
       },
     });
   };
+  const openRepRangeModal = (set: ExerciseSet, index: number) => {
+    setRepRangeModalSet(set);
+    setRepRangeModalSetIndex(index);
+    setIsRepRangeModalVisible(true);
+  };
+  const closeRepRangeModal = () => {
+    setRepRangeModalSet(null);
+    setRepRangeModalSetIndex(null);
+    setIsRepRangeModalVisible(false);
+  };
 
   const styles = StyleSheet.create({
     card: {
@@ -149,12 +176,100 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
       alignSelf: "center",
     },
   });
+
   return (
-    <Swipeable renderRightActions={renderRightExerciseActions} overshootRight={true} onSwipeableWillOpen={handleDeleteExercise} friction={1}>
+    <Swipeable
+      renderRightActions={renderRightExerciseActions}
+      overshootRight={true}
+      onSwipeableWillOpen={handleDeleteExercise}
+      friction={1}
+    >
+      <ReusableModal
+        closeFn={() => closeRepRangeModal()}
+        visible={isRepRangeModalVisible}
+        title="Exercise rep range"
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 10,
+            marginTop: 22,
+          }}
+        >
+          <View>
+            <Text
+              style={{
+                fontFamily: "RobotoRegular",
+                fontSize: 16,
+                color: colors.helperText,
+              }}
+            >
+              Min reps
+            </Text>
+            <ReusableInput
+              // value={"10"}
+              inputMode="numeric"
+              value={repRangeModalSet?.minReps as string}
+              onChange={(value: string) =>
+                dispatch({
+                  type: "changeSetMinReps",
+                  payload: {
+                    exerciseIndex,
+                    workoutIndex,
+                    setIndex: repRangeModalSetIndex,
+                    minReps: value,
+                  },
+                })
+              }
+              placeholder=""
+            />
+          </View>
+          <View>
+            <Text
+              style={{
+                fontFamily: "RobotoRegular",
+                fontSize: 26,
+                color: colors.helperText,
+              }}
+            >
+              ---
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontFamily: "RobotoRegular",
+                fontSize: 16,
+                color: colors.helperText,
+              }}
+            >
+              Max reps
+            </Text>
+            <ReusableInput
+              value={repRangeModalSet?.maxReps as string}
+              inputMode="numeric"
+              onChange={(value: string) => {
+                dispatch({
+                  type: "changeSetMaxReps",
+                  payload: {
+                    workoutIndex,
+                    exerciseIndex,
+                    setIndex: repRangeModalSetIndex,
+                    maxReps: value,
+                  },
+                });
+              }}
+              placeholder=""
+            />
+          </View>
+        </View>
+      </ReusableModal>
       <View style={styles.card}>
         <View style={styles.headingRow}>
-          <Text style={styles.exerciseIndex}>1</Text>
-          <Text style={styles.exerciseName}>Arnold Press</Text>
+          <Text style={styles.exerciseIndex}>{exerciseIndex + 1}</Text>
+          <Text style={styles.exerciseName}>{exercise.name}</Text>
         </View>
         <View style={styles.setsWrapper}>
           {exercise.sets?.map((item, index) => (
@@ -174,6 +289,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                 <View style={styles.setProperty}>
                   <Text style={styles.proprtyText}>Reps</Text>
                   <ReusableInput
+                  inputMode="numeric"
                     styles={{
                       wrapper: {
                         minHeight: 48,
@@ -189,6 +305,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                           workoutIndex,
                           exerciseIndex,
                           setIndex: index,
+                          reps: value,
                         },
                       })
                     }
@@ -198,6 +315,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                 <View style={styles.setProperty}>
                   <Text style={styles.proprtyText}>Weight (kg)</Text>
                   <ReusableInput
+                  inputMode="decimal"
                     styles={{
                       wrapper: {
                         minHeight: 48,
@@ -213,18 +331,24 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                           workoutIndex,
                           exerciseIndex,
                           setIndex: index,
+                          weight: value,
                         },
                       })
                     }
                     value={item.weight}
                   />
                 </View>
-                <View style={styles.setProperty}>
+                <TouchableOpacity
+                  onPress={() => openRepRangeModal(item, index)}
+                  style={styles.setProperty}
+                >
                   <Text style={[styles.proprtyText, { flex: 1 }]}>
                     Rep Range
                   </Text>
-                  <Text style={[styles.proprtyText, { flex: 1 }]}>8 - 12</Text>
-                </View>
+                  <Text style={[styles.proprtyText, { flex: 1 }]}>
+                    {item.minReps || 0} - {item.maxReps || 99}
+                  </Text>
+                </TouchableOpacity>
                 <View
                   style={[styles.setProperty, { justifyContent: "center" }]}
                 >

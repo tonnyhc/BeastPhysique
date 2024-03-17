@@ -1,7 +1,10 @@
-import { StyleSheet, View, Text } from "react-native";
-import React from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import React, { useRef } from "react";
 import RNPickerSelect from "react-native-picker-select";
 import { useTheme } from "../../contexts/ThemeContext";
+import ChevronDown from "../../icons/ChevronDown";
+
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 type SelectItem = {
   label: string;
@@ -11,8 +14,9 @@ type SelectItem = {
 interface PickerSelectProps {
   label?: string;
   placeholder?: string;
-  items: SelectItem[];
+  items?: SelectItem[];
   onChange: (value: any) => void;
+  value: string;
 }
 
 const PickerSelect: React.FC<PickerSelectProps> = ({
@@ -20,72 +24,78 @@ const PickerSelect: React.FC<PickerSelectProps> = ({
   placeholder,
   items,
   onChange,
+  value,
 }) => {
   const { colors } = useTheme();
+  const pickerRef = useRef(null);
   const styles = StyleSheet.create({
     wrapper: {
-      minHeight: 80,
-      // height: multiline ? 150 : 'auto',
-      // ...styles?.wrapper
+      borderWidth: 2,
+      borderColor: colors.helperText,
+      alignItems: "center",
+      justifyContent: "space-between",
+      flexDirection: "row",
+      paddingVertical: 10,
+      paddingHorizontal: 16,
+      borderRadius: 4,
     },
     labelText: {
-      fontSize: 12,
-      fontWeight: "700",
-      fontFamily: "Acme",
-      marginBottom: 12,
-      color: colors.primaryText,
+      color: colors.helperText,
+      fontSize: 16,
     },
-    inputWrapper: {
-      // flex: 1,
+    selectWrapper: {
+      paddingVertical: 10,
+      paddingHorizontal: 8,
+      backgroundColor: colors.buttonDisabled,
+      borderRadius: 5,
+      width: 64,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    rightWrapper: {
       flexDirection: "row",
-      // alignItems: "center",
-      backgroundColor: colors.inputBg,
-      minHeight: 45,
-      borderRadius: 24,
-      paddingLeft: 16,
-      paddingRight: 16,
-      // borderColor: error ? colors.error : "#CCC",
-      borderColor: colors.borderGrey,
-      borderWidth: 1,
+      gap: 12,
+      alignItems: "center",
     },
-    placeholder: {
-      color: colors.helperText,
-      marginLeft: 8,
-      fontFamily: "RobotoBold",
-    },
-    inputText: {
-      fontFamily: "RobotoBold",
-      color: colors.helperText,
-      marginLeft: 8,
+    selectText: {
+      fontSize: 14,
+      color: "#021C3D",
     },
   });
   return (
-    <View style={styles.wrapper}>
+    <TouchableOpacity
+      onPress={() => pickerRef.current.togglePicker()}
+      style={styles.wrapper}
+    >
       <Text style={styles.labelText}>{label}</Text>
 
       <RNPickerSelect
-        style={{
-          inputIOSContainer: {
-            ...styles.inputWrapper,
-          },
-          placeholder: {
-            ...styles.placeholder,
-          },
-          inputIOS: {
-            ...styles.inputText,
-          },
-          inputAndroid: {
-            ...styles.inputText,
-          },
-        }}
+        ref={pickerRef}
         placeholder={{
           value: "",
-          label: placeholder,
+          label: "",
         }}
         onValueChange={(value) => onChange(value)}
         items={items}
+        style={{
+          inputIOSContainer: {
+            display: "none",
+          },
+          inputAndroidContainer: {
+            display: "none",
+          },
+        }}
       />
-    </View>
+
+      <View style={styles.rightWrapper}>
+        <View style={styles.selectWrapper}>
+          <Text style={styles.selectText}>
+            {value !== "" && value ? value : "Select"}
+          </Text>
+        </View>
+        <ChevronDown size={24} color={colors.primaryText} />
+      </View>
+    </TouchableOpacity>
   );
 };
 

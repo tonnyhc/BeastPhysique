@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { Exercise } from "../../../ts/types";
 import { useTheme } from "../../../contexts/ThemeContext";
 import CircleSelect from "../../common/CircleSelect";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface ExerciseSearchCardProps {
   exercise: Exercise;
@@ -39,11 +40,13 @@ const ExerciseSearchCard: React.FC<ExerciseSearchCardProps> = ({
       objectFit: "contain",
     },
     heading: {
-      fontSize: 22,
+      fontSize: 18,
+      fontFamily: "RobotoMedium",
       color: colors.primaryText,
       marginBottom: 8,
     },
     helperText: {
+      fontFamily: "RobotoRegular",
       fontSize: 13,
       letterSpacing: 0.2,
       color: colors.helperText,
@@ -51,7 +54,8 @@ const ExerciseSearchCard: React.FC<ExerciseSearchCardProps> = ({
     },
     tips: {
       fontSize: 12,
-      color: colors.blueText,
+      color: colors.orangeText,
+      fontFamily: "RobotoRegular",
       flexBasis: "auto",
     },
     select: {
@@ -61,7 +65,7 @@ const ExerciseSearchCard: React.FC<ExerciseSearchCardProps> = ({
     },
   });
   return (
-    <View style={styles.cardWrapper}>
+    <TouchableOpacity onPress={onSelectExercise} style={styles.cardWrapper}>
       <View style={styles.exerciseInfoWrapper}>
         <Text style={styles.heading}>{exercise.name}</Text>
         {exercise.information && (
@@ -86,7 +90,7 @@ const ExerciseSearchCard: React.FC<ExerciseSearchCardProps> = ({
       <View style={styles.select}>
         <CircleSelect onPress={onSelectExercise} isSelected={isSelected} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
