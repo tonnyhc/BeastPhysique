@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../contexts/AuthContext";
-import { ExerciseSet } from "../ts/types";
+import { useAuth } from "../../contexts/AuthContext";
+import { ExerciseSet } from "../../ts/types";
 import useApi from "./useApi";
 
 const useUpdateSetExerciseSession = (setId: number) => {

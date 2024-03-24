@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import useApi from "./useApi";
-import { emptyWorkoutSession } from "../utils/mapData";
+import { emptyWorkoutSession } from "../../utils/mapData";
 
 const useWorkoutService = () => {
   const url = "workouts/workout/";

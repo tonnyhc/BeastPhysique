@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import Screen from "../../components/common/Screen";
 import PhysiqueGoalCard from "../../components/profile/setup/PhysiqueGoalCard";
-import useProfileSetup from "../../hooks/useProfileSetup";
+import useProfileSetup from "../../hooks/services/useProfileSetup";
 import AuthStackHeader from "../../components/authentication/AuthStackHeader";
 import SetupScreenHeader from "../../components/profile/setup/SetupScreenHeader";
 import SetupScreenFooterBtns from "../../components/profile/setup/SetupScreenFooterBtns";

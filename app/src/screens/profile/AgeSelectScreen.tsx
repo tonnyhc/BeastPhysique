@@ -4,7 +4,7 @@ import Screen from "../../components/common/Screen";
 import SetupScreenHeader from "../../components/profile/setup/SetupScreenHeader";
 import SetupScreenFooterBtns from "../../components/profile/setup/SetupScreenFooterBtns";
 import AuthStackHeader from "../../components/authentication/AuthStackHeader";
-import useProfileSetup from "../../hooks/useProfileSetup";
+import useProfileSetup from "../../hooks/services/useProfileSetup";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProfileSetupStackParamsList } from "../../Stacks/ProfileSetupStack";

@@ -5,9 +5,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import { CustomExerciseData } from "../Stacks/CreateExerciseStack";
+import { CustomExerciseData, MuscleGroup } from "../Stacks/CreateExerciseStack";
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
-import useExerciseService from "../hooks/useExerciseService";
+import useExerciseService from "../hooks/services/useExerciseService";
 
 interface CreateExerciseProviderProps {
   children: ReactNode;
@@ -18,9 +18,13 @@ type CreateExerciseContextProps = {
   changeFieldValue: (value: any, fieldName: string) => void;
   isPublishDisabled: boolean;
   isCreateDisabled: boolean;
-  submitFn: (
-    successFn: () => void
-  ) => UseMutationResult<any, Error, void, unknown>;
+  mutate: () => UseMutationResult<any, Error, void, unknown>;
+  // submitFn: (
+  //   successFn: () => void
+  // ) => UseMutationResult<any, Error, void, unknown>;
+  addMuscleGroup: (muscleGroup: MuscleGroup) => void;
+  onSuccessFn: () => void;
+
 };
 const CreateExerciseContext = createContext<CreateExerciseContextProps>({});
 
@@ -29,6 +33,8 @@ export const CreateExerciseProvider: React.FC<CreateExerciseProviderProps> = ({
 }) => {
   const [exerciseData, setExerciseData] = useState<CustomExerciseData>({
     name: "",
+    targeted_muscle_groups: [],
+    bodyweight: false,
     cover_photo: "",
     information: "",
     video_tutorial: "",
@@ -48,16 +54,37 @@ export const CreateExerciseProvider: React.FC<CreateExerciseProviderProps> = ({
     setIsCreateDisabled(isNameEmpty);
   }, [exerciseData]);
 
-  const submitFn = (successFn: () => void) => {
-    const mutation = useMutation({
-      mutationFn: () => createExercise(exerciseData),
-      mutationKey: ["exerciseCreate"],
-      onSuccess: () => {
-        successFn();
-        // navigation.goBack();
-      },
-    });
-    return mutation;
+  const { mutate } = useMutation({
+    mutationFn: () => {
+      const modifiedExerciseData = {
+        ...exerciseData,
+        targeted_muscle_groups: exerciseData.targeted_muscle_groups.map(
+          (item) => item.id
+        ),
+      };
+
+      return createExercise(modifiedExerciseData);
+    },
+    mutationKey: ["exerciseCreate"],
+    onSuccess: () => {
+      onSuccessFn()
+    },
+  });
+
+  const addMuscleGroup = (muscleGroup: MuscleGroup) => {
+    if (exerciseData.targeted_muscle_groups.includes(muscleGroup)) {
+      setExerciseData((oldData) => ({
+        ...oldData,
+        targeted_muscle_groups: oldData.targeted_muscle_groups.filter(
+          (item) => item !== muscleGroup
+        ),
+      }));
+      return;
+    }
+    setExerciseData((oldData) => ({
+      ...oldData,
+      targeted_muscle_groups: [...oldData.targeted_muscle_groups, muscleGroup],
+    }));
   };
 
   const createPublicExercise = (successFn: () => void) => {
@@ -77,7 +104,8 @@ export const CreateExerciseProvider: React.FC<CreateExerciseProviderProps> = ({
     changeFieldValue,
     isPublishDisabled,
     isCreateDisabled,
-    submitFn,
+    mutate,
+    addMuscleGroup,
   };
 
   return (

@@ -8,7 +8,7 @@ import {
 } from "../ts/types";
 
 import * as SecureStore from "expo-secure-store";
-import useApi from "../hooks/useApi";
+import useApi from "../hooks/services/useApi";
 
 type AuthProviderProps = {
   children: ReactNode;

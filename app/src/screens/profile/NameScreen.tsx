@@ -12,7 +12,7 @@ import Button from "../../components/common/Button";
 import { useTheme } from "../../contexts/ThemeContext";
 import ChevronRight from "../../icons/ChevronRight";
 import useKeyboard from "../../hooks/useKeyboard";
-import useProfileSetup from "../../hooks/useProfileSetup";
+import useProfileSetup from "../../hooks/services/useProfileSetup";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProfileSetupStackParamsList } from "../../Stacks/ProfileSetupStack";

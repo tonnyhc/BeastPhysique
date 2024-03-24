@@ -12,7 +12,7 @@ import SubmitButton from "../../components/common/Button";
 import { useTheme } from "../../contexts/ThemeContext";
 import { ScrollView } from "react-native-gesture-handler";
 import { useMutation } from "@tanstack/react-query";
-import useExerciseService from "../../hooks/useExerciseService";
+import useExerciseService from "../../hooks/services/useExerciseService";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
 

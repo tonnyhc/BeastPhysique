@@ -1,7 +1,7 @@
 import { View, Text, Dimensions, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
-import useFetchExerciseSessionProgress from "../../hooks/useFetchExerciseSessionProgress";
+import useFetchExerciseSessionProgress from "../../hooks/services/useFetchExerciseSessionProgress";
 import ExerciseProgressLineChart from "../../components/workouts/exercise/ExerciseProgressLineChart";
 import { ExerciseSetProgressArray } from "../../ts/types";
 import Chip from "../../components/common/Chip";

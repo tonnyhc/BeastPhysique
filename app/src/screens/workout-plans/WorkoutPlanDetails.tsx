@@ -3,7 +3,7 @@ import React from "react";
 import Screen from "../../components/common/Screen";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "../../contexts/ThemeContext";
-import useFetchWorkoutPlanDetails from "../../hooks/useFetchWorkoutPlanDetails";
+import useFetchWorkoutPlanDetails from "../../hooks/services/useFetchWorkoutPlanDetails";
 import { WorkoutPlan } from "../../ts/types";
 import WorkoutPlanDetailsWorkoutCard from "./WorkoutPlanDetailsWorkoutCard";
 import useRefreshControl from "../../hooks/useRefreshControl";

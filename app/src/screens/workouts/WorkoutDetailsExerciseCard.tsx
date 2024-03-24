@@ -14,7 +14,7 @@ import { ExerciseSession, ExerciseSet } from "../../ts/types";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
-import useFetchExerciseSessionProgress from "../../hooks/useFetchExerciseSessionProgress";
+import useFetchExerciseSessionProgress from "../../hooks/services/useFetchExerciseSessionProgress";
 
 interface WorkoutDetailsExerciseCardProp {
   session: ExerciseSession;

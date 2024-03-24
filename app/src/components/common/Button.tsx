@@ -93,9 +93,9 @@ const Button: React.FC<ButtonProps> = ({
     },
     textIconWrapper: {
       flexDirection: "row",
-      justifyContent: "space-between",
+      justifyContent: text && icon ? "space-between" : 'center',
       alignItems: "center",
-      gap: 8,
+      gap: text && icon ? 8 : 0,
       
     },
   });

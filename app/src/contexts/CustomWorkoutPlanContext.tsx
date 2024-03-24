@@ -10,7 +10,7 @@ import CustomProgramReducer, {
   Action,
   ProgramState,
 } from "../reducers/CustomProgramReducer";
-import useApi from "../hooks/useApi";
+import useApi from "../hooks/services/useApi";
 import { useAuth } from "./AuthContext";
 
 interface CreateCustomWorkoutPlanContextProps {

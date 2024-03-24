@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useApi from "./useApi";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const useFetchWorkoutPlanDetails = (workoutPlanId: string | number) => {
   const { token } = useAuth();

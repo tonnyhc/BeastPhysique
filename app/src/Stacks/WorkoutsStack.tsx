@@ -48,6 +48,7 @@ const WorkoutsStackScreen: React.FC = () => {
   return (
     <CreateCustomWorkoutPlanProvider>
       <WorkoutsStack.Navigator
+      initialRouteName="CreateCustomExercise"
         screenOptions={{
           headerShown: true,
           headerTitle: "",

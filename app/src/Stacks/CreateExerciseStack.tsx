@@ -3,25 +3,43 @@ import {
   createStackNavigator,
 } from "@react-navigation/stack";
 import { useTheme } from "../contexts/ThemeContext";
-import CloseButton from "../components/common/CloseButton";
-import CreateExerciseNamingScreen from "../screens/exercises/CreateExerciseNamingScreen";
-import Button from "../components/common/Button";
-import { CreateExerciseProvider, useCreateExercise } from "../contexts/CreateExerciseContext";
+import {
+  CreateExerciseProvider,
+  useCreateExercise,
+} from "../contexts/CreateExerciseContext";
+import CreateExerciseBaseScreen from "../screens/exercises/CreateExerciseBaseScreen";
+import { View, Text, SafeAreaView } from "react-native";
+import StackScreenHeader from "../components/common/StackScreenHeader";
+import CreateExercisePublishScreen from "../screens/exercises/CreateExercisePublishScreen";
+import { ImagePickerAsset } from "expo-image-picker";
+
+export type CreateExerciseStackParamList = {
+  BaseScreen: undefined;
+  PublishScreen: undefined;
+};
 
 interface CreateExerciseStackScreenProps {
   navigation: StackNavigationProp<any>;
 }
 
+export type MuscleGroup = {
+  id: number,
+  name: string
+}
+
 export type CustomExerciseData = {
   name: string;
-  cover_photo: string;
+  targeted_muscle_groups: MuscleGroup[];
+  bodyweight: boolean;
+  cover_photo: ImagePickerAsset;
   information: string;
-  video_tutorial: string;
+  video_tutorial: ImagePickerAsset;
   tips: string;
   publish: boolean;
 };
 
-const CreateExerciseStack = createStackNavigator();
+const CreateExerciseStack =
+  createStackNavigator<CreateExerciseStackParamList>();
 
 const CreateExerciseStackScreen: React.FC<CreateExerciseStackScreenProps> = ({
   navigation,
@@ -31,13 +49,10 @@ const CreateExerciseStackScreen: React.FC<CreateExerciseStackScreenProps> = ({
   return (
     <CreateExerciseProvider>
       <CreateExerciseStack.Navigator
+        initialRouteName="BaseScreen"
         screenOptions={{
           headerShown: true,
           headerTitle: "",
-          headerTitleStyle: {
-            color: colors.helperText,
-          },
-          headerBackTitleVisible: false,
           headerLeftContainerStyle: {
             paddingLeft: 12,
           },
@@ -53,46 +68,19 @@ const CreateExerciseStackScreen: React.FC<CreateExerciseStackScreenProps> = ({
         }}
       >
         <CreateExerciseStack.Screen
-          name="ExerciseNaming"
-          component={CreateExerciseNamingScreen}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerTitle: "Create exercise",
-            headerLeft: (props) => (
-              <CloseButton onPress={() => navigation.goBack()} />
-            ),
-            headerRight: (props) => {
-                const {isCreateDisabled} = useCreateExercise();
-              return (
-                <Button
-                  type="text"
-                  text="Continue"
-                  disabled={isCreateDisabled}
-                  onPress={() => {}}
-                />
-              );
-            },
-            // (
-            //   <Button
-            //     type="text"
-            //     text="Continue"
-            //     disabled={exerciseData.name === ""}
-            //     onPress={() => {}}
-            //   />
-            // ),
-          })}
+          name="BaseScreen"
+          component={CreateExerciseBaseScreen}
+          options={{
+            header: () => <StackScreenHeader label="Create exercise" />,
+          }}
         />
-        {/* <CreateExerciseStack.Screen
-        component={ExerciseCreationModal}
-        name="ExerciseNaming"
-        options={({ navigation }) => ({
-          headerShown: true,
-          headerTitle: "Create exercise",
-          headerLeft: (props) => (
-            <CloseButton onPress={() => navigation.goBack()} />
-          ),
-        })}
-      /> */}
+        <CreateExerciseStack.Screen
+          name="PublishScreen"
+          component={CreateExercisePublishScreen}
+          options={{
+            header: () => <StackScreenHeader label="Create exercise" />,
+          }}
+        />
       </CreateExerciseStack.Navigator>
     </CreateExerciseProvider>
   );

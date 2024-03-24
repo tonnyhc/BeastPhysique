@@ -8,7 +8,7 @@ import ChevronRight from "../../icons/ChevronRight";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProfileSetupStackParamsList } from "../../Stacks/ProfileSetupStack";
 import { useAuth } from "../../contexts/AuthContext";
-import useProfileSetup from "../../hooks/useProfileSetup";
+import useProfileSetup from "../../hooks/services/useProfileSetup";
 import AuthStackHeader from "../../components/authentication/AuthStackHeader";
 import SetupScreenHeader from "../../components/profile/setup/SetupScreenHeader";
 import SetupScreenFooterBtns from "../../components/profile/setup/SetupScreenFooterBtns";

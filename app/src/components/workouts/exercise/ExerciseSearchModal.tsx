@@ -2,7 +2,7 @@ import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from "react
 import React, { useDeferredValue, useEffect, useState } from "react";
 import Screen from "../../common/Screen";
 import ReusableInput from "../../common/ReusableInput";
-import useExerciseService from "../../../hooks/useExerciseService";
+import useExerciseService from "../../../hooks/services/useExerciseService";
 import { useMutation } from "@tanstack/react-query";
 import { useTheme } from "../../../contexts/ThemeContext";
 

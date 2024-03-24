@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import GenderSelect from "../../components/profile/setup/GenderSelect";
 import Screen from "../../components/common/Screen";
-import useProfileSetup from "../../hooks/useProfileSetup";
+import useProfileSetup from "../../hooks/services/useProfileSetup";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ProfileSetupStackParamsList } from "../../Stacks/ProfileSetupStack";

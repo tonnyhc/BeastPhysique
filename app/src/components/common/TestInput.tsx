@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, TextStyle, View } from "react-native";
 import React, { ReactNode, useEffect, useState } from "react";
 import UserIcon from "../../icons/UserIcon";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -10,6 +10,7 @@ interface ReusableInputProps {
   value: string;
   onChange: (value: string) => void;
   label?: string;
+  labelStyles?: TextStyle;
   placeholder: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -20,6 +21,7 @@ interface ReusableInputProps {
   onPressHelperRight?: () => void;
   error?: string;
 
+  multiline?: boolean
   onEndEditing?: () => void;
   inputMode?: "text" | "decimal" | "numeric" | "email" | "search";
 }
@@ -28,6 +30,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
   value,
   onChange,
   label,
+  labelStyles,
   placeholder,
   leftIcon,
   rightIcon,
@@ -39,6 +42,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
   helperTextLeft,
   helperTextRight,
   onPressHelperRight,
+  multiline
 }) => {
   const { colors } = useTheme();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(
@@ -63,12 +67,15 @@ const TestInput: React.FC<ReusableInputProps> = ({
     },
     label: {
       fontSize: 16,
-      fontFamily: "RobotoRegular",
+      fontFamily: "RobotoMedium",
+      marginLeft: 8,
+      marginBottom: 4,
       color: error || emailError ? colors.error : colors.primaryText,
+      ...labelStyles
     },
     master: {
       gap: 8,
-      minHeight: 48,
+      minHeight: multiline ? 68 : 48,
       borderWidth: 1,
       borderRadius: 4,
       borderColor: error || emailError ? colors.error : "#676767",
@@ -122,6 +129,8 @@ const TestInput: React.FC<ReusableInputProps> = ({
           secureTextEntry={passwordVisible}
           onChangeText={onChange}
           inputMode={inputMode}
+          multiline={multiline}
+          numberOfLines={10}
         />
         {/* right icon */}
         {isPassword ? (

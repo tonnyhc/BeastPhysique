@@ -11,12 +11,9 @@ import ForgotPassword from "../screens/authentication/ForgotPassword";
 import ForgottenPasswordVerification from "../screens/authentication/ForgottenPasswordVerification";
 import ResetPassword from "../screens/authentication/ResetPassword";
 import { ForgottenPasswordProvider } from "../contexts/ForgottenPasswordContext";
-import SuccessVerification from "../screens/authentication/SuccessVerification";
 import ProfileSetupScreen from "./ProfileSetupStack";
-import AuthButtonsNavigation from "../components/authentication/AuthButtonsNavigation";
 import { useTheme } from "../contexts/ThemeContext";
 import BackButton from "../components/common/BackButton";
-import AuthStackHeader from "../components/authentication/AuthStackHeader";
 import Onboarding from "../screens/authentication/Onboarding";
 import SuccessPasswordReset from "../screens/authentication/SuccessVerification";
 
@@ -36,7 +33,6 @@ export type AuthStackParamList = {
 const AuthStack = createStackNavigator<AuthStackParamList>();
 
 const AuthStackScreen: React.FC = () => {
-  const { colors } = useTheme();
   const { token, isVerified, onLogout } = useAuth();
 
   const handleBackClick = (
@@ -51,7 +47,6 @@ const AuthStackScreen: React.FC = () => {
       <AuthStack.Navigator
         initialRouteName={
           token && !isVerified ? "AccountVerification" : "Welcome"
-          // "Welcome"
         }
         screenOptions={{
           headerShown: false,

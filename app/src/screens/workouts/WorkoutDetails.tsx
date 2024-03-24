@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 
-import useWorkoutService from "../../hooks/useWorkoutService";
+import useWorkoutService from "../../hooks/services/useWorkoutService";
 import { ExerciseSession, Workout, WorkoutSession } from "../../ts/types";
 import WorkoutDetailsExerciseCard from "./WorkoutDetailsExerciseCard";
 import useRefreshControl from "../../hooks/useRefreshControl";

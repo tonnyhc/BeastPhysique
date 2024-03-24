@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import useApi from "./useApi";
 
 interface useProfileSetupProp {

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import useApi from "./useApi";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const useDeleteSetFromExerciseSession = (
   setId: number,

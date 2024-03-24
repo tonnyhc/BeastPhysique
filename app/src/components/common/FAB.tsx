@@ -5,8 +5,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 interface FABProps {
   onPress: () => void;
   testId?: string;
-  icon?: ReactNode;
-  type?: "primary" | "outlined" | "text";
+  icon: ReactNode;
   loading?: boolean;
 }
 

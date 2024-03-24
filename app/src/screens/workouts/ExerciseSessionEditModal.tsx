@@ -8,7 +8,7 @@ import SubmitButton from "../../components/common/Button";
 import PlusIcon from "../../icons/PlusIcon";
 import ExerciseSessionEditModalSetCard from "./ExerciseSessionEditModalSetCard";
 import { emptySet } from "../../utils/mapData";
-import useAddSetToExerciseSession from "../../hooks/useAddSetToExerciseSession";
+import useAddSetToExerciseSession from "../../hooks/services/useAddSetToExerciseSession";
 
 interface ExerciseSessionEditModalProps {
   route: { params: { exerciseSession: ExerciseSession } };

@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import useApi from "../hooks/useApi";
+import useApi from "../hooks/services/useApi";
 import { useAuth } from "./AuthContext";
 
 type ForgottenPasswordContextType = {

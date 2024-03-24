@@ -2,7 +2,7 @@ import { FlatList, RefreshControl, View } from "react-native";
 import Screen from "../../components/common/Screen";
 
 import WorkoutPlanCard from "../../components/workouts/WorkoutPlanCard";
-import useFetchWorkoutPlans from "../../hooks/useFetchWorkoutPlans";
+import useFetchWorkoutPlans from "../../hooks/services/useFetchWorkoutPlans";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
 import useRefreshControl from "../../hooks/useRefreshControl";

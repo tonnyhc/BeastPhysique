@@ -22,7 +22,7 @@ export const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
   const colors: Colors = theme === "light" ? lightColors : darkColors;
   const shadows = {
     "24DP_Penumbra": {

@@ -5,9 +5,9 @@ import TrashIcon from "../../icons/TrashIcon";
 import ReusableInput from "../../components/common/ReusableInput";
 import { useEffect, useState } from "react";
 
-import useDeleteSetFromExerciseSession from "../../hooks/useDeleteSetFromExerciseSession";
+import useDeleteSetFromExerciseSession from "../../hooks/services/useDeleteSetFromExerciseSession";
 import SubmitButton from "../../components/common/Button";
-import useUpdateSetExerciseSession from "../../hooks/useUpdateSetExerciseSession";
+import useUpdateSetExerciseSession from "../../hooks/services/useUpdateSetExerciseSession";
 
 interface ExerciseSessionEditModalSetCardProps {
   set: ExerciseSet;
