@@ -1,18 +1,13 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Dashboard from "../screens/Dashboard";
 
-import {
-  FontAwesome,
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Feather,
-} from "@expo/vector-icons";
 import { useTheme } from "../contexts/ThemeContext";
 import WorkoutsStackScreen from "../Stacks/WorkoutsStack";
 import BarbellIcon from "../icons/BarbellIcon";
-import ProfileIcon from "../icons/ProfileIcon";
 import ProfileStackScreen from "../Stacks/ProfileStack";
 import HomeIcon from "../icons/HomeIcon";
+import UserIcon from "../icons/UserIcon";
+import MoreIcon from "../icons/MoreIcon";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,42 +15,31 @@ const TabBar = () => {
   const { colors } = useTheme();
   return (
     <Tab.Navigator
+
       initialRouteName="Home"
       screenOptions={() => ({
+        tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: colors.bg,
+          borderTopWidth: 0,
         },
-        tabBarLabelStyle: {
-          fontFamily: "RobotoSlabRegular",
-          // TODO: When is active make the font "RobotoSlabBold"
+        tabBarItemStyle: {
+          width: 24,
+          height: 24,
         },
-
         headerShown: false,
-        tabBarInactiveTintColor: "#565E6CFF",
-        tabBarActiveTintColor: colors.orangeText,
+        tabBarInactiveTintColor: colors.primaryText,
+        tabBarActiveTintColor: colors.primaryText,
       })}
     >
       <Tab.Screen
         name="Dashboard"
         component={Dashboard}
         options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="home" size={size} color={color} />
-            // <HomeIcon size={48} color={color}/>
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Nutrition"
-        component={Dashboard}
-        options={{
-          tabBarLabel: "Nutrition",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="nutrition"
-              size={size}
+          tabBarIcon: ({ color, size, focused }) => (
+            <HomeIcon
+              size={size }
+              fill={focused ? colors.primaryText : "none"}
               color={color}
             />
           ),
@@ -66,10 +50,12 @@ const TabBar = () => {
         name="WorkoutsStack"
         component={WorkoutsStackScreen}
         options={{
-          tabBarLabel: "Workouts",
-          tabBarIcon: ({ color, size }) => (
-            // <MaterialIcons name="fitness-center" size={size} color={color} />
-            <BarbellIcon size={size + 10} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <BarbellIcon
+              size={size}
+              fill={focused ? color : "none"}
+              color={color}
+            />
           ),
         }}
       />
@@ -77,9 +63,25 @@ const TabBar = () => {
         name="ProfileStack"
         component={ProfileStackScreen}
         options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <ProfileIcon color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <UserIcon
+              fill={focused ? color : "none"}
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Dashboard}
+        options={{
+          tabBarIcon: ({ color, size, focused }) => (
+            <MoreIcon
+              fill={focused ? color : "none"}
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
