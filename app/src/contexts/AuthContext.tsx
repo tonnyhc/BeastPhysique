@@ -27,6 +27,7 @@ interface AuthProps {
   // TODO: Can move this to the profile context later on
   setupProfile?: boolean;
   skipSetupProfile?: () => void;
+  verifyProfile: () => void;
 }
 
 export const AuthContext = createContext<AuthProps>({});
@@ -61,7 +62,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     setVerifyToken(authData.token ? true : false);
-  }, [authData]);
+      }, [authData]);
 
   if (verifyToken) {
     verifyTokenFn();
@@ -83,7 +84,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     try {
       const data = await post(loginURL, body);
-
       setAuthData({
         token: data.token,
         isVerified: data.is_verified,
@@ -144,6 +144,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }));
   }
 
+  async function verifyProfile() {
+    setAuthData((oldData) => ({
+      ...oldData,
+      isVerified: true,
+    }));
+    await SecureStore.setItemAsync("authData", JSON.stringify(authData));
+  }
+
   const context = {
     token: authData.token,
     isAuth: authData.token ? true : false,
@@ -157,6 +165,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // TODO: Can move this to the profile context later on
     setupProfile: authData.setupProfile,
     skipSetupProfile,
+    verifyProfile,
   };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

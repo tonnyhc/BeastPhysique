@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { ReactNode } from "react";
 import ChevronLeft from "../../icons/ChevronLeft";
 import { useTheme } from "../../contexts/ThemeContext";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -7,15 +7,22 @@ import { useNavigation } from "@react-navigation/native";
 
 interface StackScreenHeaderProps {
   label: string;
+  rightButton?: ReactNode;
 }
 
-const StackScreenHeader: React.FC<StackScreenHeaderProps> = ({ label }) => {
+const StackScreenHeader: React.FC<StackScreenHeaderProps> = ({
+  label,
+  rightButton,
+}) => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
   const styles = StyleSheet.create({
     wrapper: {
       paddingHorizontal: 12,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: colors.bg,
     },
     header: {
       flexDirection: "row",
@@ -38,6 +45,7 @@ const StackScreenHeader: React.FC<StackScreenHeaderProps> = ({ label }) => {
           </TouchableWithoutFeedback>
           <Text style={styles.headerText}>{label}</Text>
         </View>
+        {rightButton ? rightButton : null}
       </View>
     </SafeAreaView>
   );

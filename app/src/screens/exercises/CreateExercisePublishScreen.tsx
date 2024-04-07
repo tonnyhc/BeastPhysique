@@ -27,14 +27,15 @@ const CreateExercisePublishScreen: React.FC = () => {
     exerciseData,
     changeFieldValue,
     mutate,
+    createPublicExercise,
     isCreateDisabled,
     isPublishDisabled,
-  } = useCreateExercise(() => navigation.navigate("Home"));
-  const navigation = useNavigation();
+    pendingMutate,
+  } = useCreateExercise();
   const { colors } = useTheme();
-  const [pickedVideo, setPickedVideo] = useState<string>("");
-  console.log(pickedVideo);
   const video = React.useRef(null);
+  const [videoToRender, setVideoToRender] =
+    useState<ImagePicker.ImagePickerAsset | null>(null);
   React.useEffect(() => {
     if (video.current && video.current.getStatusAsync) {
       video?.current.playAsync();
@@ -49,7 +50,10 @@ const CreateExercisePublishScreen: React.FC = () => {
       //   mediaTypes: "Photos",
     });
     if (!result.canceled) {
-      changeFieldValue(result.assets, "cover_photo");
+      const image = result.assets[0];
+      const imageUri =
+        Platform.OS === "ios" ? image.uri.replace("file://", "") : image.uri;
+      changeFieldValue(imageUri, "cover_photo");
     }
   };
   const removePickedVideoAlert = async () => {
@@ -64,7 +68,10 @@ const CreateExercisePublishScreen: React.FC = () => {
         {
           text: "Remove",
           style: "destructive",
-          onPress: () => changeFieldValue(null, "video_tutorial"),
+          onPress: () => {
+            changeFieldValue(null, "video_tutorial");
+            setVideoToRender(null);
+          },
         },
       ],
       {
@@ -82,8 +89,13 @@ const CreateExercisePublishScreen: React.FC = () => {
       mediaTypes: "Videos",
     });
     if (!result.canceled) {
-      console.log(result.assets[0]);
-      changeFieldValue(result.assets[0], "video_tutorial");
+      const videoFromStorage = result.assets[0];
+      const videoUri =
+        Platform.OS === "ios"
+          ? videoFromStorage.uri.replace("file://", "")
+          : videoFromStorage.uri;
+      changeFieldValue(videoUri, "video_tutorial");
+      setVideoToRender(videoFromStorage);
     }
   };
 
@@ -112,9 +124,9 @@ const CreateExercisePublishScreen: React.FC = () => {
       flexGrow: 1,
     },
     scrollViewContent: {
-        justifyContent: "space-between",
-        flexGrow: 1,
-        paddingBottom: 35
+      justifyContent: "space-between",
+      flexGrow: 1,
+      paddingBottom: 35,
     },
     formRow: {
       gap: 23,
@@ -150,8 +162,8 @@ const CreateExercisePublishScreen: React.FC = () => {
           style={styles.screenWrapper}
         >
           <View style={{ flex: 1 }}>
+            {/* Photos  */}
             <View style={styles.formRow}>
-              {/* Photos  */}
               <Text style={styles.labelText}>Cover photo</Text>
               <View>
                 {exerciseData.cover_photo ? (
@@ -161,7 +173,7 @@ const CreateExercisePublishScreen: React.FC = () => {
                   >
                     <Image
                       style={{ width: 150, height: 120, objectFit: "cover" }}
-                      source={exerciseData.cover_photo}
+                      source={{ uri: exerciseData.cover_photo }}
                     />
                   </TouchableOpacity>
                 ) : (
@@ -186,7 +198,7 @@ const CreateExercisePublishScreen: React.FC = () => {
                     <Video
                       ref={video}
                       style={{ flex: 1 }}
-                      source={exerciseData.video_tutorial}
+                      source={videoToRender}
                       useNativeControls={false}
                       resizeMode={ResizeMode.COVER}
                       isLooping
@@ -226,18 +238,19 @@ const CreateExercisePublishScreen: React.FC = () => {
             </View>
           </View>
 
-          <View style={{ marginTop:20, gap: 10 }}>
+          <View style={{ marginTop: 20, gap: 10 }}>
             <Button
               type="primary"
               text="Create"
+              loading={pendingMutate}
               disabled={isCreateDisabled}
-              onPress={() => mutate()}
+              onPress={mutate}
             />
             <Button
               type="outlined"
               disabled={isPublishDisabled}
               text="Create & Publish"
-              onPress={() => {}}
+              onPress={() => createPublicExercise()}
             />
           </View>
         </ScrollView>

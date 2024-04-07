@@ -1,3 +1,7 @@
+import { ImagePickerAsset } from "expo-image-picker";
+import { Platform } from "react-native";
+import { CustomExerciseData } from "../Stacks/CreateExerciseStack";
+
 interface Height {
   feet?: number;
   inches?: number;
@@ -64,4 +68,34 @@ export function removeTimeFromDate(date: Date): string {
     padTo2Digits(date.getMonth() + 1),
     padTo2Digits(date.getDate()),
   ].join("-");
+}
+
+export function transformExerciseDataToFormData(
+  exerciseData: CustomExerciseData
+) {
+  const formData = new FormData();
+  formData.append("name", exerciseData.name),
+    formData.append("bodyweight", exerciseData.bodyweight.toString());
+  formData.append("information", exerciseData.information);
+  formData.append("tips", exerciseData.tips);
+  formData.append("publish", exerciseData.publish.toString());
+  if (exerciseData.cover_photo && exerciseData.cover_photo !== "") {
+    formData.append("cover_photo", {
+      uri: exerciseData.cover_photo,
+      name: `${exerciseData.name}_cover_photo`,
+      type: "image/jpeg",
+    });
+  }
+  if (exerciseData.video_tutorial && exerciseData.video_tutorial !== "") {
+    formData.append("video_tutorial", {
+      uri: exerciseData.video_tutorial,
+      name: `${exerciseData.name}_video_tutorial`,
+      type: "video/mp4",
+    });
+  }
+
+  for (const item of exerciseData.targeted_muscle_groups) {
+    formData.append("targeted_muscle_groups", item.toString());
+  }
+  return formData;
 }

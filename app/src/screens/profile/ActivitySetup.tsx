@@ -88,7 +88,7 @@ const ActivitySetup: React.FC<ActivitySetupProps> = ({ navigation }) => {
         />
         <View
           style={{
-            flex: 1,
+            flexGrow: 1,
             flexDirection: "row",
             alignItems: "center",
             flexWrap: "wrap",
@@ -96,8 +96,9 @@ const ActivitySetup: React.FC<ActivitySetupProps> = ({ navigation }) => {
             marginTop: 50,
           }}
         >
-          {activityMap.map((item) => (
+          {activityMap.map((item, index) => (
             <TouchableOpacity
+              key={index}
               onPress={() => setData(item.value)}
               style={[
                 styles.activityCard,

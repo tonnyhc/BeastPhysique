@@ -16,6 +16,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import BackButton from "../components/common/BackButton";
 import Onboarding from "../screens/authentication/Onboarding";
 import SuccessPasswordReset from "../screens/authentication/SuccessVerification";
+import StackScreenHeader from "../components/common/StackScreenHeader";
 
 export type AuthStackParamList = {
   Welcome: undefined;
@@ -34,13 +35,6 @@ const AuthStack = createStackNavigator<AuthStackParamList>();
 
 const AuthStackScreen: React.FC = () => {
   const { token, isVerified, onLogout } = useAuth();
-
-  const handleBackClick = (
-    navigation: StackNavigationProp<AuthStackParamList>
-  ) => {
-    onLogout ? onLogout() : null;
-    navigation.navigate("Register");
-  };
 
   return (
     <ForgottenPasswordProvider>
@@ -67,15 +61,8 @@ const AuthStackScreen: React.FC = () => {
             name="AccountVerification"
             component={AccountVerification}
             options={({ navigation }) => ({
+              header: () => <StackScreenHeader label="Account verification" />,
               headerShown: true,
-
-              headerTitle: "Account verification",
-              headerLeft: () => (
-                <BackButton onPress={() => handleBackClick(navigation)} />
-              ),
-              headerLeftContainerStyle: {
-                paddingLeft: 24,
-              },
             })}
           />
           <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />

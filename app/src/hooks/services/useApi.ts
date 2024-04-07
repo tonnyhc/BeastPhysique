@@ -1,5 +1,5 @@
 interface RequestInitWithBody extends RequestInit {
-  body?: string;
+  body?: string | FormData;
 }
 
 export type RequestMethod = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
@@ -23,8 +23,14 @@ const useApi = (token: string) => {
 
     // Checking if the request has a body to apply a content type to it and to stringify the body to JSON
     if (body) {
-      headers["Content-Type"] = "application/json";
-      options.body = JSON.stringify(body);
+      if (body instanceof FormData) {
+        // If body is FormData, set content type to undefined and use the body directly
+        options.body = body;
+        headers = {};
+      } else {
+        headers["Content-Type"] = "application/json";
+        options.body = JSON.stringify(body);
+      }
     }
 
     try {

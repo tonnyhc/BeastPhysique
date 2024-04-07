@@ -8,7 +8,6 @@ import CreateCustomWorkoutPlanProvider, {
   useCustomWorkoutPlan,
 } from "../contexts/CustomWorkoutPlanContext";
 import WorkoutSelection from "../screens/workouts/WorkoutSelection";
-import ExerciseSearchModal from "../components/workouts/exercise/ExerciseSearchModal";
 import { useTheme } from "../contexts/ThemeContext";
 import ExerciseCreationModal from "../screens/workouts/ExerciseCreationModal";
 import WorkoutDetails from "../screens/workouts/WorkoutDetails";
@@ -22,6 +21,8 @@ import CreateCustomWorkout from "../screens/workouts/CreateCustomWorkout";
 import { Image } from "react-native";
 import CloseButton from "../components/common/CloseButton";
 import CreateExerciseStackScreen from "./CreateExerciseStack";
+import CreateWorkoutsStackScreen from "./CreateWorkoutStack";
+import CreateWorkoutStackContext from "../screens/workouts/CreateWorkoutStackContext";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
@@ -32,9 +33,7 @@ export type WorkoutsStackParamList = {
     workoutIndex: string | number;
   };
   WorkoutSearch: undefined;
-  ExerciseSearchModal: {
-    workoutIndex: number;
-  };
+
   CreateCustomExercise: undefined;
   EditExerciseSession: { exerciseSession: ExerciseSession };
   ExerciseProgress: undefined;
@@ -44,11 +43,10 @@ const WorkoutsStack = createStackNavigator<WorkoutsStackParamList>();
 
 const WorkoutsStackScreen: React.FC = () => {
   const { colors } = useTheme();
-  const { createWorkoutPlan } = useCustomWorkoutPlan();
   return (
     <CreateCustomWorkoutPlanProvider>
       <WorkoutsStack.Navigator
-      initialRouteName="CreateCustomExercise"
+        initialRouteName="CreateCustomWorkout"
         screenOptions={{
           headerShown: true,
           headerTitle: "",
@@ -117,6 +115,7 @@ const WorkoutsStackScreen: React.FC = () => {
               headerTitle: "Create Workout Plan",
             })}
           />
+
           <WorkoutsStack.Screen
             name="WorkoutSearch"
             component={WorkoutSelection}
@@ -133,6 +132,13 @@ const WorkoutsStackScreen: React.FC = () => {
             })}
           />
           <WorkoutsStack.Screen
+            options={{
+              headerShown: false,
+            }}
+            component={CreateWorkoutStackContext}
+            name="CreateCustomWorkout"
+          />
+          {/* <WorkoutsStack.Screen
             name="CreateCustomWorkout"
             component={CreateCustomWorkout}
             options={({ navigation }) => ({
@@ -151,27 +157,8 @@ const WorkoutsStackScreen: React.FC = () => {
                 paddingLeft: 10,
               },
             })}
-          />
+          /> */}
 
-          <WorkoutsStack.Screen
-            name="ExerciseSearchModal"
-            component={ExerciseSearchModal}
-            options={({ navigation }) => ({
-              headerShown: true,
-              headerTitle: "Search exercise",
-              headerLeft: (props) => (
-                <CloseButton onPress={() => navigation.goBack()} />
-              ),
-
-              headerRight: (props) => (
-                <Button
-                  onPress={() => navigation.navigate("CreateCustomExercise")}
-                  text="Create"
-                  type="text"
-                />
-              ),
-            })}
-          />
           <WorkoutsStack.Screen
             options={{
               headerShown: false,

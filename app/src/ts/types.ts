@@ -128,6 +128,11 @@ export type Workout = {
   exercises: Exercise[];
 };
 
+export type WorkoutCreate = {
+  name: string;
+  exercises: Exercise[];
+};
+
 export type WorkoutSession = {
   id: string | number;
   name: string;
@@ -164,4 +169,13 @@ export type ProfilePropertyCardProps = {
 export type PropertySection = {
   title: string;
   cards: ProfilePropertyCardProps[];
+};
+
+// Muscle Groups
+export type MuscleGroupWithExercises = {
+  name: string;
+  exercises: {
+    id: number;
+    name: string;
+  }[];
 };

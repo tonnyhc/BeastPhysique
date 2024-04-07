@@ -8,6 +8,10 @@ import {
 import { CustomExerciseData, MuscleGroup } from "../Stacks/CreateExerciseStack";
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import useExerciseService from "../hooks/services/useExerciseService";
+import { transformExerciseDataToFormData } from "../utils/helperFunctions";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { WorkoutsStackParamList } from "../Stacks/WorkoutsStack";
 
 interface CreateExerciseProviderProps {
   children: ReactNode;
@@ -19,12 +23,9 @@ type CreateExerciseContextProps = {
   isPublishDisabled: boolean;
   isCreateDisabled: boolean;
   mutate: () => UseMutationResult<any, Error, void, unknown>;
-  // submitFn: (
-  //   successFn: () => void
-  // ) => UseMutationResult<any, Error, void, unknown>;
+  pendingMutate: boolean;
+  createPublicExercise: () => void;
   addMuscleGroup: (muscleGroup: MuscleGroup) => void;
-  onSuccessFn: () => void;
-
 };
 const CreateExerciseContext = createContext<CreateExerciseContextProps>({});
 
@@ -35,15 +36,16 @@ export const CreateExerciseProvider: React.FC<CreateExerciseProviderProps> = ({
     name: "",
     targeted_muscle_groups: [],
     bodyweight: false,
-    cover_photo: "",
+    cover_photo: null,
     information: "",
-    video_tutorial: "",
+    video_tutorial: null,
     tips: "",
     publish: false,
   });
   const { createExercise } = useExerciseService();
   const [isPublishDisabled, setIsPublishDisabled] = useState(false);
   const [isCreateDisabled, setIsCreateDisabled] = useState(false);
+  const navigation = useNavigation<StackNavigationProp<WorkoutsStackParamList>>()
 
   useEffect(() => {
     const isNameEmpty = exerciseData.name === "";
@@ -54,21 +56,21 @@ export const CreateExerciseProvider: React.FC<CreateExerciseProviderProps> = ({
     setIsCreateDisabled(isNameEmpty);
   }, [exerciseData]);
 
-  const { mutate } = useMutation({
-    mutationFn: () => {
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
       const modifiedExerciseData = {
         ...exerciseData,
         targeted_muscle_groups: exerciseData.targeted_muscle_groups.map(
           (item) => item.id
         ),
       };
+      const formData = transformExerciseDataToFormData(modifiedExerciseData);
 
-      return createExercise(modifiedExerciseData);
+      return createExercise(formData);
     },
+    onSuccess: () => navigation.replace('WorkoutPlans'),
     mutationKey: ["exerciseCreate"],
-    onSuccess: () => {
-      onSuccessFn()
-    },
   });
 
   const addMuscleGroup = (muscleGroup: MuscleGroup) => {
@@ -87,9 +89,9 @@ export const CreateExerciseProvider: React.FC<CreateExerciseProviderProps> = ({
     }));
   };
 
-  const createPublicExercise = (successFn: () => void) => {
+  const createPublicExercise = () => {
     setExerciseData((oldData) => ({ ...oldData, publish: true }));
-    submitFn(successFn);
+    mutate();
   };
 
   const changeFieldValue = (value: any, fieldName: string) => {
@@ -105,6 +107,8 @@ export const CreateExerciseProvider: React.FC<CreateExerciseProviderProps> = ({
     isPublishDisabled,
     isCreateDisabled,
     mutate,
+    pendingMutate: isPending,
+    createPublicExercise,
     addMuscleGroup,
   };
 

@@ -48,7 +48,6 @@ const ProfileSetupStackScreen: React.FC = () => {
       />
 
       <ProfileSetupStack.Screen
-        options={{ title: "How active are you?", headerShown: false }}
         name="ActivitySetup"
         component={ActivitySetup}
       />

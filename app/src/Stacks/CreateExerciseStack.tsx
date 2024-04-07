@@ -31,9 +31,9 @@ export type CustomExerciseData = {
   name: string;
   targeted_muscle_groups: MuscleGroup[];
   bodyweight: boolean;
-  cover_photo: ImagePickerAsset;
+  cover_photo: string | null;
   information: string;
-  video_tutorial: ImagePickerAsset;
+  video_tutorial: ImagePickerAsset | null;
   tips: string;
   publish: boolean;
 };

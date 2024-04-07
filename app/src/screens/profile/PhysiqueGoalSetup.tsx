@@ -20,11 +20,15 @@ const goalsMap = [
 
 const PhysiqueGoalSetup: React.FC = () => {
   const [data, setData] = useState<string>("");
-  const { skipSetupProfile } = useAuth();
+  const { skipSetupProfile, verifyProfile } = useAuth();
 
   const { mutate, isPending } = useProfileSetup({
     url: "health/fitness/goal/edit/",
-    onSuccessFn: () => (skipSetupProfile ? skipSetupProfile() : null),
+    // onSuccessFn: () => (skipSetupProfile ? skipSetupProfile() : null),
+    onSuccessFn: () => {
+      verifyProfile()
+      return skipSetupProfile ? skipSetupProfile() : null
+    }
   });
   const styles = StyleSheet.create({
     wrapper: {

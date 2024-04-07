@@ -3,7 +3,7 @@ import { IconProps } from "../ts/interfaces";
 
 import Svg, { Path } from "react-native-svg";
 
-const UserIcon: React.FC<IconProps> = ({ color, size, fill }) => {
+const MoreIcon: React.FC<IconProps> = ({ color, size, fill }) => {
   return (
     <Svg
     xmlns="http://www.w3.org/2000/svg"
@@ -15,11 +15,12 @@ const UserIcon: React.FC<IconProps> = ({ color, size, fill }) => {
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeMiterlimit={10}
       strokeWidth={1.5}
-      d="M12.16 10.87c-.1-.01-.22-.01-.33 0a4.42 4.42 0 0 1-4.27-4.43C7.56 3.99 9.54 2 12 2a4.435 4.435 0 0 1 .16 8.87ZM7.16 14.56c-2.42 1.62-2.42 4.26 0 5.87 2.75 1.84 7.26 1.84 10.01 0 2.42-1.62 2.42-4.26 0-5.87-2.74-1.83-7.25-1.83-10.01 0Z"
+      d="M5 10h2c2 0 3-1 3-3V5c0-2-1-3-3-3H5C3 2 2 3 2 5v2c0 2 1 3 3 3ZM17 10h2c2 0 3-1 3-3V5c0-2-1-3-3-3h-2c-2 0-3 1-3 3v2c0 2 1 3 3 3ZM17 22h2c2 0 3-1 3-3v-2c0-2-1-3-3-3h-2c-2 0-3 1-3 3v2c0 2 1 3 3 3ZM5 22h2c2 0 3-1 3-3v-2c0-2-1-3-3-3H5c-2 0-3 1-3 3v2c0 2 1 3 3 3Z"
     />
   </Svg>
   );
 };
 
-export default UserIcon;
+export default MoreIcon;

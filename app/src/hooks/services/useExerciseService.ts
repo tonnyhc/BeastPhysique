@@ -3,7 +3,8 @@ import useApi from "./useApi";
 
 const useExerciseService = (): {
   searchExercise: (name: string) => Promise<any>;
-  createExercise: (body: Record<any,any>) => Promise<any>;
+  createExercise: (body: Record<any, any>) => Promise<any>;
+  fetchMuscleGroupsWithExercises: () => Promise<any>;
 } => {
   const { token } = useAuth();
   const { get, post } = useApi(token as string);
@@ -14,13 +15,19 @@ const useExerciseService = (): {
     return data;
   };
 
-  const createExercise = async (body: Record<any,any>) => {
+  const createExercise = async (body: Record<any, any>) => {
     const url = "workouts/exercise/create/";
     const data = await post(url, body);
     return data;
   };
 
-  return { searchExercise, createExercise };
+  const fetchMuscleGroupsWithExercises = async () => {
+    const url = "workouts/muscle-group/list-exercises/";
+    const data = await get(url);
+    return data;
+  };
+
+  return { searchExercise, createExercise, fetchMuscleGroupsWithExercises };
 };
 
 export default useExerciseService;

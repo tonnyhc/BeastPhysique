@@ -1,6 +1,5 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, TextStyle, View, TouchableOpacity } from "react-native";
 import React, { ReactNode } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Colors } from "../../utils/colors";
 
@@ -12,6 +11,7 @@ interface ButtonProps {
   icon?: ReactNode;
   type?: "primary" | "outlined" | "text";
   loading?: boolean;
+  textStyles?: TextStyle;
 }
 
 const generateBackgroundStyles = (
@@ -60,6 +60,7 @@ const Button: React.FC<ButtonProps> = ({
   onPress,
   type = "primary",
   loading,
+  textStyles
 }) => {
   const { colors } = useTheme();
 
@@ -90,6 +91,7 @@ const Button: React.FC<ButtonProps> = ({
       ...textColor,
       fontFamily: "RobotoRegular",
       fontSize: 16,
+      ...textStyles
     },
     textIconWrapper: {
       flexDirection: "row",

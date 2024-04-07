@@ -3,11 +3,11 @@ import React from "react";
 import Screen from "../../components/common/Screen";
 import ReusableInput from "../../components/common/ReusableInput";
 import { useTheme } from "../../contexts/ThemeContext";
-import Button from "../../components/common/Button";
 import SearchIcon from "../../icons/SearchIcon";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
 import { useCustomWorkoutPlan } from "../../contexts/CustomWorkoutPlanContext";
+import Button from "../../components/common/Button";
 
 interface WorkoutSelectionProps {
   navigation: StackNavigationProp<WorkoutsStackParamList>;
@@ -54,14 +54,13 @@ const WorkoutSelection: React.FC<WorkoutSelectionProps> = ({ navigation }) => {
             borderWidth: 0.5,
             borderColor: colors.helperText,
           }}
-        >
+        />
           <View style={{ marginTop: 10 }}>
             <Button
               onPress={() => onCreateCustomWorkout()}
               type="outlined"
               text="Create a custom workout"
             />
-          </View>
         </View>
       </View>
     </Screen>

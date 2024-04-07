@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TextStyle, View } from "react-native";
+import { StyleSheet, Text, TextInput, TextStyle, View, ViewStyle } from "react-native";
 import React, { ReactNode, useEffect, useState } from "react";
 import UserIcon from "../../icons/UserIcon";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -20,8 +20,8 @@ interface ReusableInputProps {
   helperTextRight?: string;
   onPressHelperRight?: () => void;
   error?: string;
-
-  multiline?: boolean
+  styles? : ViewStyle;
+  multiline?: boolean;
   onEndEditing?: () => void;
   inputMode?: "text" | "decimal" | "numeric" | "email" | "search";
 }
@@ -42,7 +42,8 @@ const TestInput: React.FC<ReusableInputProps> = ({
   helperTextLeft,
   helperTextRight,
   onPressHelperRight,
-  multiline
+  multiline,
+  styles
 }) => {
   const { colors } = useTheme();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(
@@ -61,9 +62,10 @@ const TestInput: React.FC<ReusableInputProps> = ({
     setEmailError(!isValid);
   }, [value]);
 
-  const styles = StyleSheet.create({
+  const stylesheet = StyleSheet.create({
     wrapper: {
       gap: 4,
+      ...styles
     },
     label: {
       fontSize: 16,
@@ -71,7 +73,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
       marginLeft: 8,
       marginBottom: 4,
       color: error || emailError ? colors.error : colors.primaryText,
-      ...labelStyles
+      ...labelStyles,
     },
     master: {
       gap: 8,
@@ -112,17 +114,19 @@ const TestInput: React.FC<ReusableInputProps> = ({
   });
 
   return (
-    <View style={styles.wrapper}>
-      <Text style={styles.label}>{error ? error : label}</Text>
-      <View style={styles.master}>
+    <View style={stylesheet.wrapper}>
+      {error || label ? (
+        <Text style={stylesheet.label}>{error ? error : label}</Text>
+      ) : null}
+      <View style={stylesheet.master}>
         {/* left icon */}
         {leftIcon ? (
-          <View style={styles.icon_placeholder_wrapper}>{leftIcon}</View>
+          <View style={stylesheet.icon_placeholder_wrapper}>{leftIcon}</View>
         ) : null}
 
         {/* input */}
         <TextInput
-          style={styles.input}
+          style={stylesheet.input}
           placeholder={placeholder}
           placeholderTextColor={"#8A8A8A"}
           value={value}
@@ -146,12 +150,12 @@ const TestInput: React.FC<ReusableInputProps> = ({
         )}
       </View>
       {helperTextLeft || helperTextRight || emailError ? (
-        <View style={styles.helperRow}>
-          <Text style={styles.helpText}>
+        <View style={stylesheet.helperRow}>
+          <Text style={stylesheet.helpText}>
             {emailError ? "Please enter a valid email!" : helperTextLeft}
           </Text>
           <TouchableWithoutFeedback onPress={onPressHelperRight}>
-            <Text style={styles.helpText}>{helperTextRight}</Text>
+            <Text style={stylesheet.helpText}>{helperTextRight}</Text>
           </TouchableWithoutFeedback>
         </View>
       ) : null}

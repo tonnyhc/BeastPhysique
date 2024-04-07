@@ -1,26 +1,19 @@
 import * as React from "react";
 import Svg, { SvgProps, Path } from "react-native-svg";
 import { IconProps } from "../ts/interfaces";
-const HomeIcon: React.FC<IconProps> = ({ size, color }) => (
+const HomeIcon: React.FC<IconProps> = ({ size, color, fill }) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
     height={size}
-    fill="none"
+    fill={fill ? fill : "none"}
   >
-    <Path
-      stroke={color}
-      strokeLinejoin="round"
-      strokeMiterlimit={10}
-      strokeWidth={1.2}
-      d="M8.667 11H7.333c-.553 0-1 .447-1 1v2.333h3.334V12c0-.553-.447-1-1-1Z"
-    />
     <Path
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth={1.2}
-      d="m6.713 1.88-4.62 3.7c-.52.413-.853 1.287-.74 1.94l.887 5.307c.16.946 1.067 1.713 2.027 1.713h7.466c.954 0 1.867-.773 2.027-1.713l.887-5.307c.106-.653-.227-1.527-.74-1.94l-4.62-3.693c-.714-.574-1.867-.574-2.574-.007Z"
+      strokeWidth={2}
+      d="M20 17.343v-5.549c0-.534 0-.801-.065-1.05a2 2 0 0 0-.28-.617c-.145-.213-.345-.389-.748-.74l-4.8-4.2c-.746-.654-1.12-.98-1.54-1.105-.37-.11-.764-.11-1.135 0-.42.124-.792.45-1.538 1.103L5.093 9.386c-.402.352-.603.528-.747.74a2 2 0 0 0-.281.618C4 10.993 4 11.26 4 11.794v5.549c0 .931 0 1.397.152 1.765a2 2 0 0 0 1.082 1.082c.368.153.834.153 1.766.153s1.398 0 1.766-.152a2 2 0 0 0 1.082-1.083c.152-.368.152-.834.152-1.766v-1a2 2 0 1 1 4 0v1c0 .932 0 1.398.152 1.766a2 2 0 0 0 1.082 1.082c.368.153.834.153 1.766.153s1.398 0 1.766-.152a2 2 0 0 0 1.082-1.083c.152-.368.152-.834.152-1.765Z"
     />
   </Svg>
 );
