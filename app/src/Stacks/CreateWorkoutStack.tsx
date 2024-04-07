@@ -8,7 +8,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import StackScreenHeader from "../components/common/StackScreenHeader";
 import CreateWorkoutScreen from "../screens/workouts/CreateWorkoutScreen";
 
-import TestExerciseSearch from "../screens/workouts/ExerciseSearch";
+import ExerciseSearch from "../screens/workouts/ExerciseSearch";
 import { useCreateWorkoutContext } from "../contexts/CreateWorkoutContext";
 import CreateExerciseStackScreen from "./CreateExerciseStack";
 import Button from "../components/common/Button";
@@ -84,7 +84,7 @@ const CreateWorkoutsStackScreen: React.FC = () => {
             alignItems: "center",
           },
         }}
-        component={TestExerciseSearch}
+        component={ExerciseSearch}
         name="ExerciseSearch"
       />
       <CreateWorkoutsStack.Screen

@@ -4,6 +4,7 @@ import ChevronDown from "../../../icons/ChevronDown";
 import { useTheme } from "../../../contexts/ThemeContext";
 import ChevronUp from "../../../icons/ChevronUp";
 import { MuscleGroupWithExercises } from "../../../ts/types";
+import ExerciseSearchCard from "./ExerciseSearchCard";
 
 interface ExerciseSearchMuscleGroupProps {
   muscleGroupData: MuscleGroupWithExercises;
@@ -33,11 +34,6 @@ const ExerciseSearchMuscleGroup: React.FC<ExerciseSearchMuscleGroupProps> = ({
     exercisesWrapper: {
       gap: 14,
     },
-    exercise: {
-      flexDirection: "row",
-      gap: 20,
-      alignItems: "center",
-    },
   });
 
   return (
@@ -63,45 +59,12 @@ const ExerciseSearchMuscleGroup: React.FC<ExerciseSearchMuscleGroupProps> = ({
       {isExpanded ? (
         <View style={styles.exercisesWrapper}>
           {muscleGroupData.exercises.map((exercise) => (
-            <TouchableOpacity
-              key={exercise.id}
-              onPress={() => onSelectExercise(exercise)}
-              style={styles.exercise}
-            >
-              <View
-                style={{
-                  height: 36,
-                  width: 36,
-                  borderRadius: 100,
-                  backgroundColor: selectedExercises.includes(exercise)
-                    ? colors.button
-                    : colors.helperText,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "RobotoRegular",
-                    color: colors.white,
-                  }}
-                >
-                  {!selectedExercises.includes(exercise)
-                    ? `${exercise.name[0]}`
-                    : selectedExercises.indexOf(exercise) + 1}
-                </Text>
-              </View>
-
-              <Text
-                style={{
-                  fontFamily: "RobotoRegular",
-                  fontSize: 20,
-                }}
-              >
-                {exercise.name}
-              </Text>
-            </TouchableOpacity>
+            <ExerciseSearchCard
+              isSelected={selectedExercises.includes(exercise)}
+              exercise={exercise}
+              onSelectExercise={onSelectExercise}
+              exerciseOrder={selectedExercises.indexOf(exercise) + 1}
+            />
           ))}
         </View>
       ) : null}

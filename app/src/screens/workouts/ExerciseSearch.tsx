@@ -2,7 +2,7 @@ import { ActivityIndicator, View } from "react-native";
 import React, { useDeferredValue, useEffect, useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import useExerciseService from "../../hooks/services/useExerciseService";
-import { MuscleGroupWithExercises } from "../../ts/types";
+import { ExerciseFromSearch, MuscleGroupWithExercises } from "../../ts/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import Button from "../../components/common/Button";
@@ -14,12 +14,9 @@ import { useCreateWorkoutContext } from "../../contexts/CreateWorkoutContext";
 import Screen from "../../components/common/Screen";
 import ExerciseSearchMuscleGroup from "../../components/workouts/exercise/ExerciseSearchMuscleGroup";
 
-type ExerciseFromSearch = {
-  id: number;
-  name: string;
-};
 
-const TestExerciseSearch: React.FC = ({}) => {
+
+const ExerciseSearch: React.FC = ({}) => {
   const { colors } = useTheme();
   const { addExercise } = useCreateWorkoutContext();
   const [searchValue, setSearchValue] = useState<string>("");
@@ -75,8 +72,7 @@ const TestExerciseSearch: React.FC = ({}) => {
       />
       {isPending && <ActivityIndicator />}
       {/* <FlatListHeader /> */}
-
-      <View style={{ paddingVertical: 18, gap: 28 }} id="muscle-groups-wrapper">
+      <View style={{ paddingVertical: 18, gap: 28 }}>
         {queryData.map((data: MuscleGroupWithExercises) => (
           <ExerciseSearchMuscleGroup
             selectedExercises={selectedExercises}
@@ -99,22 +95,4 @@ const TestExerciseSearch: React.FC = ({}) => {
   );
 };
 
-export default TestExerciseSearch;
-
-{
-  /* <FlatList
-        ListHeaderComponent={() => <FlatListHeader />}
-        contentContainerStyle={{ gap: 14 }}
-        keyExtractor={(item) => item.id.toString()}
-        key={"exercisesSearchList"}
-        data={exercisesForFlatList}
-        renderItem={({ item, index, separators }) => (
-          <ExerciseSearchCard
-            isSelected={selectedExercises.includes(item)}
-            index={index}
-            exercise={item}
-            onSelectExercise={() => onSelectExercise(item)}
-          />
-        )}
-      /> */
-}
+export default ExerciseSearch;

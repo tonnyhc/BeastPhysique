@@ -1,95 +1,60 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 
-import { Exercise } from "../../../ts/types";
+import { ExerciseFromSearch } from "../../../ts/types";
 import { useTheme } from "../../../contexts/ThemeContext";
-import CircleSelect from "../../common/CircleSelect";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface ExerciseSearchCardProps {
-  exercise: Exercise;
-  index: number;
-  //   onSelectExercise: (exercise: Exercise) => Exercise[]
-  onSelectExercise: () => void;
-  isSelected: boolean
+  exercise: ExerciseFromSearch;
+  onSelectExercise: (exercise: ExerciseFromSearch) => void;
+  isSelected: boolean;
+  exerciseOrder: number;
 }
 
 const ExerciseSearchCard: React.FC<ExerciseSearchCardProps> = ({
   exercise,
-  index,
   onSelectExercise,
-  isSelected
+  isSelected,
+  exerciseOrder,
 }) => {
   const { colors } = useTheme();
   const styles = StyleSheet.create({
-    cardWrapper: {
-      borderWidth: 0.5,
-      borderColor: colors.helperText,
-      paddingVertical: 6,
-      paddingHorizontal: 8,
-      borderRadius: 8,
+    exercise: {
       flexDirection: "row",
-      justifyContent: "space-between",
-      position: "relative",
+      gap: 20,
+      alignItems: "center",
     },
-    exerciseInfoWrapper: {
-      flex: 1,
+    exerciseTitleCircle: {
+      height: 36,
+      width: 36,
+      borderRadius: 100,
+      backgroundColor: isSelected ? colors.button : colors.helperText,
+      justifyContent: "center",
+      alignItems: "center",
     },
-    coverPhoto: {
-      width: "100%",
-      height: 150,
-      objectFit: "contain",
-    },
-    heading: {
-      fontSize: 18,
-      fontFamily: "RobotoMedium",
-      color: colors.primaryText,
-      marginBottom: 8,
-    },
-    helperText: {
+    exerciseTitleCircleText: {
+      fontSize: 20,
       fontFamily: "RobotoRegular",
-      fontSize: 13,
-      letterSpacing: 0.2,
-      color: colors.helperText,
-      flex: 1,
+      color: colors.white,
     },
-    tips: {
-      fontSize: 12,
-      color: colors.orangeText,
+    exerciseName: {
       fontFamily: "RobotoRegular",
-      flexBasis: "auto",
-    },
-    select: {
-      position: "absolute",
-      top: 5,
-      right: 5,
+      fontSize: 20,
     },
   });
   return (
-    <TouchableOpacity onPress={onSelectExercise} style={styles.cardWrapper}>
-      <View style={styles.exerciseInfoWrapper}>
-        <Text style={styles.heading}>{exercise.name}</Text>
-        {exercise.information && (
-          <Text style={styles.helperText}>{exercise.information}</Text>
-        )}
-        {exercise.tips && <Text style={styles.tips}>{exercise.tips}</Text>}
+    <TouchableOpacity
+      key={exercise.id}
+      onPress={() => onSelectExercise(exercise)}
+      style={styles.exercise}
+    >
+      <View style={styles.exerciseTitleCircle}>
+        <Text style={styles.exerciseTitleCircleText}>
+          {isSelected ? exerciseOrder : `${exercise.name[0]}`}
+        </Text>
       </View>
-      {exercise.cover_photo && (
-        <View
-          style={{
-            flex: 0.8,
-            alignItems: "flex-end",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Image
-            style={styles.coverPhoto}
-            source={{ uri: exercise.cover_photo }}
-          />
-        </View>
-      )}
-      <View style={styles.select}>
-        <CircleSelect onPress={onSelectExercise} isSelected={isSelected} />
-      </View>
+
+      <Text style={styles.exerciseName}>{exercise.name}</Text>
     </TouchableOpacity>
   );
 };

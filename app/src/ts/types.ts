@@ -76,6 +76,11 @@ export type Exercise = {
   created_by?: any | null;
   sets?: ExerciseSet[];
 };
+
+export type ExerciseFromSearch = {
+  id: number;
+  name: string;
+};
 export type ExerciseSession = {
   id: number | string;
   exercise: Exercise;
@@ -179,3 +184,5 @@ export type MuscleGroupWithExercises = {
     name: string;
   }[];
 };
+
+
