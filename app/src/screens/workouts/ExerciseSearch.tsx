@@ -14,8 +14,6 @@ import { useCreateWorkoutContext } from "../../contexts/CreateWorkoutContext";
 import Screen from "../../components/common/Screen";
 import ExerciseSearchMuscleGroup from "../../components/workouts/exercise/ExerciseSearchMuscleGroup";
 
-
-
 const ExerciseSearch: React.FC = ({}) => {
   const { colors } = useTheme();
   const { addExercise } = useCreateWorkoutContext();
@@ -41,24 +39,26 @@ const ExerciseSearch: React.FC = ({}) => {
       },
     ],
   });
+
   useEffect(() => {
     mutate();
-    console.log(defferedSearch);
   }, [defferedSearch]);
   const navigation =
     useNavigation<StackNavigationProp<CreateWorkoutStackParamsList>>();
 
   const onSelectExercise = (exercise: ExerciseFromSearch) => {
-    if (selectedExercises.includes(exercise)) {
+    const exerciseIds = selectedExercises.map((ex) => ex.id);
+    if (exerciseIds.includes(exercise.id)) {
       setSelectedExercises((prevSelected) =>
         prevSelected.filter(
-          (exerciseFromArray) => exerciseFromArray !== exercise
+          (exerciseFromArray) => exerciseFromArray.id !== exercise.id
         )
       );
     } else {
       setSelectedExercises((prevSelected) => [...prevSelected, exercise]);
     }
   };
+  console.log(selectedExercises);
   const exercisesForFlatList =
     filter === "exercises" ? data?.exercises : data?.exercises_by_user;
 

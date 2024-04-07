@@ -36,6 +36,15 @@ const ExerciseSearchMuscleGroup: React.FC<ExerciseSearchMuscleGroupProps> = ({
     },
   });
 
+  const checkIsSelected = (exerciseId: number) => {
+    const exerciseIds = selectedExercises.map((ex) => ex.id);
+    return exerciseIds.includes(exerciseId);
+  };
+
+  const checkExerciseOrder = (exerciseId: number) => {
+    const exerciseIds = selectedExercises.map((ex) => ex.id);
+    return exerciseIds.indexOf(exerciseId) + 1;
+  };
   return (
     <>
       <TouchableOpacity
@@ -60,10 +69,10 @@ const ExerciseSearchMuscleGroup: React.FC<ExerciseSearchMuscleGroupProps> = ({
         <View style={styles.exercisesWrapper}>
           {muscleGroupData.exercises.map((exercise) => (
             <ExerciseSearchCard
-              isSelected={selectedExercises.includes(exercise)}
+              isSelected={checkIsSelected(exercise.id)}
               exercise={exercise}
               onSelectExercise={onSelectExercise}
-              exerciseOrder={selectedExercises.indexOf(exercise) + 1}
+              exerciseOrder={checkExerciseOrder(exercise.id)}
             />
           ))}
         </View>
