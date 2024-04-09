@@ -75,6 +75,7 @@ const ExerciseSearch: React.FC = ({}) => {
       <View style={{ paddingVertical: 18, gap: 28 }}>
         {queryData.map((data: MuscleGroupWithExercises) => (
           <ExerciseSearchMuscleGroup
+            key={data.name}
             selectedExercises={selectedExercises}
             muscleGroupData={data}
             onSelectExercise={onSelectExercise}
