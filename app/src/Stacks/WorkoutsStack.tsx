@@ -17,12 +17,14 @@ import { ExerciseSession, Workout } from "../ts/types";
 import ExerciseSessionProgressModal from "../screens/workouts/ExerciseSessionProgressModal";
 import Button from "../components/common/Button";
 import BackButton from "../components/common/BackButton";
-import CreateCustomWorkout from "../screens/workouts/CreateCustomWorkout";
 import { Image } from "react-native";
 import CloseButton from "../components/common/CloseButton";
 import CreateExerciseStackScreen from "./CreateExerciseStack";
 import CreateWorkoutsStackScreen from "./CreateWorkoutStack";
 import CreateWorkoutStackContext from "../screens/workouts/CreateWorkoutStackContext";
+import TestCreateCustomWorkoutPlan from "../screens/workout-plans/TestCreateCustomWorkoutPlan";
+import StackScreenHeader from "../components/common/StackScreenHeader";
+import ExerciseDetailsScreen from "../screens/exercises/ExerciseDetailsScreen";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
@@ -37,6 +39,9 @@ export type WorkoutsStackParamList = {
   CreateCustomExercise: undefined;
   EditExerciseSession: { exerciseSession: ExerciseSession };
   ExerciseProgress: undefined;
+  ExerciseDetails: {
+    exerciseId: number;
+  };
 };
 
 const WorkoutsStack = createStackNavigator<WorkoutsStackParamList>();
@@ -46,7 +51,7 @@ const WorkoutsStackScreen: React.FC = () => {
   return (
     <CreateCustomWorkoutPlanProvider>
       <WorkoutsStack.Navigator
-        initialRouteName="CreateCustomWorkout"
+        initialRouteName="CreateWorkoutPlan"
         screenOptions={{
           headerShown: true,
           headerTitle: "",
@@ -107,12 +112,9 @@ const WorkoutsStackScreen: React.FC = () => {
           {/* CREATE */}
           <WorkoutsStack.Screen
             name="CreateWorkoutPlan"
-            component={CreateCustomWorkoutPlan}
+            component={TestCreateCustomWorkoutPlan}
             options={({ navigation }) => ({
-              headerLeft: (props) => (
-                <CloseButton onPress={() => navigation.goBack()} />
-              ),
-              headerTitle: "Create Workout Plan",
+              header: () => <StackScreenHeader label="Create Workout Plan" />,
             })}
           />
 
@@ -138,26 +140,6 @@ const WorkoutsStackScreen: React.FC = () => {
             component={CreateWorkoutStackContext}
             name="CreateCustomWorkout"
           />
-          {/* <WorkoutsStack.Screen
-            name="CreateCustomWorkout"
-            component={CreateCustomWorkout}
-            options={({ navigation }) => ({
-              headerTitle: "Create workout",
-              headerLeft: (props) => (
-                <BackButton onPress={() => navigation.goBack()} />
-              ),
-              headerRight: () => (
-                <Button
-                  type="text"
-                  text="Done"
-                  onPress={() => navigation.navigate("CreateWorkoutPlan")}
-                />
-              ),
-              headerLeftContainerStyle: {
-                paddingLeft: 10,
-              },
-            })}
-          /> */}
 
           <WorkoutsStack.Screen
             options={{
@@ -165,6 +147,11 @@ const WorkoutsStackScreen: React.FC = () => {
             }}
             component={CreateExerciseStackScreen}
             name="CreateCustomExercise"
+          />
+          <WorkoutsStack.Screen
+            options={{ headerShown: false }}
+            component={ExerciseDetailsScreen}
+            name="ExerciseDetails"
           />
 
           <WorkoutsStack.Screen

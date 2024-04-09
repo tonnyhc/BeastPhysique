@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { MuscleGroup } from "../Stacks/CreateExerciseStack";
 
 // Requester
 export type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE";
@@ -75,6 +76,7 @@ export type Exercise = {
   // TODO: Fix created_by
   created_by?: any | null;
   sets?: ExerciseSet[];
+  targeted_muscle_groups?: string[];
 };
 
 export type ExerciseFromSearch = {
@@ -184,5 +186,3 @@ export type MuscleGroupWithExercises = {
     name: string;
   }[];
 };
-
-

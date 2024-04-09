@@ -1,55 +1,49 @@
 import {
-  KeyboardAvoidingView,
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   Animated,
 } from "react-native";
-import { useCustomWorkoutPlan } from "../../../contexts/CustomWorkoutPlanContext";
 import { useTheme } from "../../../contexts/ThemeContext";
-import { Exercise, ExerciseSet } from "../../../ts/types";
-import ReusableInput from "../../common/ReusableInput";
+import { Exercise } from "../../../ts/types";
 import Button from "../../common/Button";
 import { Swipeable } from "react-native-gesture-handler";
-import ReusableModal from "../../common/Modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useCreateWorkoutContext } from "../../../contexts/CreateWorkoutContext";
+import TestInput from "../../common/TestInput";
+import MoreDotsIcon from "../../../icons/MoreDotsIcon";
+import ExerciseSessionMoreModal from "./ExerciseSessionMoreModal";
+import ExerciseSessionRepRangeModal from "./ExerciseSessionRepRangeModal";
 
 interface ExerciseCreationCardProps {
   exercise: Exercise;
-  workoutIndex: number;
   exerciseIndex: number;
 }
 
 const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
-  workoutIndex,
   exerciseIndex,
   exercise,
 }) => {
-  const { workoutPlan, dispatch } = useCustomWorkoutPlan();
-  const [isRepRangeModalVisible, setIsRepRangeModalVisible] =
-    useState<boolean>(false);
-  const [repRangeModalSet, setRepRangeModalSet] = useState<ExerciseSet | null>(
-    null
-  );
-  const [repRangeModalSetIndex, setRepRangeModalSetIndex] = useState<
-    number | null
-  >(null);
   const { colors } = useTheme();
-  useEffect(() => {
-    const newState =
-      workoutPlan.workouts[workoutIndex].exercises[exerciseIndex].sets[
-        repRangeModalSetIndex
-      ];
-    setRepRangeModalSet(newState);
-    console.log(exercise);
-  }, [workoutPlan]);
+  const {
+    workout,
+    addSetToExercise,
+    deleteSetFromExercise,
+    editSetProperty,
+    deleteExercise,
+  } = useCreateWorkoutContext();
+
+  const [isMoreModalOpen, setIsMoreModalOpen] = useState<boolean>(false);
+  const [isRepRangeModalOpen, setIsRepRangeModalOpen] =
+    useState<boolean>(false);
+  const [setIndex, setSetIndex] = useState<number | null>(null);
 
   const renderRightSetActions = (setIndex: number) => {
     return (
       <TouchableOpacity
         style={{ height: "100%", justifyContent: "flex-end" }}
-        onPress={() => handleDeleteSet(setIndex)}
+        onPress={() => deleteSetFromExercise(exerciseIndex, setIndex)}
       >
         <Animated.View
           style={{
@@ -75,22 +69,11 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
       </TouchableOpacity>
     );
   };
-  const handleDeleteSet = (setIndex: number) => {
-    dispatch({
-      type: "removeSetFromExercise",
-      payload: {
-        exerciseIndex,
-        setIndex,
-        workoutIndex,
-      },
-    });
-  };
-
   const renderRightExerciseActions = () => {
     return (
       <TouchableOpacity
         style={{ height: "100%", justifyContent: "flex-end" }}
-        onPress={() => handleDeleteExercise()}
+        onPress={() => deleteExercise(exerciseIndex)}
       >
         <Animated.View
           style={{
@@ -116,24 +99,23 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
       </TouchableOpacity>
     );
   };
-  const handleDeleteExercise = () => {
-    dispatch({
-      type: "removeExerciseFromWorkout",
-      payload: {
-        workoutIndex,
-        exerciseIndex,
-      },
-    });
-  };
-  const openRepRangeModal = (set: ExerciseSet, index: number) => {
-    setRepRangeModalSet(set);
-    setRepRangeModalSetIndex(index);
-    setIsRepRangeModalVisible(true);
+  const openRepRangeModal = (setIndex: number) => {
+    setIsRepRangeModalOpen(true);
+    setSetIndex(setIndex);
   };
   const closeRepRangeModal = () => {
-    setRepRangeModalSet(null);
-    setRepRangeModalSetIndex(null);
-    setIsRepRangeModalVisible(false);
+    setIsRepRangeModalOpen(false);
+    setSetIndex(null);
+  };
+
+  const openMoreModal = (setIndex: number) => {
+    setIsMoreModalOpen(true);
+    setSetIndex(setIndex);
+  };
+
+  const closeMoreModal = () => {
+    setIsMoreModalOpen(false);
+    setSetIndex(null);
   };
 
   const styles = StyleSheet.create({
@@ -165,6 +147,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
     setCard: {
       justifyContent: "space-between",
       flexDirection: "row",
+      backgroundColor: colors.bg,
     },
     setProperty: {
       gap: 6,
@@ -178,205 +161,171 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
   });
 
   return (
-    <Swipeable
-      renderRightActions={renderRightExerciseActions}
-      overshootRight={true}
-      onSwipeableWillOpen={handleDeleteExercise}
-      friction={1}
-    >
-      <ReusableModal
-        closeFn={() => closeRepRangeModal()}
-        visible={isRepRangeModalVisible}
-        title="Exercise rep range"
+    <>
+      <ExerciseSessionMoreModal
+        visible={isMoreModalOpen}
+        closeModal={() => closeMoreModal()}
+        setIndex={setIndex as number | 0}
+        exerciseIndex={exerciseIndex}
+        exercise={exercise}
+      />
+      <ExerciseSessionRepRangeModal
+        exerciseIndex={exerciseIndex}
+        setIndex={setIndex as number}
+        visible={isRepRangeModalOpen}
+        closeModal={closeRepRangeModal}
+      />
+      <Swipeable
+        containerStyle={{
+          backgroundColor: colors.bg,
+        }}
+        renderRightActions={renderRightExerciseActions}
+        overshootRight={true}
+        onSwipeableWillOpen={() => deleteExercise(exerciseIndex)}
+        friction={1}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 10,
-            marginTop: 22,
-          }}
-        >
-          <View>
-            <Text
-              style={{
-                fontFamily: "RobotoRegular",
-                fontSize: 16,
-                color: colors.helperText,
-              }}
-            >
-              Min reps
-            </Text>
-            <ReusableInput
-              // value={"10"}
-              inputMode="numeric"
-              value={repRangeModalSet?.minReps as string}
-              onChange={(value: string) =>
-                dispatch({
-                  type: "changeSetMinReps",
-                  payload: {
-                    exerciseIndex,
-                    workoutIndex,
-                    setIndex: repRangeModalSetIndex,
-                    minReps: value,
-                  },
-                })
-              }
-              placeholder=""
-            />
+        <View style={styles.card}>
+          <View style={styles.headingRow}>
+            <Text style={styles.exerciseIndex}>{exerciseIndex + 1}</Text>
+            <Text style={styles.exerciseName}>{exercise.name}</Text>
           </View>
-          <View>
-            <Text
-              style={{
-                fontFamily: "RobotoRegular",
-                fontSize: 26,
-                color: colors.helperText,
-              }}
-            >
-              ---
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={{
-                fontFamily: "RobotoRegular",
-                fontSize: 16,
-                color: colors.helperText,
-              }}
-            >
-              Max reps
-            </Text>
-            <ReusableInput
-              value={repRangeModalSet?.maxReps as string}
-              inputMode="numeric"
-              onChange={(value: string) => {
-                dispatch({
-                  type: "changeSetMaxReps",
-                  payload: {
-                    workoutIndex,
-                    exerciseIndex,
-                    setIndex: repRangeModalSetIndex,
-                    maxReps: value,
-                  },
-                });
-              }}
-              placeholder=""
-            />
-          </View>
-        </View>
-      </ReusableModal>
-      <View style={styles.card}>
-        <View style={styles.headingRow}>
-          <Text style={styles.exerciseIndex}>{exerciseIndex + 1}</Text>
-          <Text style={styles.exerciseName}>{exercise.name}</Text>
-        </View>
-        <View style={styles.setsWrapper}>
-          {exercise.sets?.map((item, index) => (
-            <Swipeable
-              renderRightActions={() => renderRightSetActions(index)}
-              overshootRight={true}
-              onSwipeableWillOpen={() => handleDeleteSet(index)}
-              friction={1}
-            >
-              <View style={styles.setCard}>
-                <View style={styles.setProperty}>
-                  <Text style={[styles.proprtyText, { flex: 1 }]}>Set</Text>
-                  <Text style={[styles.proprtyText, { flex: 1 }]}>
-                    {index + 1}
-                  </Text>
+          <View style={styles.setsWrapper}>
+            {exercise.sets?.map((item, index) => (
+              <Swipeable
+                renderRightActions={() => renderRightSetActions(index)}
+                overshootRight={true}
+                onSwipeableWillOpen={() =>
+                  deleteSetFromExercise(exerciseIndex, index)
+                }
+                friction={1}
+              >
+                <View style={styles.setCard}>
+                  <View style={styles.setProperty}>
+                    <Text style={[styles.proprtyText, { flex: 1 }]}>Set</Text>
+                    <Text style={[styles.proprtyText, { flex: 1 }]}>
+                      {index + 1}
+                    </Text>
+                  </View>
+                  {/* Reps */}
+                  <View style={styles.setProperty}>
+                    <Text style={styles.proprtyText}>Reps</Text>
+                    {item.failure.toString() === "false" ? (
+                      <TestInput
+                        inputMode="numeric"
+                        styles={{
+                          width: 80,
+                        }}
+                        placeholder=""
+                        onChange={(value: string) =>
+                          editSetProperty(exerciseIndex, index, "reps", value)
+                        }
+                        value={item.reps}
+                      />
+                    ) : (
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: colors.primaryText,
+                          fontFamily: "RobotoMedium",
+                        }}
+                      >
+                        FAILURE
+                      </Text>
+                    )}
+                  </View>
+                  {/* Weight */}
+                  <View style={styles.setProperty}>
+                    <Text style={styles.proprtyText}>Weight (kg)</Text>
+                    {!item.bodyweight ? (
+                      <TestInput
+                        inputMode="decimal"
+                        styles={{
+                          minHeight: 48,
+                          width: 80,
+                        }}
+                        placeholder=""
+                        onChange={(value: string) =>
+                          editSetProperty(exerciseIndex, index, "weight", value)
+                        }
+                        value={item.weight}
+                      />
+                    ) : (
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: colors.primaryText,
+                          fontFamily: "RobotoMedium",
+                        }}
+                      >
+                        BODYWEIGHT
+                      </Text>
+                    )}
+                  </View>
+                  {/* Min Max Reps */}
+                  <TouchableOpacity
+                    onPress={() => openRepRangeModal(index)}
+                    style={styles.setProperty}
+                  >
+                    <Text
+                      style={[
+                        styles.proprtyText,
+                        { flex: item.failure.toString() === "true" ? 0 : 1 },
+                      ]}
+                    >
+                      Rep Range
+                    </Text>
+                    {item.failure.toString() === "false" ? (
+                      <>
+                        <Text style={[styles.proprtyText, { flex: 1 }]}>
+                          {item.minReps || 0} - {item.maxReps || 99}
+                        </Text>
+                      </>
+                    ) : (
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: colors.primaryText,
+                          fontFamily: "RobotoMedium",
+                        }}
+                      >
+                        FAILURE
+                      </Text>
+                    )}
+                  </TouchableOpacity>
+                  <View
+                    style={[
+                      styles.setProperty,
+                      { justifyContent: "center", alignItems: "center" },
+                    ]}
+                  >
+                    <Button
+                      type="text"
+                      onPress={() => openMoreModal(index)}
+                      icon={
+                        <MoreDotsIcon
+                          fill={colors.helperText}
+                          size={24}
+                          color={colors.helperText}
+                        />
+                      }
+                    />
+                  </View>
                 </View>
-                <View style={styles.setProperty}>
-                  <Text style={styles.proprtyText}>Reps</Text>
-                  <ReusableInput
-                  inputMode="numeric"
-                    styles={{
-                      wrapper: {
-                        minHeight: 48,
-                        height: 48,
-                        width: 80,
-                      },
-                    }}
-                    placeholder=""
-                    onChange={(value: string) =>
-                      dispatch({
-                        type: "changeSetReps",
-                        payload: {
-                          workoutIndex,
-                          exerciseIndex,
-                          setIndex: index,
-                          reps: value,
-                        },
-                      })
-                    }
-                    value={item.reps}
-                  />
-                </View>
-                <View style={styles.setProperty}>
-                  <Text style={styles.proprtyText}>Weight (kg)</Text>
-                  <ReusableInput
-                  inputMode="decimal"
-                    styles={{
-                      wrapper: {
-                        minHeight: 48,
-                        height: 48,
-                        width: 80,
-                      },
-                    }}
-                    placeholder=""
-                    onChange={(value: string) =>
-                      dispatch({
-                        type: "changeSetWeight",
-                        payload: {
-                          workoutIndex,
-                          exerciseIndex,
-                          setIndex: index,
-                          weight: value,
-                        },
-                      })
-                    }
-                    value={item.weight}
-                  />
-                </View>
-                <TouchableOpacity
-                  onPress={() => openRepRangeModal(item, index)}
-                  style={styles.setProperty}
-                >
-                  <Text style={[styles.proprtyText, { flex: 1 }]}>
-                    Rep Range
-                  </Text>
-                  <Text style={[styles.proprtyText, { flex: 1 }]}>
-                    {item.minReps || 0} - {item.maxReps || 99}
-                  </Text>
-                </TouchableOpacity>
-                <View
-                  style={[styles.setProperty, { justifyContent: "center" }]}
-                >
-                  <Text style={styles.proprtyText}>. . .</Text>
-                </View>
-              </View>
-            </Swipeable>
-          ))}
+              </Swipeable>
+            ))}
 
-          <View>
-            <Button
-              text="Add set"
-              type="text"
-              onPress={() =>
-                dispatch({
-                  type: "addSetToExercise",
-                  payload: {
-                    workoutIndex,
-                    exerciseIndex,
-                  },
-                })
-              }
-            />
-            <Button text="Notes" type="text" onPress={() => {}} />
+            <View>
+              <Button
+                text="Add set"
+                type="text"
+                onPress={() => addSetToExercise(exerciseIndex)}
+              />
+              <Button text="Notes" type="text" onPress={() => {}} />
+            </View>
           </View>
         </View>
-      </View>
-    </Swipeable>
+      </Swipeable>
+    </>
   );
 };
 

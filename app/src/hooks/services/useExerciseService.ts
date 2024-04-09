@@ -1,10 +1,12 @@
 import { useAuth } from "../../contexts/AuthContext";
+import { Exercise } from "../../ts/types";
 import useApi from "./useApi";
 
 const useExerciseService = (): {
   searchExercise: (name: string) => Promise<any>;
   createExercise: (body: Record<any, any>) => Promise<any>;
   fetchMuscleGroupsWithExercises: () => Promise<any>;
+  fetchExerciseDetails: (exerciseId: number) => Promise<Exercise>;
 } => {
   const { token } = useAuth();
   const { get, post } = useApi(token as string);
@@ -27,7 +29,18 @@ const useExerciseService = (): {
     return data;
   };
 
-  return { searchExercise, createExercise, fetchMuscleGroupsWithExercises };
+  const fetchExerciseDetails = async (exerciseId: number) => {
+    const url = "workouts/exercise/details/" + exerciseId;
+    const data = await get(url);
+    return data;
+  };
+
+  return {
+    searchExercise,
+    createExercise,
+    fetchMuscleGroupsWithExercises,
+    fetchExerciseDetails,
+  };
 };
 
 export default useExerciseService;

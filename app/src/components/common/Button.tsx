@@ -1,4 +1,12 @@
-import { ActivityIndicator, StyleSheet, Text, TextStyle, View, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 import React, { ReactNode } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Colors } from "../../utils/colors";
@@ -12,6 +20,7 @@ interface ButtonProps {
   type?: "primary" | "outlined" | "text";
   loading?: boolean;
   textStyles?: TextStyle;
+  buttonStyles?: ViewStyle;
 }
 
 const generateBackgroundStyles = (
@@ -60,7 +69,8 @@ const Button: React.FC<ButtonProps> = ({
   onPress,
   type = "primary",
   loading,
-  textStyles
+  textStyles,
+  buttonStyles,
 }) => {
   const { colors } = useTheme();
 
@@ -85,20 +95,20 @@ const Button: React.FC<ButtonProps> = ({
       borderRadius: 100,
       justifyContent: "center",
       alignItems: "center",
-      flexDirection:'row',
+      flexDirection: "row",
+      ...buttonStyles,
     },
     text: {
       ...textColor,
       fontFamily: "RobotoRegular",
       fontSize: 16,
-      ...textStyles
+      ...textStyles,
     },
     textIconWrapper: {
       flexDirection: "row",
-      justifyContent: text && icon ? "space-between" : 'center',
+      justifyContent: text && icon ? "space-between" : "center",
       alignItems: "center",
       gap: text && icon ? 8 : 0,
-      
     },
   });
 
