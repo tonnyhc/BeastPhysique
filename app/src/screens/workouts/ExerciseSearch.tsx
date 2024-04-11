@@ -58,7 +58,6 @@ const ExerciseSearch: React.FC = ({}) => {
       setSelectedExercises((prevSelected) => [...prevSelected, exercise]);
     }
   };
-  console.log(selectedExercises);
   const exercisesForFlatList =
     filter === "exercises" ? data?.exercises : data?.exercises_by_user;
 

@@ -9,6 +9,10 @@ const useWorkoutService = () => {
   const { token } = useAuth();
   const { get, post } = useApi(token as string);
 
+  const searchWorkoutSession = async (name: string) => {
+    return get(url + "search/" + `?name=${encodeURIComponent(name)}`);
+  };
+
   const fetchWorkoutSessionDetails = async (id: number) => {
     return get(url + "session/" + id + "/");
   };
@@ -31,7 +35,7 @@ const useWorkoutService = () => {
     mutationKey: ["createWorkout"],
   });
 
-  return { workoutSessionDetails, createWorkout };
+  return { workoutSessionDetails, createWorkout, searchWorkoutSession };
 };
 
 export default useWorkoutService;

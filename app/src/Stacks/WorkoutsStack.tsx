@@ -25,6 +25,7 @@ import CreateWorkoutStackContext from "../screens/workouts/CreateWorkoutStackCon
 import TestCreateCustomWorkoutPlan from "../screens/workout-plans/TestCreateCustomWorkoutPlan";
 import StackScreenHeader from "../components/common/StackScreenHeader";
 import ExerciseDetailsScreen from "../screens/exercises/ExerciseDetailsScreen";
+import WorkoutSearch from "../screens/workouts/WorkoutSearch";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
@@ -51,7 +52,7 @@ const WorkoutsStackScreen: React.FC = () => {
   return (
     <CreateCustomWorkoutPlanProvider>
       <WorkoutsStack.Navigator
-        initialRouteName="CreateWorkoutPlan"
+        initialRouteName="WorkoutSearch"
         screenOptions={{
           headerShown: true,
           headerTitle: "",
@@ -120,17 +121,16 @@ const WorkoutsStackScreen: React.FC = () => {
 
           <WorkoutsStack.Screen
             name="WorkoutSearch"
-            component={WorkoutSelection}
+            component={WorkoutSearch}
             options={({ navigation }) => ({
-              headerShown: true,
-              headerLeft: (props) => (
-                <BackButton onPress={() => navigation.goBack()} />
+              header: () => (
+                <StackScreenHeader
+                  label="Search workout"
+                  rightButton={
+                    <Button type="text" text="Create" onPress={() => navigation.navigate('CreateCustomWorkout')} />
+                  }
+                />
               ),
-              headerLeftContainerStyle: {
-                paddingLeft: 10,
-              },
-
-              headerTitle: "Workout search",
             })}
           />
           <WorkoutsStack.Screen

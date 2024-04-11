@@ -48,6 +48,7 @@ const ExerciseSearchCard: React.FC<ExerciseSearchCardProps> = ({
     exerciseName: {
       fontFamily: "RobotoRegular",
       fontSize: 20,
+      color: colors.primaryText
     },
   });
   return (

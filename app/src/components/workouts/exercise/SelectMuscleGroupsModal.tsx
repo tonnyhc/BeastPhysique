@@ -41,6 +41,8 @@ const SelectMuscleGroupsModal: React.FC<SelectMuscleGroupsModalProps> = ({
       flex: 0.7,
       borderTopRightRadius: 15,
       borderTopLeftRadius: 15,
+      backgroundColor: colors.bg
+
     },
     modalHeader: {},
     modalBody: {
@@ -74,6 +76,7 @@ const SelectMuscleGroupsModal: React.FC<SelectMuscleGroupsModalProps> = ({
       animationIn="slideInUp"
       style={styles.modal}
       onSwipeComplete={closeModal}
+      
     >
       <View style={styles.modalWrapper}>
         {/* modal header */}
