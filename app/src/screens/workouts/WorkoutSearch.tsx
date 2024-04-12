@@ -15,10 +15,17 @@ import useWorkoutService from "../../hooks/services/useWorkoutService";
 import { Workout } from "../../ts/types";
 import WorkoutSessionSearchCard from "../../components/workouts/WorkoutSessionSearchCard";
 import Button from "../../components/common/Button";
+import { useCreateWorkoutPlanContext } from "../../contexts/TestCreateWorkoutPlanContext";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { CreateWorkoutPlanParamsList } from "../../Stacks/CreateWorkoutPlanStack";
 
 const WorkoutSearch: React.FC = () => {
   const { colors } = useTheme();
   const [search, setSearch] = useState<string>("");
+  const [selectedWorkouts, setSelectedWorkouts] = useState<Workout[]>([]);
+  const navigation =
+    useNavigation<StackNavigationProp<CreateWorkoutPlanParamsList>>();
   const defferedSearch = useDeferredValue(search);
   const { searchWorkoutSession } = useWorkoutService();
   const { data, isLoading, error } = useQuery({
@@ -29,7 +36,20 @@ const WorkoutSearch: React.FC = () => {
       workouts_by_user: [],
     },
   });
-  console.log(data["workouts"]);
+
+  const { addWorkouts } = useCreateWorkoutPlanContext();
+
+  const selectWorkout = (workout: Workout) => {
+    const workoutIds = selectedWorkouts.map((item) => item.id);
+    if (workoutIds.includes(workout.id)) {
+      const newWorkouts = selectedWorkouts.filter(
+        (item) => item.id !== workout.id
+      );
+      setSelectedWorkouts(newWorkouts);
+    } else {
+      setSelectedWorkouts([...selectedWorkouts, workout]);
+    }
+  };
   const styles = StyleSheet.create({
     button: {
       position: "absolute",
@@ -40,7 +60,7 @@ const WorkoutSearch: React.FC = () => {
   });
 
   return (
-    <Screen>
+    <Screen closeKeyboardOnClick>
       {isLoading && <ActivityIndicator />}
       <TestInput
         value={search}
@@ -57,19 +77,11 @@ const WorkoutSearch: React.FC = () => {
           {data.workouts.map((item: Workout) => (
             <>
               <WorkoutSessionSearchCard
-                name={item.name}
-                total_sets_count={item.total_sets}
-                exercises_count={item.exercises.length}
-              />
-              <WorkoutSessionSearchCard
-                name={item.name}
-                total_sets_count={item.total_sets}
-                exercises_count={item.exercises.length}
-              />
-              <WorkoutSessionSearchCard
-                name={item.name}
-                total_sets_count={item.total_sets}
-                exercises_count={item.exercises.length}
+                workout={item}
+                selectWorkout={selectWorkout}
+                isSelected={selectedWorkouts
+                  .map((workout) => workout.id)
+                  .includes(item.id)}
               />
             </>
           ))}
@@ -77,7 +89,13 @@ const WorkoutSearch: React.FC = () => {
       </Suspense>
 
       <View style={styles.button}>
-        <Button text={`Select 0`} onPress={() => {}} />
+        <Button
+          text={`Select ${selectedWorkouts.length}`}
+          onPress={() => {
+            addWorkouts(selectedWorkouts);
+            navigation.navigate("CreateWorkoutPlan");
+          }}
+        />
       </View>
     </Screen>
   );
