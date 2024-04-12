@@ -8,18 +8,18 @@ import React, {
 } from "react";
 import CustomProgramReducer, {
   Action,
-  ProgramState,
+  WorkoutPlanState,
 } from "../reducers/CustomProgramReducer";
 import useApi from "../hooks/services/useApi";
 import { useAuth } from "./AuthContext";
 
 interface CreateCustomWorkoutPlanContextProps {
-  workoutPlan: ProgramState;
+  workoutPlan: WorkoutPlanState;
   dispatch: Dispatch<Action>; // Replace 'any' with your specific action types if available
   createWorkoutPlan: () => Promise<any>;
 }
 
-const defaultWorkoutPlanState: ProgramState = {
+const defaultWorkoutPlanState: WorkoutPlanState = {
   planName: "",
   workouts: [],
 };
