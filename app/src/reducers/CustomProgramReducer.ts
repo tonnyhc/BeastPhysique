@@ -2,10 +2,10 @@ import { Exercise, ExerciseSet, Workout } from "../ts/types";
 import { emptySet, emptyWorkout } from "../utils/mapData";
 
 type ActionHandlers = {
-  [key: string]: (state: ProgramState, action: Action) => ProgramState;
+  [key: string]: (state: WorkoutPlanState, action: Action) => WorkoutPlanState;
 };
 
-export type ProgramState = {
+export type WorkoutPlanState = {
   planName: string;
   workouts: Workout[];
 };

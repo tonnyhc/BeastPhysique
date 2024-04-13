@@ -30,7 +30,7 @@ const CreateWorkoutPlanProvider: React.FC<CreateWorkoutPlanProviderProps> = ({
 }) => {
   const [workoutPlan, setWorkoutPlan] =
     useState<WorkoutPlanState>(emptyWorkoutPlan);
-
+    console.log(workoutPlan.workouts)
   const changePlanName = (value: string) => {
     setWorkoutPlan((oldPlan) => ({
       ...oldPlan,
@@ -38,10 +38,12 @@ const CreateWorkoutPlanProvider: React.FC<CreateWorkoutPlanProviderProps> = ({
     }));
   };
   const addWorkouts = (workouts: Workout[]) => {
+    const newWorkouts: Workout[] = [...workoutPlan.workouts, ...workouts]
     setWorkoutPlan((oldPlan) => ({
       ...oldPlan,
-      workouts: [...oldPlan.workouts, ...workouts],
+      workouts: [...newWorkouts]
     }));
+
   };
   const deleteWorkout = (workoutIndex: number) => {
     const newWorkouts = [...workoutPlan.workouts];

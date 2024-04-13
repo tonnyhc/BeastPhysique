@@ -26,6 +26,7 @@ import TestCreateCustomWorkoutPlan from "../screens/workout-plans/TestCreateCust
 import StackScreenHeader from "../components/common/StackScreenHeader";
 import ExerciseDetailsScreen from "../screens/exercises/ExerciseDetailsScreen";
 import WorkoutSearch from "../screens/workouts/WorkoutSearch";
+import CreateWorkoutPlanStackScreen from "./CreateWorkoutPlanStack";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
@@ -35,7 +36,6 @@ export type WorkoutsStackParamList = {
   CreateCustomWorkout: {
     workoutIndex: string | number;
   };
-  WorkoutSearch: undefined;
 
   CreateCustomExercise: undefined;
   EditExerciseSession: { exerciseSession: ExerciseSession };
@@ -52,7 +52,7 @@ const WorkoutsStackScreen: React.FC = () => {
   return (
     <CreateCustomWorkoutPlanProvider>
       <WorkoutsStack.Navigator
-        initialRouteName="WorkoutSearch"
+        initialRouteName="CreateWorkoutPlan"
         screenOptions={{
           headerShown: true,
           headerTitle: "",
@@ -113,26 +113,12 @@ const WorkoutsStackScreen: React.FC = () => {
           {/* CREATE */}
           <WorkoutsStack.Screen
             name="CreateWorkoutPlan"
-            component={TestCreateCustomWorkoutPlan}
-            options={({ navigation }) => ({
-              header: () => <StackScreenHeader label="Create Workout Plan" />,
-            })}
+            options={{
+              headerShown: false,
+            }}
+            component={CreateWorkoutPlanStackScreen}
           />
 
-          <WorkoutsStack.Screen
-            name="WorkoutSearch"
-            component={WorkoutSearch}
-            options={({ navigation }) => ({
-              header: () => (
-                <StackScreenHeader
-                  label="Search workout"
-                  rightButton={
-                    <Button type="text" text="Create" onPress={() => navigation.navigate('CreateCustomWorkout')} />
-                  }
-                />
-              ),
-            })}
-          />
           <WorkoutsStack.Screen
             options={{
               headerShown: false,

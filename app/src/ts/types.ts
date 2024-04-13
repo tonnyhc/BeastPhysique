@@ -79,6 +79,7 @@ export type Exercise = {
   targeted_muscle_groups?: string[];
 };
 
+
 export type ExerciseFromSearch = {
   id: number;
   name: string;
@@ -132,7 +133,7 @@ export type Workout = {
   total_sets: number;
   total_weight_volume: number;
   is_published: boolean;
-  exercises: Exercise[];
+  exercises: ExerciseSession[];
 };
 
 export type WorkoutCreate = {

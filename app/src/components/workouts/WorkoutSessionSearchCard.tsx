@@ -4,38 +4,40 @@ import { useTheme } from "../../contexts/ThemeContext";
 import Button from "../common/Button";
 import FAB from "../common/FAB";
 import InfoIcon from "../../icons/InfoIcon";
+import { Workout } from "../../ts/types";
+import TickIcon from "../../icons/TickIcon";
 
 interface WorkoutSessionSearchCardProps {
-  name: string;
-  exercises_count: number;
-  total_sets_count: number;
+  workout: Workout;
+  selectWorkout: (workout: Workout) => void;
+  isSelected: boolean;
 }
 
 const WorkoutSessionSearchCard: React.FC<WorkoutSessionSearchCardProps> = ({
-  name,
-  exercises_count,
-  total_sets_count,
+  workout,
+  selectWorkout,
+  isSelected,
 }) => {
   const { colors } = useTheme();
   const styles = StyleSheet.create({
     card: {
+      backgroundColor: isSelected ? colors.button : "transparent",
       borderRadius: 12,
-      borderWidth: 0.5,
+      borderWidth: 2,
       borderColor: colors.helperText,
       padding: 12,
       flexDirection: "row",
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 12
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 12,
     },
     content: {
-        gap: 8,
+      gap: 8,
     },
     title: {
-      color: colors.primaryText,
+      color: isSelected ? colors.white : colors.primaryText,
       fontFamily: "RobotoMedium",
       fontSize: 20,
-      
     },
     subtitle: {
       fontFamily: "RobotoRegular",
@@ -45,14 +47,30 @@ const WorkoutSessionSearchCard: React.FC<WorkoutSessionSearchCardProps> = ({
   });
 
   return (
-    <TouchableOpacity style={styles.card}>
-      <TouchableOpacity style={styles.content}>
-        <Text style={styles.title}>{name}</Text>
-        <Text style={styles.subtitle}>{exercises_count} Exercises</Text>
-        <Text style={styles.subtitle}>{total_sets_count} Total Sets</Text>
-      </TouchableOpacity>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => selectWorkout(workout)}
+    >
+      <View style={styles.content}>
+        <Text style={styles.title}>{workout.name}</Text>
+        <Text style={styles.subtitle}>{workout.total_exercises} Exercises</Text>
+        <Text style={styles.subtitle}>{workout.total_sets} Total Sets</Text>
+      </View>
 
-      <Button type="text" onPress={() => {}} icon={<InfoIcon size={24} color={colors.primaryText}/>}/>
+      {isSelected ? (
+        <TickIcon size={24} color={colors.white} />
+      ) : (
+        <Button
+          type="text"
+          onPress={() => {}}
+          icon={
+            <InfoIcon
+              size={24}
+              color={isSelected ? colors.white : colors.primaryText}
+            />
+          }
+        />
+      )}
     </TouchableOpacity>
   );
 };

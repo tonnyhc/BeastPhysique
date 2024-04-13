@@ -36,11 +36,11 @@ const WorkoutSearch: React.FC = () => {
       workouts_by_user: [],
     },
   });
-
   const { addWorkouts } = useCreateWorkoutPlanContext();
 
   const selectWorkout = (workout: Workout) => {
     const workoutIds = selectedWorkouts.map((item) => item.id);
+
     if (workoutIds.includes(workout.id)) {
       const newWorkouts = selectedWorkouts.filter(
         (item) => item.id !== workout.id
@@ -49,6 +49,7 @@ const WorkoutSearch: React.FC = () => {
     } else {
       setSelectedWorkouts([...selectedWorkouts, workout]);
     }
+
   };
   const styles = StyleSheet.create({
     button: {
