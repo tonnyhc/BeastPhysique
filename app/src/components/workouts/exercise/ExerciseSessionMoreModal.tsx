@@ -4,13 +4,13 @@ import React from "react";
 import { useTheme } from "../../../contexts/ThemeContext";
 import Button from "../../common/Button";
 import { useCreateWorkoutContext } from "../../../contexts/CreateWorkoutContext";
-import { Exercise } from "../../../ts/types";
+import { Exercise, ExerciseSession } from "../../../ts/types";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 interface ExerciseSessionMoreModalProps {
   visible: boolean;
   exerciseIndex: number;
-  exercise: Exercise;
+  exercise: ExerciseSession;
   closeModal: () => void;
   setIndex: number;
 }

@@ -3,7 +3,7 @@ import Screen from "../../components/common/Screen";
 import TestInput from "../../components/common/TestInput";
 import { useTheme } from "../../contexts/ThemeContext";
 import Button from "../../components/common/Button";
-import { Exercise, Workout } from "../../ts/types";
+import { Exercise, ExerciseSession, Workout } from "../../ts/types";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { CreateWorkoutStackParamsList } from "../../Stacks/CreateWorkoutStack";
@@ -16,7 +16,6 @@ const CreateWorkoutScreen: React.FC = () => {
     useNavigation<StackNavigationProp<CreateWorkoutStackParamsList>>();
   const { workout, changeWorkoutName } = useCreateWorkoutContext();
   const { colors } = useTheme();
-
   return (
     <Screen>
       <ScrollView contentContainerStyle={{ gap: 35 }}>
@@ -30,7 +29,7 @@ const CreateWorkoutScreen: React.FC = () => {
         />
         <View>
           <View>
-            {workout?.exercises.map((exercise: Exercise, index: number) => (
+            {workout?.exercises.map((exercise: ExerciseSession, index: number) => (
               <ExerciseCreationCard
                 key={exercise.id}
                 exerciseIndex={index}

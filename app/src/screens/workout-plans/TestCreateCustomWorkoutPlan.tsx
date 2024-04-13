@@ -61,7 +61,7 @@ const TestCreateCustomWorkoutPlan: React.FC<CreateCustomWorkoutPlanProps> = ({
             <CreateCustomWorkoutPlanWorkoutCard
               workoutIndex={index}
               workout={workout}
-              key={workout.id}
+              key={`workout.id+${index}`}
             />
           ))}
         </View>

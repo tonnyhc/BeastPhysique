@@ -1,8 +1,10 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { Exercise, ExerciseSearch, Workout, WorkoutCreate } from "../ts/types";
+import { ExerciseSession, Workout, WorkoutCreate } from "../ts/types";
 import { emptySet } from "../utils/mapData";
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import useWorkoutService from "../hooks/services/useWorkoutService";
+import { useNavigation } from "@react-navigation/native";
+import useExerciseService from "../hooks/services/useExerciseService";
 
 const emptyWorkoutForCreate: WorkoutCreate = {
   name: "",
@@ -12,9 +14,9 @@ const emptyWorkoutForCreate: WorkoutCreate = {
 type WorkoutContextProps = {
   workout: WorkoutCreate;
   changeWorkoutName: (name: string) => void;
-  addExercise: (exercises: Exercise[]) => void;
+  addExercise: (exercises: ExerciseSession[]) => void;
   addSetToExercise: (exerciseIndex: number) => void;
-  deleteSetFromExercise: (exerciseIndex: number, setIndex: number) => void;
+  deleteSetFromExercise: (exerciseIndex: number, setIndex: number, setId?: number) => void;
   editSetProperty: (
     exerciseIndex: number,
     setIndex: number,
@@ -22,13 +24,14 @@ type WorkoutContextProps = {
     value: string
   ) => void;
   deleteExercise: (exerciseIndex: number) => void;
-  submit: () => UseMutationResult;
+  submitCreate: () => UseMutationResult;
+  submitEdit: () => UseMutationResult;
 };
 
 const CreateWorkoutContext = createContext<WorkoutContextProps>({
   workout: emptyWorkoutForCreate,
   changeWorkoutName: () => {},
-  addExercise: (exercises: Exercise[]) => {},
+  addExercise: (exercises: ExerciseSession[]) => {},
   addSetToExercise: (exerciseIndex: number) => {},
   deleteSetFromExercise: (exerciseIndex: number, setIndex: number) => {},
   editSetProperty: (
@@ -38,30 +41,37 @@ const CreateWorkoutContext = createContext<WorkoutContextProps>({
     value: string
   ) => {},
   deleteExercise: (exerciseIndex: number) => {},
-  submit: () => {},
+  submitCreate: () => ({} as UseMutationResult),
+  submitEdit: () => ({} as UseMutationResult),
 });
 
 interface CreateWorkoutProviderProps {
   children: ReactNode;
+  workoutToEdit?: Workout;
 }
 
 export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
   children,
+  workoutToEdit,
 }) => {
-  const [workout, setWorkout] = useState<WorkoutCreate>(emptyWorkoutForCreate);
-  const { createWorkout } = useWorkoutService();
+  const navigation = useNavigation();
+  const [workout, setWorkout] = useState<WorkoutCreate>(
+    workoutToEdit ? workoutToEdit : emptyWorkoutForCreate
+  );
+  const { createWorkout, editWorkout } = useWorkoutService();
+  const {deleteSetFromExerciseSession} = useExerciseService()
   const changeWorkoutName = (value: string) => {
     setWorkout((oldWorkout) => ({
       ...oldWorkout,
       name: value,
     }));
   };
-  const addExercise = (exercises: Exercise[]) => {
-    const newExercises: Exercise[] = [];
+  const addExercise = (exercises: ExerciseSession[]) => {
+    const newExercises: ExerciseSession[] = [];
     for (let exercise of exercises) {
       newExercises.push({
         ...exercise,
-        sets: [{...emptySet}],
+        sets: [{ ...emptySet }],
       });
     }
     return setWorkout((oldWorkout) => ({
@@ -73,7 +83,7 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
     const updatedExercises = [...workout.exercises];
     updatedExercises.map((exercise, index) => {
       if (index === exerciseIndex) {
-        return exercise.sets?.push({...emptySet});
+        return exercise.sets?.push({ ...emptySet });
       }
     });
     setWorkout((oldWorkout) => ({
@@ -81,7 +91,10 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
       exercises: [...updatedExercises],
     }));
   };
-  const deleteSetFromExercise = (exerciseIndex: number, setIndex: number) => {
+  const deleteSetFromExercise = (exerciseIndex: number, setIndex: number, setId: number) => {
+    if (workoutToEdit) {
+      deleteSetFromExerciseSession.mutate(setId)
+    }
     const updatedExercises = [...workout.exercises];
     updatedExercises[exerciseIndex].sets?.splice(setIndex, 1);
     setWorkout((oldWorkout) => ({
@@ -115,8 +128,18 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
     }));
   };
 
-  const submit = () => {
-    return createWorkout.mutate(workout);
+  const submitCreate = () => {
+    const { mutate, data } = createWorkout;
+    mutate(workout);
+    navigation.goBack()
+    return data;
+  };
+  const submitEdit = () => {
+    const { mutate, data } = editWorkout;
+    mutate(workout);
+    navigation.goBack();
+
+    return data;
   };
   const context = {
     workout,
@@ -126,7 +149,8 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
     deleteSetFromExercise,
     editSetProperty,
     deleteExercise,
-    submit,
+    submitCreate,
+    submitEdit,
   };
   return (
     <CreateWorkoutContext.Provider value={context}>

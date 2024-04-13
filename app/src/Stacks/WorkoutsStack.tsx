@@ -1,31 +1,17 @@
-import {
-  StackNavigationProp,
-  createStackNavigator,
-} from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import Workouts from "../screens/workout-plans/Workouts";
-import CreateCustomWorkoutPlan from "../screens/workout-plans/CreateCustomWorkoutPlan";
-import CreateCustomWorkoutPlanProvider, {
-  useCustomWorkoutPlan,
-} from "../contexts/CustomWorkoutPlanContext";
-import WorkoutSelection from "../screens/workouts/WorkoutSelection";
+import CreateCustomWorkoutPlanProvider from "../contexts/CustomWorkoutPlanContext";
 import { useTheme } from "../contexts/ThemeContext";
-import ExerciseCreationModal from "../screens/workouts/ExerciseCreationModal";
 import WorkoutDetails from "../screens/workouts/WorkoutDetails";
 import WorkoutPlanDetails from "../screens/workout-plans/WorkoutPlanDetails";
 import ExerciseSessionEditModal from "../screens/workouts/ExerciseSessionEditModal";
 import { ExerciseSession, Workout } from "../ts/types";
 import ExerciseSessionProgressModal from "../screens/workouts/ExerciseSessionProgressModal";
 import Button from "../components/common/Button";
-import BackButton from "../components/common/BackButton";
 import { Image } from "react-native";
-import CloseButton from "../components/common/CloseButton";
 import CreateExerciseStackScreen from "./CreateExerciseStack";
-import CreateWorkoutsStackScreen from "./CreateWorkoutStack";
 import CreateWorkoutStackContext from "../screens/workouts/CreateWorkoutStackContext";
-import TestCreateCustomWorkoutPlan from "../screens/workout-plans/TestCreateCustomWorkoutPlan";
-import StackScreenHeader from "../components/common/StackScreenHeader";
 import ExerciseDetailsScreen from "../screens/exercises/ExerciseDetailsScreen";
-import WorkoutSearch from "../screens/workouts/WorkoutSearch";
 import CreateWorkoutPlanStackScreen from "./CreateWorkoutPlanStack";
 
 export type WorkoutsStackParamList = {
@@ -34,7 +20,7 @@ export type WorkoutsStackParamList = {
   WorkoutDetails: { workoutSessionId: number };
   CreateWorkoutPlan: undefined;
   CreateCustomWorkout: {
-    workoutIndex: string | number;
+    workout?: Workout;
   };
 
   CreateCustomExercise: undefined;

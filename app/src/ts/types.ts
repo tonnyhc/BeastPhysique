@@ -97,9 +97,9 @@ export type ExerciseSet = {
   forDelete?: boolean;
   weight: string;
   reps: string;
-  minReps: string;
-  maxReps: string;
-  failure: boolean;
+  min_reps: string;
+  max_reps: string;
+  to_failure: boolean;
   bodyweight: boolean;
   id?: number;
 };
@@ -127,7 +127,7 @@ export type ExerciseSearchResponse = {
 
 // Workouts
 export type Workout = {
-  id: string | number;
+  id?: string | number;
   name: string;
   total_exercises: number;
   total_sets: number;
@@ -137,8 +137,9 @@ export type Workout = {
 };
 
 export type WorkoutCreate = {
+  id?: number;
   name: string;
-  exercises: Exercise[];
+  exercises: ExerciseSession[];
 };
 
 export type WorkoutSession = {

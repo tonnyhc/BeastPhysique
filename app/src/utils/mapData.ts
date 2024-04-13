@@ -3,9 +3,9 @@ import { Exercise, ExerciseSet, Workout } from "../ts/types";
 export const emptySet: ExerciseSet = {
   weight: "",
   reps: "",
-  maxReps: "",
-  minReps: "",
-  failure: false,
+  max_reps: "",
+  min_reps: "",
+  to_failure: false,
   bodyweight: false,
 };
 

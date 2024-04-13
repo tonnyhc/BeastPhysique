@@ -8,7 +8,7 @@ import Button from "../components/common/Button";
 import CreateWorkoutPlanProvider from "../contexts/TestCreateWorkoutPlanContext";
 
 export type CreateWorkoutPlanParamsList = {
-  CreateWorkoutPlan: undefined;
+  WorkoutPlan: undefined;
   WorkoutSearch: undefined;
 };
 
@@ -20,7 +20,7 @@ const CreateWorkoutPlanStackScreen: React.FC = () => {
     <CreateWorkoutPlanProvider>
       <CreateWorkoutPlanStack.Navigator>
         <CreateWorkoutPlanStack.Screen
-          name="CreateWorkoutPlan"
+          name="WorkoutPlan"
           options={({ navigation }) => ({
             header: () => <StackScreenHeader label="Create Workout Plan" />,
           })}

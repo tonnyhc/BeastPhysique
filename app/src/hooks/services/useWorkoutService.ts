@@ -7,7 +7,7 @@ import { WorkoutCreate } from "../../ts/types";
 const useWorkoutService = () => {
   const url = "workouts/workout/";
   const { token } = useAuth();
-  const { get, post } = useApi(token as string);
+  const { get, post, put } = useApi(token as string);
 
   const searchWorkoutSession = async (name: string) => {
     return get(url + "search/" + `?name=${encodeURIComponent(name)}`);
@@ -20,6 +20,11 @@ const useWorkoutService = () => {
   const fetchCreateWorkout = async (body: WorkoutCreate) => {
     return post(url + "create/", body);
   };
+  
+  const fetchEditWorkout = async (body: WorkoutCreate) => {
+    const finalUrl = url + 'session/edit/' + body.id + "/"
+    return put(finalUrl, body);
+  }
 
   const workoutSessionDetails = (workoutSessionId: number) => {
     const query = useQuery({
@@ -35,7 +40,12 @@ const useWorkoutService = () => {
     mutationKey: ["createWorkout"],
   });
 
-  return { workoutSessionDetails, createWorkout, searchWorkoutSession };
+  const editWorkout = useMutation({
+    mutationFn: (data: WorkoutCreate) => fetchEditWorkout(data),
+    mutationKey: [`editWorkout`]
+  })
+
+  return { workoutSessionDetails, createWorkout, searchWorkoutSession, editWorkout };
 };
 
 export default useWorkoutService;

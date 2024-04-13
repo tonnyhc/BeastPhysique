@@ -6,7 +6,7 @@ import {
   Animated,
 } from "react-native";
 import { useTheme } from "../../../contexts/ThemeContext";
-import { Exercise } from "../../../ts/types";
+import { Exercise, ExerciseSession } from "../../../ts/types";
 import Button from "../../common/Button";
 import { Swipeable } from "react-native-gesture-handler";
 import { useState } from "react";
@@ -17,7 +17,7 @@ import ExerciseSessionMoreModal from "./ExerciseSessionMoreModal";
 import ExerciseSessionRepRangeModal from "./ExerciseSessionRepRangeModal";
 
 interface ExerciseCreationCardProps {
-  exercise: Exercise;
+  exercise: ExerciseSession;
   exerciseIndex: number;
 }
 
@@ -26,24 +26,23 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
   exercise,
 }) => {
   const { colors } = useTheme();
+  console.log(exercise)
   const {
-    workout,
     addSetToExercise,
     deleteSetFromExercise,
     editSetProperty,
     deleteExercise,
   } = useCreateWorkoutContext();
-
   const [isMoreModalOpen, setIsMoreModalOpen] = useState<boolean>(false);
   const [isRepRangeModalOpen, setIsRepRangeModalOpen] =
     useState<boolean>(false);
   const [setIndex, setSetIndex] = useState<number | null>(null);
 
-  const renderRightSetActions = (setIndex: number) => {
+  const renderRightSetActions = (setIndex: number, setId:number) => {
     return (
       <TouchableOpacity
         style={{ height: "100%", justifyContent: "flex-end" }}
-        onPress={() => deleteSetFromExercise(exerciseIndex, setIndex)}
+        onPress={() => deleteSetFromExercise(exerciseIndex, setIndex, setId)}
       >
         <Animated.View
           style={{
@@ -187,15 +186,15 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
         <View style={styles.card}>
           <View style={styles.headingRow}>
             <Text style={styles.exerciseIndex}>{exerciseIndex + 1}</Text>
-            <Text style={styles.exerciseName}>{exercise.name}</Text>
+            <Text style={styles.exerciseName}>{exercise.exercise.name}</Text>
           </View>
           <View style={styles.setsWrapper}>
             {exercise.sets?.map((item, index) => (
               <Swipeable
-                renderRightActions={() => renderRightSetActions(index)}
+                renderRightActions={() => renderRightSetActions(index, item.id as number)}
                 overshootRight={true}
                 onSwipeableWillOpen={() =>
-                  deleteSetFromExercise(exerciseIndex, index)
+                  deleteSetFromExercise(exerciseIndex, index, item.id)
                 }
                 friction={1}
               >
@@ -209,7 +208,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                   {/* Reps */}
                   <View style={styles.setProperty}>
                     <Text style={styles.proprtyText}>Reps</Text>
-                    {item.failure.toString() === "false" ? (
+                    {item.to_failure.toString() === "false" ? (
                       <TestInput
                         inputMode="numeric"
                         styles={{
@@ -219,7 +218,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                         onChange={(value: string) =>
                           editSetProperty(exerciseIndex, index, "reps", value)
                         }
-                        value={item.reps}
+                        value={item.reps.toString()}
                       />
                     ) : (
                       <Text
@@ -247,7 +246,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                         onChange={(value: string) =>
                           editSetProperty(exerciseIndex, index, "weight", value)
                         }
-                        value={item.weight}
+                        value={item.weight.toString()}
                       />
                     ) : (
                       <Text
@@ -269,15 +268,15 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                     <Text
                       style={[
                         styles.proprtyText,
-                        { flex: item.failure.toString() === "true" ? 0 : 1 },
+                        { flex: item.to_failure.toString() === "true" ? 0 : 1 },
                       ]}
                     >
                       Rep Range
                     </Text>
-                    {item.failure.toString() === "false" ? (
+                    {item.to_failure.toString() === "false" ? (
                       <>
                         <Text style={[styles.proprtyText, { flex: 1 }]}>
-                          {item.minReps || 0} - {item.maxReps || 99}
+                          {item.min_reps.toString() || 0} - {item.max_reps.toString() || 99}
                         </Text>
                       </>
                     ) : (

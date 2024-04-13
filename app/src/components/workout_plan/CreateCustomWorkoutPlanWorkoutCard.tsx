@@ -148,7 +148,7 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
       >
         <TouchableWithoutFeedback
           onPress={() =>
-            navigation.navigate("CreateCustomWorkout", { workoutIndex })
+            navigation.navigate("CreateCustomWorkout", {workout})
           }
         >
           <View style={styles.card}>
@@ -160,7 +160,7 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
                 <Text>Add exercises</Text>
               ) : null}
               {workout.exercises.map((item: ExerciseSession, index: number) => (
-                <View style={styles.exerciseNameWrapper}>
+                <View style={styles.exerciseNameWrapper} key={item.id}>
                   <Text style={styles.exerciseName}>{item.exercise.name}</Text>
                   <Text style={styles.exerciseSetsCount}>
                     {item.sets.length} sets

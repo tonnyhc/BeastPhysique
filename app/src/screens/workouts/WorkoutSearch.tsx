@@ -79,6 +79,7 @@ const WorkoutSearch: React.FC = () => {
             <>
               <WorkoutSessionSearchCard
                 workout={item}
+                key={item.id}
                 selectWorkout={selectWorkout}
                 isSelected={selectedWorkouts
                   .map((workout) => workout.id)
@@ -94,7 +95,7 @@ const WorkoutSearch: React.FC = () => {
           text={`Select ${selectedWorkouts.length}`}
           onPress={() => {
             addWorkouts(selectedWorkouts);
-            navigation.navigate("CreateWorkoutPlan");
+            navigation.navigate("WorkoutPlan");
           }}
         />
       </View>

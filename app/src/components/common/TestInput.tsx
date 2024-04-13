@@ -1,4 +1,11 @@
-import { StyleSheet, Text, TextInput, TextStyle, View, ViewStyle } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
 import React, { ReactNode, useEffect, useState } from "react";
 import UserIcon from "../../icons/UserIcon";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -20,10 +27,11 @@ interface ReusableInputProps {
   helperTextRight?: string;
   onPressHelperRight?: () => void;
   error?: string;
-  styles? : ViewStyle;
+  styles?: ViewStyle;
   multiline?: boolean;
   onEndEditing?: () => void;
   inputMode?: "text" | "decimal" | "numeric" | "email" | "search";
+  defaultValue?: string;
 }
 
 const TestInput: React.FC<ReusableInputProps> = ({
@@ -43,7 +51,8 @@ const TestInput: React.FC<ReusableInputProps> = ({
   helperTextRight,
   onPressHelperRight,
   multiline,
-  styles
+  styles,
+  defaultValue,
 }) => {
   const { colors } = useTheme();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(
@@ -65,7 +74,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
   const stylesheet = StyleSheet.create({
     wrapper: {
       gap: 4,
-      ...styles
+      ...styles,
     },
     label: {
       fontSize: 16,
@@ -126,6 +135,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
 
         {/* input */}
         <TextInput
+          defaultValue={defaultValue}
           style={stylesheet.input}
           placeholder={placeholder}
           placeholderTextColor={"#8A8A8A"}

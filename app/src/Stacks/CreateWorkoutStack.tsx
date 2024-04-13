@@ -23,9 +23,15 @@ export type CreateWorkoutStackParamsList = {
 
 const CreateWorkoutsStack = createStackNavigator();
 
-const CreateWorkoutsStackScreen: React.FC = () => {
+interface CreateWorkoutsStackScreenProps {
+  editWorkout?: boolean;
+}
+
+const CreateWorkoutsStackScreen: React.FC<CreateWorkoutsStackScreenProps> = ({
+  editWorkout,
+}) => {
   const { colors } = useTheme();
-  const { submit } = useCreateWorkoutContext();
+  const { submitCreate, submitEdit } = useCreateWorkoutContext();
   const navigation =
     useNavigation<StackNavigationProp<WorkoutsStackParamList>>();
   return (
@@ -53,9 +59,9 @@ const CreateWorkoutsStackScreen: React.FC = () => {
           header: () => (
             <StackScreenHeader
               rightButton={
-                <Button type="text" text="Done" onPress={() => submit()} />
+                <Button type="text" text="Done" onPress={() => editWorkout ? submitEdit() : submitCreate()} />
               }
-              label="Create workout"
+              label={editWorkout ? "Edit workout" : "Create workout"}
             />
           ),
         }}
