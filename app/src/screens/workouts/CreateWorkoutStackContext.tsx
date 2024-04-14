@@ -7,6 +7,7 @@ interface CreateWorkoutStackContextProps {
   route: {
     params: {
       workout?: Workout;
+      callbackFn?: (workout: Workout) => {}
     };
   };
 }
@@ -15,8 +16,9 @@ const CreateWorkoutStackContext: React.FC<CreateWorkoutStackContextProps> = ({
   route,
 }) => {
   const workout = route.params?.workout ? route.params.workout : undefined;
+  const callbackFn = route.params?.callbackFn ? route.params.callbackFn : undefined;
   return (
-    <CreateWorkoutProvider workoutToEdit={workout}>
+    <CreateWorkoutProvider callbackFn={callbackFn} workoutToEdit={workout}>
       <CreateWorkoutsStackScreen editWorkout={workout ? true : false} />
     </CreateWorkoutProvider>
   );

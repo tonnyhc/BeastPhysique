@@ -1,11 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  StackNavigationProp,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import TestCreateCustomWorkoutPlan from "../screens/workout-plans/TestCreateCustomWorkoutPlan";
 import StackScreenHeader from "../components/common/StackScreenHeader";
 import WorkoutSearch from "../screens/workouts/WorkoutSearch";
 import Button from "../components/common/Button";
-import CreateWorkoutPlanProvider from "../contexts/TestCreateWorkoutPlanContext";
+import { useCreateWorkoutPlanContext } from "../contexts/TestCreateWorkoutPlanContext";
+import { useNavigation } from "@react-navigation/native";
+import { WorkoutsStackParamList } from "./WorkoutsStack";
+import { Workout } from "../ts/types";
 
 export type CreateWorkoutPlanParamsList = {
   WorkoutPlan: undefined;
@@ -16,39 +22,42 @@ const CreateWorkoutPlanStack =
   createStackNavigator<CreateWorkoutPlanParamsList>();
 
 const CreateWorkoutPlanStackScreen: React.FC = () => {
+  const navigation =
+    useNavigation<StackNavigationProp<WorkoutsStackParamList>>();
+  const { addWorkouts } = useCreateWorkoutPlanContext();
   return (
-    <CreateWorkoutPlanProvider>
-      <CreateWorkoutPlanStack.Navigator>
-        <CreateWorkoutPlanStack.Screen
-          name="WorkoutPlan"
-          options={({ navigation }) => ({
-            header: () => <StackScreenHeader label="Create Workout Plan" />,
-          })}
-          component={TestCreateCustomWorkoutPlan}
-        />
-        <CreateWorkoutPlanStack.Screen
-          name="WorkoutSearch"
-          options={({ navigation }) => ({
-            header: () => (
-              <StackScreenHeader
-                label="Search workout"
-                rightButton={
-                  <Button
-                    type="text"
-                    text="Create"
-                    onPress={() => navigation.navigate("CreateCustomWorkout")}
-                  />
-                }
-              />
-            ),
-          })}
-          component={WorkoutSearch}
-        />
-      </CreateWorkoutPlanStack.Navigator>
-    </CreateWorkoutPlanProvider>
+    <CreateWorkoutPlanStack.Navigator>
+      <CreateWorkoutPlanStack.Screen
+        name="WorkoutPlan"
+        options={({ navigation }) => ({
+          header: () => <StackScreenHeader label="Create Workout Plan" />,
+        })}
+        component={TestCreateCustomWorkoutPlan}
+      />
+      <CreateWorkoutPlanStack.Screen
+        name="WorkoutSearch"
+        options={() => ({
+          header: () => (
+            <StackScreenHeader
+              label="Search workout"
+              rightButton={
+                <Button
+                  type="text"
+                  text="Create"
+                  onPress={() =>
+                    navigation.navigate("CreateCustomWorkout", {
+                      callbackFn: (workout: Workout[]) => addWorkouts(workout),
+                    })
+                  }
+                />
+              }
+            />
+          ),
+        })}
+        component={WorkoutSearch}
+      />
+    </CreateWorkoutPlanStack.Navigator>
   );
 };
 
 export default CreateWorkoutPlanStackScreen;
-
-const styles = StyleSheet.create({});

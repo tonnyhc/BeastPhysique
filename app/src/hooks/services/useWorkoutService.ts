@@ -20,11 +20,11 @@ const useWorkoutService = () => {
   const fetchCreateWorkout = async (body: WorkoutCreate) => {
     return post(url + "create/", body);
   };
-  
+
   const fetchEditWorkout = async (body: WorkoutCreate) => {
-    const finalUrl = url + 'session/edit/' + body.id + "/"
+    const finalUrl = url + "session/edit/" + body.id + "/";
     return put(finalUrl, body);
-  }
+  };
 
   const workoutSessionDetails = (workoutSessionId: number) => {
     const query = useQuery({
@@ -42,10 +42,15 @@ const useWorkoutService = () => {
 
   const editWorkout = useMutation({
     mutationFn: (data: WorkoutCreate) => fetchEditWorkout(data),
-    mutationKey: [`editWorkout`]
-  })
+    mutationKey: [`editWorkout`],
+  });
 
-  return { workoutSessionDetails, createWorkout, searchWorkoutSession, editWorkout };
+  return {
+    workoutSessionDetails,
+    createWorkout,
+    searchWorkoutSession,
+    editWorkout,
+  };
 };
 
 export default useWorkoutService;

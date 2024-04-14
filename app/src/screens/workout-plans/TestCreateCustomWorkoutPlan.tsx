@@ -28,7 +28,7 @@ const TestCreateCustomWorkoutPlan: React.FC<CreateCustomWorkoutPlanProps> = ({
   return (
     <Screen>
       <ScrollView
-        style={{ flexGrow: 1 }}
+        style={{ flexGrow: 1, paddingTop: 20 }}
         contentContainerStyle={{ paddingHorizontal: 4 }}
       >
         {/* Workout plan name */}

@@ -1,10 +1,12 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { ExerciseSession, Workout, WorkoutCreate } from "../ts/types";
+import { Exercise, ExerciseSession, Workout, WorkoutCreate } from "../ts/types";
 import { emptySet } from "../utils/mapData";
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import useWorkoutService from "../hooks/services/useWorkoutService";
 import { useNavigation } from "@react-navigation/native";
 import useExerciseService from "../hooks/services/useExerciseService";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { CreateWorkoutPlanParamsList } from "../Stacks/CreateWorkoutPlanStack";
 
 const emptyWorkoutForCreate: WorkoutCreate = {
   name: "",
@@ -16,7 +18,11 @@ type WorkoutContextProps = {
   changeWorkoutName: (name: string) => void;
   addExercise: (exercises: ExerciseSession[]) => void;
   addSetToExercise: (exerciseIndex: number) => void;
-  deleteSetFromExercise: (exerciseIndex: number, setIndex: number, setId?: number) => void;
+  deleteSetFromExercise: (
+    exerciseIndex: number,
+    setIndex: number,
+    setId?: number
+  ) => void;
   editSetProperty: (
     exerciseIndex: number,
     setIndex: number,
@@ -48,35 +54,42 @@ const CreateWorkoutContext = createContext<WorkoutContextProps>({
 interface CreateWorkoutProviderProps {
   children: ReactNode;
   workoutToEdit?: Workout;
+  callbackFn?: (workout: Workout) => void;
 }
 
 export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
   children,
   workoutToEdit,
+  callbackFn,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<CreateWorkoutPlanParamsList>>();
+
   const [workout, setWorkout] = useState<WorkoutCreate>(
     workoutToEdit ? workoutToEdit : emptyWorkoutForCreate
   );
   const { createWorkout, editWorkout } = useWorkoutService();
-  const {deleteSetFromExerciseSession} = useExerciseService()
+  const { deleteSetFromExerciseSession } = useExerciseService();
   const changeWorkoutName = (value: string) => {
     setWorkout((oldWorkout) => ({
       ...oldWorkout,
       name: value,
     }));
   };
-  const addExercise = (exercises: ExerciseSession[]) => {
+  const addExercise = (exercises: Exercise[]) => {
     const newExercises: ExerciseSession[] = [];
     for (let exercise of exercises) {
       newExercises.push({
-        ...exercise,
+        exercise: exercise,
         sets: [{ ...emptySet }],
       });
     }
+
     return setWorkout((oldWorkout) => ({
       ...oldWorkout,
-      exercises: [...oldWorkout.exercises, ...newExercises],
+      exercises: [
+        ...oldWorkout.exercises,
+        ...newExercises,
+      ] as ExerciseSession[],
     }));
   };
   const addSetToExercise = (exerciseIndex: number) => {
@@ -91,9 +104,13 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
       exercises: [...updatedExercises],
     }));
   };
-  const deleteSetFromExercise = (exerciseIndex: number, setIndex: number, setId: number) => {
+  const deleteSetFromExercise = (
+    exerciseIndex: number,
+    setIndex: number,
+    setId: number
+  ) => {
     if (workoutToEdit) {
-      deleteSetFromExerciseSession.mutate(setId)
+      deleteSetFromExerciseSession.mutate(setId);
     }
     const updatedExercises = [...workout.exercises];
     updatedExercises[exerciseIndex].sets?.splice(setIndex, 1);
@@ -130,8 +147,17 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
 
   const submitCreate = () => {
     const { mutate, data } = createWorkout;
-    mutate(workout);
-    navigation.goBack()
+    mutate(workout, {
+      onSuccess: (data: Workout) => {
+        if (callbackFn) {
+          const arrayWorkouts: Workout[] = [data]
+        
+          callbackFn(arrayWorkouts);
+          navigation.navigate("WorkoutPlan")
+        }
+      },
+    });
+
     return data;
   };
   const submitEdit = () => {

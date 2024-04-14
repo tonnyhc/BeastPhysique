@@ -58,7 +58,6 @@ const ExerciseDetailsScreen: React.FC<ExerciseDetailsScreen> = ({ route }) => {
     },
   });
 
-  console.log(data);
   return (
     <>
       <Video

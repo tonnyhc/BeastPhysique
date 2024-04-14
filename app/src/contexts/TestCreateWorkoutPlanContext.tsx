@@ -37,6 +37,8 @@ const CreateWorkoutPlanProvider: React.FC<CreateWorkoutPlanProviderProps> = ({
     }));
   };
   const addWorkouts = (workouts: Workout[]) => {
+    console.log("workouts123: ", workouts)
+    
     const newWorkouts: Workout[] = [...workoutPlan.workouts, ...workouts];
     setWorkoutPlan((oldPlan) => ({
       ...oldPlan,

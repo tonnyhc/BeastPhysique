@@ -64,12 +64,12 @@ const ExerciseSessionRepRangeModal: React.FC<
             <TestInput
               label="Min Reps"
               inputMode="numeric"
-              value={currentSet?.minReps.toString()}
+              value={currentSet?.min_reps.toString()}
               onChange={(value: string) =>
                 editSetProperty(
                   exerciseIndex,
                   setIndex as number,
-                  "minReps",
+                  "min_reps",
                   value
                 )
               }
@@ -90,13 +90,13 @@ const ExerciseSessionRepRangeModal: React.FC<
           <View>
             <TestInput
               label="Max Reps"
-              value={currentSet?.maxReps.toString()}
+              value={currentSet?.max_reps.toString()}
               inputMode="numeric"
               onChange={(value: string) =>
                 editSetProperty(
                   exerciseIndex,
                   setIndex as number,
-                  "maxReps",
+                  "max_reps",
                   value
                 )
               }

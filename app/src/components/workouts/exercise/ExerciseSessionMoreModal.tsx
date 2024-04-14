@@ -25,7 +25,6 @@ const ExerciseSessionMoreModal: React.FC<ExerciseSessionMoreModalProps> = ({
   const { colors } = useTheme();
   const { editSetProperty, deleteSetFromExercise } = useCreateWorkoutContext();
   const currentSet = exercise.sets[setIndex];
-//   console.log(currentSet.bodyweight);
   const styles = StyleSheet.create({
     modal: {
       justifyContent: "flex-end",
@@ -62,7 +61,7 @@ const ExerciseSessionMoreModal: React.FC<ExerciseSessionMoreModalProps> = ({
         <View style={styles.separator}>
           <BouncyCheckbox
             isChecked={
-              currentSet && currentSet.failure.toString() === "true"
+              currentSet && currentSet.to_failure.toString() === "true"
                 ? true
                 : false
             }
@@ -77,11 +76,10 @@ const ExerciseSessionMoreModal: React.FC<ExerciseSessionMoreModalProps> = ({
             }}
             text="To failure"
             onPress={(value) => {
-              console.log(value);
               editSetProperty(
                 exerciseIndex,
                 setIndex,
-                "failure",
+                "to_failure",
                 value.toString()
               );
             }}

@@ -4,19 +4,21 @@ import {
   SafeAreaView,
   Keyboard,
   TouchableWithoutFeedback,
+  ViewStyle,
 } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 
 interface ScreenProps {
   children: ReactNode;
   closeKeyboardOnClick?: boolean;
+  styles?: ViewStyle
 }
 
-const Screen: React.FC<ScreenProps> = ({ children, closeKeyboardOnClick }) => {
+const Screen: React.FC<ScreenProps> = ({ children, closeKeyboardOnClick, styles }) => {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg, ...styles }}>
       {closeKeyboardOnClick ? (
         <TouchableWithoutFeedback
           style={{ flexGrow: 1 }}

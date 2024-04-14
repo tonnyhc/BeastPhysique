@@ -26,7 +26,6 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
   exercise,
 }) => {
   const { colors } = useTheme();
-  console.log(exercise)
   const {
     addSetToExercise,
     deleteSetFromExercise,

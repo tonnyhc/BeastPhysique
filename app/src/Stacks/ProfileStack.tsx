@@ -1,6 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "../screens/profile/ProfileScreen";
-import LogoIcon from "../components/header/LogoIcon";
 import { useTheme } from "../contexts/ThemeContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import GearIcon from "../icons/GearIcon";
@@ -19,7 +18,7 @@ const ProfileStackScreen: React.FC = () => {
       screenOptions={{
         headerShown: true,
         headerTitle: "",
-        headerLeft: (props) => <LogoIcon />,
+        // headerLeft: (props) => <LogoIcon />,
         headerLeftContainerStyle: {
           paddingLeft: 12,
         },

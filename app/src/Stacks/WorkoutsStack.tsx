@@ -13,6 +13,7 @@ import CreateExerciseStackScreen from "./CreateExerciseStack";
 import CreateWorkoutStackContext from "../screens/workouts/CreateWorkoutStackContext";
 import ExerciseDetailsScreen from "../screens/exercises/ExerciseDetailsScreen";
 import CreateWorkoutPlanStackScreen from "./CreateWorkoutPlanStack";
+import CreateWorkoutPlanStackContext from "../screens/workout-plans/CreateWorkoutPlanStackContext";
 
 export type WorkoutsStackParamList = {
   WorkoutPlans: undefined;
@@ -21,6 +22,7 @@ export type WorkoutsStackParamList = {
   CreateWorkoutPlan: undefined;
   CreateCustomWorkout: {
     workout?: Workout;
+    callbackFn?: (workout: Workout) => void;
   };
 
   CreateCustomExercise: undefined;
@@ -38,7 +40,7 @@ const WorkoutsStackScreen: React.FC = () => {
   return (
     <CreateCustomWorkoutPlanProvider>
       <WorkoutsStack.Navigator
-        initialRouteName="CreateWorkoutPlan"
+        // initialRouteName="CreateWorkoutPlan"
         screenOptions={{
           headerShown: true,
           headerTitle: "",
@@ -76,7 +78,7 @@ const WorkoutsStackScreen: React.FC = () => {
                 <Button
                   onPress={() => navigation.navigate("CreateWorkoutPlan")}
                   type="text"
-                  text="Create "
+                  text="Create"
                 />
               ),
             })}
@@ -102,7 +104,7 @@ const WorkoutsStackScreen: React.FC = () => {
             options={{
               headerShown: false,
             }}
-            component={CreateWorkoutPlanStackScreen}
+            component={CreateWorkoutPlanStackContext}
           />
 
           <WorkoutsStack.Screen

@@ -92,7 +92,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await SecureStore.setItemAsync("authData", JSON.stringify(data));
       return data;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }

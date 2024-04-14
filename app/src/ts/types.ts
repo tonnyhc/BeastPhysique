@@ -85,12 +85,12 @@ export type ExerciseFromSearch = {
   name: string;
 };
 export type ExerciseSession = {
-  id: number | string;
+  id?: number | string;
   exercise: Exercise;
   sets: ExerciseSet[];
-  created_at: string;
+  created_at?: string;
   // TODO: implement the profile type
-  profile: any;
+  profile?: any;
 };
 
 export type ExerciseSet = {

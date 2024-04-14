@@ -18,24 +18,25 @@ const CreateWorkoutScreen: React.FC = () => {
   const { colors } = useTheme();
   return (
     <Screen>
-      <ScrollView contentContainerStyle={{ gap: 35 }}>
-        <TestInput
-          leftIcon={
-         <BoardIcon size={24} color={colors.helperText}/>
-          }
-          onChange={(value: string) => changeWorkoutName(value)}
-          value={workout.name}
-          placeholder="Workout name"
-        />
+      <ScrollView style={{flexGrow: 1}} contentContainerStyle={{ gap: 35, flexGrow: 1 }}>
+          <TestInput
+            leftIcon={<BoardIcon size={24} color={colors.helperText} />}
+            onChange={(value: string) => changeWorkoutName(value)}
+            value={workout.name}
+            placeholder="Workout name"
+          />
+
         <View>
           <View>
-            {workout?.exercises.map((exercise: ExerciseSession, index: number) => (
-              <ExerciseCreationCard
-                key={exercise.id}
-                exerciseIndex={index}
-                exercise={exercise}
-              />
-            ))}
+            {workout?.exercises.map(
+              (exercise: ExerciseSession, index: number) => (
+                <ExerciseCreationCard
+                  key={exercise.id}
+                  exerciseIndex={index}
+                  exercise={exercise}
+                />
+              )
+            )}
           </View>
         </View>
         <Button
