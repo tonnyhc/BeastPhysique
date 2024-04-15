@@ -8,11 +8,15 @@ import { useNavigation } from "@react-navigation/native";
 interface StackScreenHeaderProps {
   label: string;
   rightButton?: ReactNode;
+  leftButton?: ReactNode;
+  leftButtonPress?: () => void;
 }
 
 const StackScreenHeader: React.FC<StackScreenHeaderProps> = ({
   label,
   rightButton,
+  leftButton,
+  leftButtonPress
 }) => {
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -20,8 +24,8 @@ const StackScreenHeader: React.FC<StackScreenHeaderProps> = ({
   const styles = StyleSheet.create({
     wrapper: {
       paddingHorizontal: 12,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      flexDirection: "row",
+      justifyContent: "space-between",
       backgroundColor: colors.bg,
     },
     header: {
@@ -40,8 +44,12 @@ const StackScreenHeader: React.FC<StackScreenHeaderProps> = ({
     <SafeAreaView style={{ backgroundColor: colors.bg }}>
       <View style={styles.wrapper}>
         <View style={styles.header}>
-          <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-            <ChevronLeft size={28} color={colors.primaryText} />
+          <TouchableWithoutFeedback onPress={() => leftButtonPress ? leftButtonPress() : navigation.goBack()}>
+            {leftButton ? (
+              leftButton
+            ) : (
+              <ChevronLeft size={28} color={colors.primaryText} />
+            )}
           </TouchableWithoutFeedback>
           <Text style={styles.headerText}>{label}</Text>
         </View>

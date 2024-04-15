@@ -116,7 +116,10 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
 
   return (
     <>
-      <Modal isVisible={deleteModal}>
+      <Modal
+        onBackdropPress={() => setDeleteModal(false)}
+        isVisible={deleteModal}
+      >
         <View style={styles.deleteModal}>
           <Text
             style={{

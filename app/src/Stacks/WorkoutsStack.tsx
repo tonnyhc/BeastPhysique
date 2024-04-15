@@ -76,7 +76,7 @@ const WorkoutsStackScreen: React.FC = () => {
               headerTitle: "Workout Plans",
               headerRight: () => (
                 <Button
-                  onPress={() => navigation.navigate("CreateWorkoutPlan")}
+                  onPress={() => navigation.replace("CreateWorkoutPlan")}
                   type="text"
                   text="Create"
                 />

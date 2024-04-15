@@ -58,6 +58,7 @@ const CreateWorkoutsStackScreen: React.FC<CreateWorkoutsStackScreenProps> = ({
         options={{
           header: () => (
             <StackScreenHeader
+            leftButtonPress={() => navigation.goBack()}
               rightButton={
                 <Button type="text" text="Done" onPress={() => editWorkout ? submitEdit() : submitCreate()} />
               }

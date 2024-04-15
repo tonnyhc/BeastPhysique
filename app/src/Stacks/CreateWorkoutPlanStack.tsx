@@ -12,6 +12,10 @@ import { useCreateWorkoutPlanContext } from "../contexts/TestCreateWorkoutPlanCo
 import { useNavigation } from "@react-navigation/native";
 import { WorkoutsStackParamList } from "./WorkoutsStack";
 import { Workout } from "../ts/types";
+import CloseButton from "../components/common/CloseButton";
+import ChevronLeft from "../icons/ChevronLeft";
+import CloseIcon from "../icons/CloseIcon";
+import { useTheme } from "../contexts/ThemeContext";
 
 export type CreateWorkoutPlanParamsList = {
   WorkoutPlan: undefined;
@@ -25,12 +29,19 @@ const CreateWorkoutPlanStackScreen: React.FC = () => {
   const navigation =
     useNavigation<StackNavigationProp<WorkoutsStackParamList>>();
   const { addWorkouts } = useCreateWorkoutPlanContext();
+  const {colors} = useTheme()
   return (
     <CreateWorkoutPlanStack.Navigator>
       <CreateWorkoutPlanStack.Screen
         name="WorkoutPlan"
         options={({ navigation }) => ({
-          header: () => <StackScreenHeader label="Create Workout Plan" />,
+          header: () => (
+            <StackScreenHeader
+              leftButton={<CloseIcon size={24} color={colors.primaryText}/>}
+              leftButtonPress={() => navigation.replace("WorkoutPlans")}
+              label="Create Workout Plan"
+            />
+          ),
         })}
         component={TestCreateCustomWorkoutPlan}
       />
