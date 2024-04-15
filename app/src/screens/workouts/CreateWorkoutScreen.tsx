@@ -1,4 +1,4 @@
-import { ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import Screen from "../../components/common/Screen";
 import TestInput from "../../components/common/TestInput";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -11,20 +11,26 @@ import { useCreateWorkoutContext } from "../../contexts/CreateWorkoutContext";
 import ExerciseCreationCard from "../../components/workouts/exercise/ExerciseCreationCard";
 import BoardIcon from "../../icons/BoardIcon";
 
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 const CreateWorkoutScreen: React.FC = () => {
   const navigation =
     useNavigation<StackNavigationProp<CreateWorkoutStackParamsList>>();
   const { workout, changeWorkoutName } = useCreateWorkoutContext();
   const { colors } = useTheme();
   return (
-    <Screen>
-      <ScrollView style={{flexGrow: 1}} contentContainerStyle={{ gap: 35, flexGrow: 1 }}>
-          <TestInput
-            leftIcon={<BoardIcon size={24} color={colors.helperText} />}
-            onChange={(value: string) => changeWorkoutName(value)}
-            value={workout.name}
-            placeholder="Workout name"
-          />
+    <Screen closeKeyboardOnClick>
+      <KeyboardAwareScrollView
+        keyboardDismissMode="on-drag"
+        style={{ flex: 1 }}
+        contentContainerStyle={{ gap: 35, flexGrow: 1, paddingBottom: 250 }}
+      >
+        <TestInput
+          leftIcon={<BoardIcon size={24} color={colors.helperText} />}
+          onChange={(value: string) => changeWorkoutName(value)}
+          value={workout.name}
+          placeholder="Workout name"
+        />
 
         <View>
           <View>
@@ -43,7 +49,7 @@ const CreateWorkoutScreen: React.FC = () => {
           text="Add Exercises"
           onPress={() => navigation.navigate("ExerciseSearch")}
         />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 };

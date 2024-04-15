@@ -130,12 +130,14 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
       gap: 15,
     },
     exerciseIndex: {
-      fontSize: 20,
+      // fontSize: 20,
+      fontSize: 16,
       fontFamily: "RobotoMedium",
       color: colors.helperText,
     },
     exerciseName: {
-      fontSize: 20,
+      // fontSize: 20,
+      fontSize: 16,
       fontFamily: "RobotoMedium",
     },
     setsWrapper: {
@@ -148,10 +150,9 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
       backgroundColor: colors.bg,
     },
     setProperty: {
-      gap: 6,
+      gap: 10,
     },
     proprtyText: {
-      fontSize: 16,
       fontFamily: "RobotoMedium",
       color: colors.helperText,
       alignSelf: "center",
