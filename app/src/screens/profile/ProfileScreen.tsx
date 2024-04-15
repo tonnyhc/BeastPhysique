@@ -20,7 +20,7 @@ import BurgerIcon from "../../icons/BurgerIcon";
 import EggIcon from "../../icons/EggIcon";
 import BreadIcon from "../../icons/BreadIcon";
 import PizzaIcon from "../../icons/PizzaIcon";
-import ReusableModal from "../../components/common/Modal";
+
 
 const ProfileScreen: React.FC = () => {
   const { colors } = useTheme();

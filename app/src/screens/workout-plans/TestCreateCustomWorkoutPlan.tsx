@@ -21,6 +21,7 @@ const TestCreateCustomWorkoutPlan: React.FC<CreateCustomWorkoutPlanProps> = ({
 }) => {
   const { colors } = useTheme();
   const { workoutPlan, changePlanName } = useCreateWorkoutPlanContext();
+  console.log(workoutPlan.workouts);
   // const { mutate, isPending, error } = useMutation({
   //   mutationFn: () => createWorkoutPlan(),
   //   onSuccess: () => navigation.navigate("WorkoutPlans"),
@@ -54,7 +55,6 @@ const TestCreateCustomWorkoutPlan: React.FC<CreateCustomWorkoutPlanProps> = ({
         <View
           style={{
             gap: 10,
-            marginTop: workoutPlan.workouts.length > 0 ? 30 : 0,
           }}
         >
           {workoutPlan.workouts.map((workout, index) => (

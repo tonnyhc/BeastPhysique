@@ -4,7 +4,6 @@ import Button from "../common/Button";
 import { useTheme } from "../../contexts/ThemeContext";
 import { ProfilePropertyCardProps } from "../../ts/types";
 import ProfilePropertyCard from "./ProfilePropertyCard";
-import ReusableModal from "../common/Modal";
 
 interface ProfilePropertiesProps {
   title: string;
@@ -36,11 +35,6 @@ const ProfileProperties: React.FC<ProfilePropertiesProps> = ({
 
   return (
     <View>
-      <ReusableModal
-        visible={isOpenEditModal}
-        closeFn={() => setIsOpenEditModal(false)}
-      />
-
       <View style={styles.titleRow}>
         <Text style={styles.title}>{title}</Text>
         <Button type="text" text="Edit" onPress={() => setIsOpenEditModal(true)} />

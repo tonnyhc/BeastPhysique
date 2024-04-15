@@ -31,6 +31,7 @@ export type Colors = {
   buttonDisabled: string;
   outlinedButtonText: string;
   physiqueGoalCardHelperText: string;
+  lightGray: string;
 };
 
 export const lightColors: Colors = {
@@ -72,6 +73,7 @@ export const lightColors: Colors = {
   outlinedButtonText: "#03234C",
   helperText: "#8A8A8A",
   physiqueGoalCardHelperText: "#8A8A8A",
+  lightGray: "#CFCFCF",
 };
 
 export const darkColors: Colors = {
@@ -111,4 +113,5 @@ export const darkColors: Colors = {
   helperText: "#8A8A8A",
 
   physiqueGoalCardHelperText: "#fff",
+  lightGray: "#CFCFCF",
 };

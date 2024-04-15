@@ -12,11 +12,13 @@ import {
   View,
   TouchableWithoutFeedback,
 } from "react-native";
-import ReusableModal from "../common/Modal";
+
 import Button from "../common/Button";
 import { Swipeable } from "react-native-gesture-handler";
 import { useCreateWorkoutPlanContext } from "../../contexts/TestCreateWorkoutPlanContext";
 import { WorkoutsStackParamList } from "../../Stacks/WorkoutsStack";
+import Modal from "react-native-modal";
+
 interface CreateCustomWorkoutPlanWorkoutCardProps {
   workout: Workout;
   workoutIndex: number;
@@ -34,41 +36,46 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
 
   const styles = StyleSheet.create({
     card: {
-      backgroundColor: colors.porcelain,
+      // backgroundColor: colors.porcelain,
+      backgroundColor: colors.lightGray,
       borderRadius: 12,
-      shadowColor: "#000000",
-      shadowOffset: {
-        width: -1,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 6,
-      elevation: 2,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
       paddingHorizontal: 12,
-      gap: 10,
       borderWidth: 1,
       borderColor: colors.mercury,
       paddingVertical: 10,
     },
+    cardContent: {
+      gap: 10,
+    },
     workoutName: {
-      fontSize: 22,
+      fontSize: 18,
+      color: "#000",
       fontFamily: "RobotoMedium",
     },
     exerciseNameWrapper: {
       flex: 1,
       paddingVertical: 10,
       flexDirection: "row",
-      justifyContent: "space-between",
+      gap: 10,
     },
     exerciseName: {
       fontFamily: "RobotoMedium",
-      fontSize: 18,
+      fontSize: 16,
       color: colors.helperText,
     },
     exerciseSetsCount: {
       fontFamily: "RobotoMedium",
       fontSize: 16,
-      color: colors.orangeText,
+      color: colors.helperText,
+    },
+    cardAction: {},
+    deleteModal: {
+      backgroundColor: colors.bg,
+      borderRadius: 20,
+      padding: 30,
     },
   });
   const renderRightActions = () => {
@@ -88,8 +95,9 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
             height: "100%",
             flex: 1,
             alignItems: "center",
-            marginBottom: 16,
             paddingHorizontal: 48,
+            borderTopRightRadius: 12,
+            borderBottomRightRadius: 12,
           }}
         >
           <Text
@@ -108,38 +116,44 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
 
   return (
     <>
-      <ReusableModal
-        closeFn={() => setDeleteModal(false)}
-        visible={deleteModal}
-        title="Delete Workout"
-      >
-        <Text
-          style={{
-            fontFamily: "RobotoRegular",
-            textAlign: "center",
-            color: colors.helperText,
-            marginTop: 15,
-          }}
-        >
-          Are you sure you want to delete{" "}
-          {workout.name ? workout.name : "this workout"}.
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 20,
-            marginTop: 20,
-            justifyContent: "center",
-          }}
-        >
-          <Button onPress={() => deleteWorkout(workoutIndex)} text="Delete" />
-          <Button
-            onPress={() => setDeleteModal(false)}
-            type="outlined"
-            text="Cancel"
-          />
+      <Modal isVisible={deleteModal}>
+        <View style={styles.deleteModal}>
+          <Text
+            style={{
+              fontFamily: "RobotoMedium",
+              fontSize: 16,
+              textAlign: "center",
+              color: colors.primaryText,
+            }}
+          >
+            Are you sure you want to delete{" "}
+            {workout.name ? workout.name : "this workout"}?
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 20,
+              marginTop: 20,
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              buttonStyles={{
+                backgroundColor: colors.error,
+                borderColor: colors.error,
+              }}
+              onPress={() => deleteWorkout(workoutIndex)}
+              text="Delete"
+            />
+            <Button
+              onPress={() => setDeleteModal(false)}
+              type="outlined"
+              text="Cancel"
+            />
+          </View>
         </View>
-      </ReusableModal>
+      </Modal>
+
       <Swipeable
         friction={1}
         renderRightActions={renderRightActions}
@@ -148,25 +162,32 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
       >
         <TouchableWithoutFeedback
           onPress={() =>
-            navigation.navigate("CreateCustomWorkout", {workout})
+            navigation.navigate("CreateCustomWorkout", { workout })
           }
         >
           <View style={styles.card}>
-            <Text style={styles.workoutName}>
-              {workout.name ? workout.name : `Workout ${workoutIndex + 1}`}
-            </Text>
-            <View>
-              {workout.exercises.length === 0 ? (
-                <Text>Add exercises</Text>
-              ) : null}
-              {workout.exercises.map((item: ExerciseSession, index: number) => (
-                <View style={styles.exerciseNameWrapper} key={item.id}>
-                  <Text style={styles.exerciseName}>{item.exercise.name}</Text>
-                  <Text style={styles.exerciseSetsCount}>
-                    {item.sets.length} sets
-                  </Text>
-                </View>
-              ))}
+            <View style={styles.cardContent}>
+              <Text style={styles.workoutName}>
+                {workout.name ? workout.name : `Workout ${workoutIndex + 1}`}
+              </Text>
+              <View>
+                {workout.exercises.length === 0 ? (
+                  <Text>Add exercises</Text>
+                ) : null}
+                {workout.exercises.map(
+                  (item: ExerciseSession, index: number) => (
+                    <View style={styles.exerciseNameWrapper} key={item.id}>
+                      <Text style={styles.exerciseName}>
+                        {item.exercise.name}
+                      </Text>
+                      <Text> - </Text>
+                      <Text style={styles.exerciseSetsCount}>
+                        {item.sets.length} sets
+                      </Text>
+                    </View>
+                  )
+                )}
+              </View>
             </View>
           </View>
         </TouchableWithoutFeedback>

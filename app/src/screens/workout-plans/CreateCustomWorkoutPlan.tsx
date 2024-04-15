@@ -23,7 +23,6 @@ import {
 import { Workout } from "../../ts/types";
 import { useNavigation } from "@react-navigation/native";
 import Button from "../../components/common/Button";
-import ReusableModal from "../../components/common/Modal";
 import { useMutation } from "@tanstack/react-query";
 
 interface CreateCustomWorkoutPlanProps {
@@ -121,49 +120,6 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
 
   return (
     <>
-      <ReusableModal
-        closeFn={() => setDeleteModal(false)}
-        visible={deleteModal}
-        title="Delete Workout"
-      >
-        <Text
-          style={{
-            fontFamily: "RobotoRegular",
-            textAlign: "center",
-            color: colors.helperText,
-            marginTop: 15,
-          }}
-        >
-          Are you sure you want to delete{" "}
-          {workout.name ? workout.name : "this workout"}.
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 20,
-            marginTop: 20,
-            justifyContent: "center",
-          }}
-        >
-          <Button
-            onPress={() => {
-              dispatch({
-                type: "deleteWorkout",
-                payload: {
-                  workoutIndex,
-                },
-              });
-            }}
-            type="delete"
-            text="Delete"
-          />
-          <Button
-            onPress={() => setDeleteModal(false)}
-            type="outlined"
-            text="Cancel"
-          />
-        </View>
-      </ReusableModal>
       <Swipeable
         friction={1}
         renderRightActions={renderRightActions}
