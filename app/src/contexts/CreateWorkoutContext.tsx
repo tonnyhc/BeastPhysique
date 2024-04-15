@@ -29,6 +29,7 @@ type WorkoutContextProps = {
     propertyName: string,
     value: string
   ) => void;
+  editExerciseNotes: (exerciseIndex: number, value: string) => void;
   deleteExercise: (exerciseIndex: number) => void;
   submitCreate: () => UseMutationResult;
   submitEdit: () => UseMutationResult;
@@ -46,6 +47,7 @@ const CreateWorkoutContext = createContext<WorkoutContextProps>({
     propertyName: string,
     value: string
   ) => {},
+  editExerciseNotes: (exerciseIndex: number, value: string) => {},
   deleteExercise: (exerciseIndex: number) => {},
   submitCreate: () => ({} as UseMutationResult),
   submitEdit: () => ({} as UseMutationResult),
@@ -62,7 +64,8 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
   workoutToEdit,
   callbackFn,
 }) => {
-  const navigation = useNavigation<StackNavigationProp<CreateWorkoutPlanParamsList>>();
+  const navigation =
+    useNavigation<StackNavigationProp<CreateWorkoutPlanParamsList>>();
 
   const [workout, setWorkout] = useState<WorkoutCreate>(
     workoutToEdit ? workoutToEdit : emptyWorkoutForCreate
@@ -81,6 +84,7 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
       newExercises.push({
         exercise: exercise,
         sets: [{ ...emptySet }],
+        notes: "",
       });
     }
 
@@ -144,16 +148,23 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
       exercises: exercisesCopy,
     }));
   };
-
+  const editExerciseNotes = (exerciseIndex: number, value: string) => {
+    const exercisesCopy = [...workout.exercises];
+    exercisesCopy[exerciseIndex].notes = value;
+    setWorkout((oldWorkout) => ({
+      ...oldWorkout,
+      exercises: exercisesCopy,
+    }));
+  };
   const submitCreate = () => {
     const { mutate, data } = createWorkout;
     mutate(workout, {
       onSuccess: (data: Workout) => {
         if (callbackFn) {
-          const arrayWorkouts: Workout[] = [data]
-        
+          const arrayWorkouts: Workout[] = [data];
+
           callbackFn(arrayWorkouts);
-          navigation.navigate("WorkoutPlan")
+          navigation.navigate("WorkoutPlan");
         }
       },
     });
@@ -174,6 +185,7 @@ export const CreateWorkoutProvider: React.FC<CreateWorkoutProviderProps> = ({
     addSetToExercise,
     deleteSetFromExercise,
     editSetProperty,
+    editExerciseNotes,
     deleteExercise,
     submitCreate,
     submitEdit,

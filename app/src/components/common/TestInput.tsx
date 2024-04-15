@@ -32,6 +32,8 @@ interface ReusableInputProps {
   onEndEditing?: () => void;
   inputMode?: "text" | "decimal" | "numeric" | "email" | "search";
   defaultValue?: string;
+  numberOfLines?: number;
+  borderStyles?: ViewStyle;
 }
 
 const TestInput: React.FC<ReusableInputProps> = ({
@@ -53,6 +55,8 @@ const TestInput: React.FC<ReusableInputProps> = ({
   multiline,
   styles,
   defaultValue,
+  numberOfLines,
+  borderStyles,
 }) => {
   const { colors } = useTheme();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(
@@ -74,6 +78,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
   const stylesheet = StyleSheet.create({
     wrapper: {
       gap: 4,
+
       ...styles,
     },
     label: {
@@ -95,6 +100,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
       paddingVertical: 12,
       justifyContent: "center",
       flexDirection: "row",
+      ...borderStyles,
     },
     icon_placeholder_wrapper: {
       justifyContent: "center",
@@ -144,7 +150,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
           onChangeText={onChange}
           inputMode={inputMode}
           multiline={multiline}
-          numberOfLines={10}
+          numberOfLines={numberOfLines ? numberOfLines : 10}
         />
         {/* right icon */}
         {isPassword ? (

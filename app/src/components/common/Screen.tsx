@@ -27,8 +27,8 @@ const Screen: React.FC<ScreenProps> = ({ children, closeKeyboardOnClick, styles 
         >
           <View
             style={{
-              paddingLeft: 24,
-              paddingRight: 24,
+              paddingLeft: 16,
+              paddingRight: 16,
               paddingTop: 12,
               flex: 1,
             }}
@@ -38,7 +38,7 @@ const Screen: React.FC<ScreenProps> = ({ children, closeKeyboardOnClick, styles 
         </TouchableWithoutFeedback>
       ) : (
         <View
-          style={{ paddingLeft: 24, paddingRight: 24, paddingTop: 12, flex: 1 }}
+          style={{ paddingLeft: 16, paddingRight: 16, paddingTop: 12, flex: 1 }}
         >
           {children}
         </View>

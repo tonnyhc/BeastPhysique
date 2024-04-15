@@ -5,16 +5,17 @@ import {
   TouchableOpacity,
   Animated,
 } from "react-native";
-import { useTheme } from "../../../contexts/ThemeContext";
-import { Exercise, ExerciseSession } from "../../../ts/types";
-import Button from "../../common/Button";
+import { useTheme } from "../../../../contexts/ThemeContext";
+import { Exercise, ExerciseSession } from "../../../../ts/types";
+import Button from "../../../common/Button";
 import { Swipeable } from "react-native-gesture-handler";
 import { useState } from "react";
-import { useCreateWorkoutContext } from "../../../contexts/CreateWorkoutContext";
-import TestInput from "../../common/TestInput";
-import MoreDotsIcon from "../../../icons/MoreDotsIcon";
+import { useCreateWorkoutContext } from "../../../../contexts/CreateWorkoutContext";
+import TestInput from "../../../common/TestInput";
+import MoreDotsIcon from "../../../../icons/MoreDotsIcon";
 import ExerciseSessionMoreModal from "./ExerciseSessionMoreModal";
 import ExerciseSessionRepRangeModal from "./ExerciseSessionRepRangeModal";
+import ExerciseSessionNotesModal from "./ExerciseSessionNotesModal";
 
 interface ExerciseCreationCardProps {
   exercise: ExerciseSession;
@@ -31,12 +32,13 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
     deleteSetFromExercise,
     editSetProperty,
     deleteExercise,
+    editExerciseNotes
   } = useCreateWorkoutContext();
   const [isMoreModalOpen, setIsMoreModalOpen] = useState<boolean>(false);
+  const [isNotesModalOpen, setIsNotesModalOpen] = useState<boolean>(false);
   const [isRepRangeModalOpen, setIsRepRangeModalOpen] =
     useState<boolean>(false);
   const [setIndex, setSetIndex] = useState<number | null>(null);
-
   const renderRightSetActions = (setIndex: number, setId:number) => {
     return (
       <TouchableOpacity
@@ -174,6 +176,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
         visible={isRepRangeModalOpen}
         closeModal={closeRepRangeModal}
       />
+      <ExerciseSessionNotesModal setData={(value: string) => editExerciseNotes(exerciseIndex, value)} data={exercise.notes} visible={isNotesModalOpen} closeModal={() => setIsNotesModalOpen(false)}/>
       <Swipeable
         containerStyle={{
           backgroundColor: colors.bg,
@@ -319,7 +322,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                 type="text"
                 onPress={() => addSetToExercise(exerciseIndex)}
               />
-              <Button text="Notes" type="text" onPress={() => {}} />
+              <Button text="Notes" type="text" onPress={() => setIsNotesModalOpen(true)} />
             </View>
           </View>
         </View>

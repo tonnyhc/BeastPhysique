@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import Modal from "react-native-modal";
 import React from "react";
-import TestInput from "../../common/TestInput";
-import { useCreateWorkoutContext } from "../../../contexts/CreateWorkoutContext";
-import { useTheme } from "../../../contexts/ThemeContext";
+import TestInput from "../../../common/TestInput";
+import { useCreateWorkoutContext } from "../../../../contexts/CreateWorkoutContext";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 interface ExerciseSessionRepRangeModalProps {
   visible: boolean;

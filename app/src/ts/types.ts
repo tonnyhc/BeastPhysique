@@ -79,7 +79,6 @@ export type Exercise = {
   targeted_muscle_groups?: string[];
 };
 
-
 export type ExerciseFromSearch = {
   id: number;
   name: string;
@@ -88,6 +87,7 @@ export type ExerciseSession = {
   id?: number | string;
   exercise: Exercise;
   sets: ExerciseSet[];
+  notes: string;
   created_at?: string;
   // TODO: implement the profile type
   profile?: any;

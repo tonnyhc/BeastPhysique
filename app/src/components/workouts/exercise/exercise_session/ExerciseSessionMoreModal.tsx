@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import Modal from "react-native-modal";
 import React from "react";
-import { useTheme } from "../../../contexts/ThemeContext";
-import Button from "../../common/Button";
-import { useCreateWorkoutContext } from "../../../contexts/CreateWorkoutContext";
-import { Exercise, ExerciseSession } from "../../../ts/types";
+import { useTheme } from "../../../../contexts/ThemeContext";
+import Button from "../../../common/Button";
+import { useCreateWorkoutContext } from "../../../../contexts/CreateWorkoutContext";
+import { Exercise, ExerciseSession } from "../../../../ts/types";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 interface ExerciseSessionMoreModalProps {

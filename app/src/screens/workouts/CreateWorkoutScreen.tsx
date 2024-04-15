@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { CreateWorkoutStackParamsList } from "../../Stacks/CreateWorkoutStack";
 import { useCreateWorkoutContext } from "../../contexts/CreateWorkoutContext";
-import ExerciseCreationCard from "../../components/workouts/exercise/ExerciseCreationCard";
+import ExerciseCreationCard from "../../components/workouts/exercise/exercise_session/ExerciseCreationCard";
 import BoardIcon from "../../icons/BoardIcon";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -19,7 +19,7 @@ const CreateWorkoutScreen: React.FC = () => {
   const { workout, changeWorkoutName } = useCreateWorkoutContext();
   const { colors } = useTheme();
   return (
-    <Screen closeKeyboardOnClick>
+    <Screen cl>
       <KeyboardAwareScrollView
         keyboardDismissMode="on-drag"
         style={{ flex: 1 }}
@@ -37,6 +37,7 @@ const CreateWorkoutScreen: React.FC = () => {
             {workout?.exercises.map(
               (exercise: ExerciseSession, index: number) => (
                 <ExerciseCreationCard
+                
                   key={exercise.id}
                   exerciseIndex={index}
                   exercise={exercise}
