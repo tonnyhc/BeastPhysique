@@ -17,6 +17,7 @@ import MoonIcon from "../../icons/MoonIcon";
 import FlagIcon from "../../icons/FlagIcon";
 import Button from "../../components/common/Button";
 import LogoutIcon from "../../icons/LogoutIcon";
+import { useAuth } from "../../contexts/AuthContext";
 
 const generateCategories = (colors: Colors) => {
   const categories: SettingsFrameWrapperProps[] = [
@@ -147,7 +148,7 @@ const generateCategories = (colors: Colors) => {
 
 const More: React.FC = () => {
   const { colors } = useTheme();
-
+  const { onLogout } = useAuth();
   const categories = generateCategories(colors);
   const styles = StyleSheet.create({
     headingText: {
@@ -178,7 +179,7 @@ const More: React.FC = () => {
         <View style={{ alignItems: "flex-start" }}>
           <Button
             textStyles={{ color: colors.error }}
-            onPress={() => {}}
+            onPress={() => (onLogout ? onLogout() : null)}
             leftIcon={<LogoutIcon size={24} color={colors.error} />}
             type="text"
             text="Log out"

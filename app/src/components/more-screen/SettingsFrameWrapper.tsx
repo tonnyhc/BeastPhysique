@@ -27,7 +27,7 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
       borderBottomWidth: 1,
       borderBottomColor: colors.helperText,
 
-      paddingTop: 10
+      paddingTop: 10,
     },
     title: {
       fontSize: 18,
@@ -35,7 +35,7 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
       fontFamily: "RobotoMedium",
     },
     properties: {
-      gap: 18
+      gap: 18,
     },
     property: {
       backgroundColor: "#E7EFF1",
@@ -71,12 +71,10 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
           <TouchableOpacity style={styles.property}>
             {/* Icon */}
             <View style={styles.icon_and_text}>
-             {prop.icon}
+              {prop.icon}
               <Text style={styles.propertyTitle}>{prop.title}</Text>
             </View>
-            <View style={styles.propertyAction}>
-              {prop.action}
-            </View>
+            <View style={styles.propertyAction}>{prop.action}</View>
           </TouchableOpacity>
         ))}
       </View>
