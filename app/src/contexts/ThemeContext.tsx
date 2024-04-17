@@ -1,6 +1,14 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { lightColors, darkColors, Colors } from "../utils/colors";
 import { sizes } from "../utils/sizes";
+
+import * as SecureStore from "expo-secure-store";
 
 type ThemeContextType = {
   theme: string;
@@ -23,6 +31,20 @@ export const ThemeContext = createContext<ThemeContextType>({
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    const loadTheme = async (): Promise<void> => {
+      const dataFromStorage = await SecureStore.getItemAsync("theme");
+      if (dataFromStorage) {
+        const data = await JSON.parse(dataFromStorage);
+        if (data) {
+          setTheme(data);
+        }
+      }
+    };
+    loadTheme();
+  }, []);
+
   const colors: Colors = theme === "light" ? lightColors : darkColors;
   const shadows = {
     "24DP_Penumbra": {
@@ -45,8 +67,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     },
   };
 
-  const toggleTheme = (): void => {
-    setTheme((oldTheme) => (oldTheme == "light" ? "dark" : "light"));
+  const toggleTheme = async (): Promise<any> => {
+    setTheme((oldTheme) => {
+      const newTheme = oldTheme === "light" ? "dark" : "light";
+      SecureStore.setItemAsync("theme", JSON.stringify(newTheme)); // Save the new theme
+      return newTheme; // Return the new theme to update the state
+    });
   };
 
   const context = {
@@ -69,5 +95,3 @@ export const useTheme = () => {
   }
   return context;
 };
-
-
