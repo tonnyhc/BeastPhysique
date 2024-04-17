@@ -16,7 +16,8 @@ interface ButtonProps {
   text?: string;
   testId?: string;
   disabled?: boolean;
-  icon?: ReactNode;
+  rightIcon?: ReactNode;
+  leftIcon?: ReactNode;
   type?: "primary" | "outlined" | "text";
   loading?: boolean;
   textStyles?: TextStyle;
@@ -65,12 +66,13 @@ const Button: React.FC<ButtonProps> = ({
   testId,
   disabled,
   text,
-  icon,
+  rightIcon,
   onPress,
   type = "primary",
   loading,
   textStyles,
   buttonStyles,
+  leftIcon,
 }) => {
   const { colors } = useTheme();
 
@@ -90,8 +92,8 @@ const Button: React.FC<ButtonProps> = ({
       borderWidth: type === "text" ? 0 : 2,
       borderColor: disabled ? colors.buttonDisabled : colors.button,
       paddingVertical: 14,
-      paddingLeft: 16,
-      paddingRight: icon ? 8 : 16,
+      paddingLeft: leftIcon ? 8 : 16,
+      paddingRight: rightIcon ? 8 : 16,
       borderRadius: 100,
       justifyContent: "center",
       alignItems: "center",
@@ -106,9 +108,10 @@ const Button: React.FC<ButtonProps> = ({
     },
     textIconWrapper: {
       flexDirection: "row",
-      justifyContent: text && icon ? "space-between" : "center",
+      justifyContent:
+        (text && rightIcon) || (text && leftIcon) ? "space-between" : "center",
       alignItems: "center",
-      gap: text && icon ? 8 : 0,
+      gap: (text && rightIcon) || (text && leftIcon) ? 8 : 0,
     },
   });
 
@@ -121,8 +124,9 @@ const Button: React.FC<ButtonProps> = ({
     >
       {loading ? <ActivityIndicator testID="loadingIndicator" /> : null}
       <View style={styles.textIconWrapper}>
+        {leftIcon}
         <Text style={styles.text}>{text}</Text>
-        {icon}
+        {rightIcon}
       </View>
     </TouchableOpacity>
   );

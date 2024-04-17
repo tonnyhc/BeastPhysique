@@ -29,7 +29,7 @@ const CreateWorkoutPlanStackScreen: React.FC = () => {
   const navigation =
     useNavigation<StackNavigationProp<WorkoutsStackParamList>>();
   const { addWorkouts } = useCreateWorkoutPlanContext();
-  const {colors} = useTheme()
+  const { colors } = useTheme();
   return (
     <CreateWorkoutPlanStack.Navigator>
       <CreateWorkoutPlanStack.Screen
@@ -37,7 +37,7 @@ const CreateWorkoutPlanStackScreen: React.FC = () => {
         options={({ navigation }) => ({
           header: () => (
             <StackScreenHeader
-              leftButton={<CloseIcon size={24} color={colors.primaryText}/>}
+              leftButton={<CloseIcon size={24} color={colors.primaryText} />}
               leftButtonPress={() => navigation.replace("WorkoutPlans")}
               label="Create Workout Plan"
             />

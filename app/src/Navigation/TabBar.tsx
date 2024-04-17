@@ -8,6 +8,7 @@ import ProfileStackScreen from "../Stacks/ProfileStack";
 import HomeIcon from "../icons/HomeIcon";
 import UserIcon from "../icons/UserIcon";
 import MoreIcon from "../icons/MoreIcon";
+import More from "../screens/more/More";
 
 const Tab = createBottomTabNavigator();
 
@@ -74,7 +75,7 @@ const TabBar = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={Dashboard}
+        component={More}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
             <MoreIcon
