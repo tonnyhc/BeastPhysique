@@ -18,7 +18,7 @@ const ScaleIcon: React.FC<IconProps> = ({ size, color, fill }) => (
     />
     <Path
       fill={fill ? "white" : "none"}
-      stroke={fill ? "white" : "none"}
+      stroke={fill ? "white" : color}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

@@ -19,7 +19,7 @@ const CreateWorkoutScreen: React.FC = () => {
   const { workout, changeWorkoutName } = useCreateWorkoutContext();
   const { colors } = useTheme();
   return (
-    <Screen cl>
+    <Screen>
       <KeyboardAwareScrollView
         keyboardDismissMode="on-drag"
         style={{ flex: 1 }}

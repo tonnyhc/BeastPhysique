@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Switch, Text, View } from "react-native";
 import React from "react";
 import Screen from "../../components/common/Screen";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -19,7 +19,11 @@ import Button from "../../components/common/Button";
 import LogoutIcon from "../../icons/LogoutIcon";
 import { useAuth } from "../../contexts/AuthContext";
 
-const generateCategories = (colors: Colors) => {
+const generateCategories = (
+  colors: Colors,
+  toggleDarkMode: () => void,
+  theme: string
+) => {
   const categories: SettingsFrameWrapperProps[] = [
     // Health & Fitness
     {
@@ -48,7 +52,7 @@ const generateCategories = (colors: Colors) => {
           title: "Weight",
           icon: (
             <ScaleIcon
-              fill={colors.primaryText}
+            //   fill={colors.primaryText}
               size={24}
               color={colors.primaryText}
             />
@@ -113,7 +117,12 @@ const generateCategories = (colors: Colors) => {
               color={colors.primaryText}
             />
           ),
-          action: <ChevronRight size={24} color={colors.primaryText} />,
+          action: (
+            <Switch
+              value={theme === "dark" ? true : false}
+              onChange={() => toggleDarkMode()}
+            />
+          ),
         },
       ],
     },
@@ -147,9 +156,10 @@ const generateCategories = (colors: Colors) => {
 };
 
 const More: React.FC = () => {
-  const { colors } = useTheme();
+  const { colors, toggleTheme, theme } = useTheme();
   const { onLogout } = useAuth();
-  const categories = generateCategories(colors);
+  const categories = generateCategories(colors, toggleTheme, theme);
+
   const styles = StyleSheet.create({
     headingText: {
       fontSize: 18,
@@ -163,7 +173,7 @@ const More: React.FC = () => {
     <Screen>
       <Text style={styles.headingText}>More</Text>
       <ScrollView
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 30 }}
         contentContainerStyle={{
           paddingBottom: 30,
           gap: 10,

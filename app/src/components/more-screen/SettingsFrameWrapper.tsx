@@ -1,8 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { ReactNode } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
-import BarbellIcon from "../../icons/BarbellIcon";
-import ChevronRight from "../../icons/ChevronRight";
 
 export type Property = {
   title: string;
@@ -25,7 +23,7 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
       gap: 16,
       paddingBottom: 24,
       borderBottomWidth: 1,
-      borderBottomColor: colors.helperText,
+      borderBottomColor: colors.secondaryText,
 
       paddingTop: 10,
     },
@@ -38,7 +36,7 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
       gap: 18,
     },
     property: {
-      backgroundColor: "#E7EFF1",
+      backgroundColor: colors.cardBackground,
       borderRadius: 12,
       gap: 8,
       paddingVertical: 12,
@@ -54,9 +52,8 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
     },
     propertyTitle: {
       fontSize: 18,
-      fontFamily: "Roboto",
-      // color: colors.primaryText,
-      color: "#292D32",
+      fontFamily: "RobotoRegular",
+      color: colors.primaryText,
     },
     propertyAction: {
       alignSelf: "flex-end",

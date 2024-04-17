@@ -36,14 +36,13 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
 
   const styles = StyleSheet.create({
     card: {
-      // backgroundColor: colors.porcelain,
-      backgroundColor: colors.lightGray,
+      backgroundColor: colors.cardBackground,
       borderRadius: 12,
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
       paddingHorizontal: 12,
-      borderWidth: 1,
+      // borderWidth: 1,
       borderColor: colors.mercury,
       paddingVertical: 10,
     },
@@ -52,7 +51,7 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
     },
     workoutName: {
       fontSize: 18,
-      color: "#000",
+      color: colors.primaryText,
       fontFamily: "RobotoMedium",
     },
     exerciseNameWrapper: {
@@ -64,12 +63,12 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
     exerciseName: {
       fontFamily: "RobotoMedium",
       fontSize: 16,
-      color: colors.helperText,
+      color: colors.secondaryText,
     },
     exerciseSetsCount: {
       fontFamily: "RobotoMedium",
       fontSize: 16,
-      color: colors.helperText,
+      color: colors.secondaryText,
     },
     cardAction: {},
     deleteModal: {
@@ -183,7 +182,12 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
                       <Text style={styles.exerciseName}>
                         {item.exercise.name}
                       </Text>
-                      <Text> - </Text>
+                      <Text
+                        style={{ fontSize: 16, color: colors.secondaryText }}
+                      >
+                        {" "}
+                        -{" "}
+                      </Text>
                       <Text style={styles.exerciseSetsCount}>
                         {item.sets.length} sets
                       </Text>

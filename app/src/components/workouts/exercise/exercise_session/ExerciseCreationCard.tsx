@@ -32,14 +32,14 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
     deleteSetFromExercise,
     editSetProperty,
     deleteExercise,
-    editExerciseNotes
+    editExerciseNotes,
   } = useCreateWorkoutContext();
   const [isMoreModalOpen, setIsMoreModalOpen] = useState<boolean>(false);
   const [isNotesModalOpen, setIsNotesModalOpen] = useState<boolean>(false);
   const [isRepRangeModalOpen, setIsRepRangeModalOpen] =
     useState<boolean>(false);
   const [setIndex, setSetIndex] = useState<number | null>(null);
-  const renderRightSetActions = (setIndex: number, setId:number) => {
+  const renderRightSetActions = (setIndex: number, setId: number) => {
     return (
       <TouchableOpacity
         style={{ height: "100%", justifyContent: "flex-end" }}
@@ -125,7 +125,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
       gap: 20,
       backgroundColor: colors.bg,
       borderBottomWidth: 0.5,
-      borderColor: colors.helperText,
+      borderColor: colors.secondaryText,
     },
     headingRow: {
       flexDirection: "row",
@@ -135,12 +135,13 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
       // fontSize: 20,
       fontSize: 16,
       fontFamily: "RobotoMedium",
-      color: colors.helperText,
+      color: colors.secondaryText,
     },
     exerciseName: {
       // fontSize: 20,
       fontSize: 16,
       fontFamily: "RobotoMedium",
+      color: colors.primaryText,
     },
     setsWrapper: {
       gap: 20,
@@ -156,7 +157,7 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
     },
     proprtyText: {
       fontFamily: "RobotoMedium",
-      color: colors.helperText,
+      color: colors.secondaryText,
       alignSelf: "center",
     },
   });
@@ -176,7 +177,12 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
         visible={isRepRangeModalOpen}
         closeModal={closeRepRangeModal}
       />
-      <ExerciseSessionNotesModal setData={(value: string) => editExerciseNotes(exerciseIndex, value)} data={exercise.notes} visible={isNotesModalOpen} closeModal={() => setIsNotesModalOpen(false)}/>
+      <ExerciseSessionNotesModal
+        setData={(value: string) => editExerciseNotes(exerciseIndex, value)}
+        data={exercise.notes}
+        visible={isNotesModalOpen}
+        closeModal={() => setIsNotesModalOpen(false)}
+      />
       <Swipeable
         containerStyle={{
           backgroundColor: colors.bg,
@@ -194,7 +200,9 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
           <View style={styles.setsWrapper}>
             {exercise.sets?.map((item, index) => (
               <Swipeable
-                renderRightActions={() => renderRightSetActions(index, item.id as number)}
+                renderRightActions={() =>
+                  renderRightSetActions(index, item.id as number)
+                }
                 overshootRight={true}
                 onSwipeableWillOpen={() =>
                   deleteSetFromExercise(exerciseIndex, index, item.id)
@@ -279,7 +287,8 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                     {item.to_failure.toString() === "false" ? (
                       <>
                         <Text style={[styles.proprtyText, { flex: 1 }]}>
-                          {item.min_reps.toString() || 0} - {item.max_reps.toString() || 99}
+                          {item.min_reps.toString() || 0} -{" "}
+                          {item.max_reps.toString() || 99}
                         </Text>
                       </>
                     ) : (
@@ -295,19 +304,16 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                     )}
                   </TouchableOpacity>
                   <View
-                    style={[
-                      styles.setProperty,
-                      { justifyContent: "center", alignItems: "center" },
-                    ]}
+                    style={[styles.setProperty, { justifyContent: "flex-end" }]}
                   >
                     <Button
                       type="text"
                       onPress={() => openMoreModal(index)}
-                      icon={
+                      rightIcon={
                         <MoreDotsIcon
-                          fill={colors.helperText}
+                          fill={colors.secondaryText}
                           size={24}
-                          color={colors.helperText}
+                          color={colors.secondaryText}
                         />
                       }
                     />
@@ -322,7 +328,11 @@ const ExerciseCreationCard: React.FC<ExerciseCreationCardProps> = ({
                 type="text"
                 onPress={() => addSetToExercise(exerciseIndex)}
               />
-              <Button text="Notes" type="text" onPress={() => setIsNotesModalOpen(true)} />
+              <Button
+                text="Notes"
+                type="text"
+                onPress={() => setIsNotesModalOpen(true)}
+              />
             </View>
           </View>
         </View>

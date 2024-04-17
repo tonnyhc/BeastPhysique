@@ -58,7 +58,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
   numberOfLines,
   borderStyles,
 }) => {
-  const { colors } = useTheme();
+  const { colors, theme } = useTheme();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(
     isPassword ? true : false
   );
@@ -109,7 +109,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      color: colors.helperText,
+      color: colors.secondaryText,
       fontFamily: "RobotoRegular",
     },
     placeholderText: {
@@ -124,7 +124,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
     helpText: {
       fontFamily: "RobotoRegular",
       fontSize: 13,
-      color: error || emailError ? colors.error : colors.helperText,
+      color: error || emailError ? colors.error : colors.secondaryText,
     },
   });
 
@@ -141,6 +141,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
 
         {/* input */}
         <TextInput
+          keyboardAppearance={theme === "dark" ? "dark" : "light"}
           defaultValue={defaultValue}
           style={stylesheet.input}
           placeholder={placeholder}
@@ -157,7 +158,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
           <TouchableWithoutFeedback
             onPress={() => setPasswordVisible((oldPassword) => !oldPassword)}
           >
-            <EyeOnIcon size={24} color={colors.helperText} />
+            <EyeOnIcon size={24} color={colors.secondaryText} />
           </TouchableWithoutFeedback>
         ) : (
           <TouchableWithoutFeedback onPress={() => rightIconOnPress()}>

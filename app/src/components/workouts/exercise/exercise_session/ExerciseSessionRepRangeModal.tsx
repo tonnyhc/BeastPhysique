@@ -81,7 +81,7 @@ const ExerciseSessionRepRangeModal: React.FC<
               style={{
                 fontFamily: "RobotoRegular",
                 fontSize: 26,
-                color: colors.helperText,
+                color: colors.secondaryText,
               }}
             >
               ---

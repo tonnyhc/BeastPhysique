@@ -29,9 +29,10 @@ const ExerciseSessionMoreModal: React.FC<ExerciseSessionMoreModalProps> = ({
     modal: {
       justifyContent: "flex-end",
       zIndex: 1000,
+      margin: 0,
     },
     content: {
-      backgroundColor: "white",
+      backgroundColor: colors.bg,
       zIndex: 100,
       flex: 0.7,
       borderTopRightRadius: 15,
@@ -39,7 +40,7 @@ const ExerciseSessionMoreModal: React.FC<ExerciseSessionMoreModalProps> = ({
     },
     separator: {
       borderBottomWidth: 0.5,
-      borderBottomColor: colors.helperText,
+      borderBottomColor: colors.secondaryText,
       justifyContent: "center",
       alignItems: "center",
       paddingVertical: 15,
@@ -49,8 +50,6 @@ const ExerciseSessionMoreModal: React.FC<ExerciseSessionMoreModalProps> = ({
   return (
     <Modal
       onBackdropPress={closeModal}
-      useNativeDriver={true}
-      propagateSwipe={true}
       swipeDirection="down"
       isVisible={visible}
       animationIn="slideInUp"

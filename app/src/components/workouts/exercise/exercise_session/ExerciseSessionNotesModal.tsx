@@ -9,16 +9,15 @@ interface ExerciseSessionNotesModalProps {
   visible: boolean;
   closeModal: () => void;
   data: string;
-  setData: (value: string) => void
+  setData: (value: string) => void;
 }
 
 const ExerciseSessionNotesModal: React.FC<ExerciseSessionNotesModalProps> = ({
   visible,
   closeModal,
   data,
-  setData
+  setData,
 }) => {
-//   const [data, setData] = useState<string>("");
   const { colors } = useTheme();
   const styles = StyleSheet.create({
     modal: {
@@ -27,16 +26,16 @@ const ExerciseSessionNotesModal: React.FC<ExerciseSessionNotesModalProps> = ({
       margin: 0,
     },
     content: {
-      backgroundColor: "white",
       zIndex: 100,
       flex: 0.6,
       borderTopRightRadius: 15,
       borderTopLeftRadius: 15,
       paddingTop: 20,
+      backgroundColor: colors.bg,
     },
     separator: {
       borderBottomWidth: 0.5,
-      borderBottomColor: colors.helperText,
+      borderBottomColor: colors.secondaryText,
       justifyContent: "center",
       alignItems: "center",
       paddingVertical: 15,
@@ -56,7 +55,6 @@ const ExerciseSessionNotesModal: React.FC<ExerciseSessionNotesModalProps> = ({
     <Modal
       onBackdropPress={() => closeModal()}
       avoidKeyboard={true}
-      // useNativeDriver={true}
       propagateSwipe={true}
       swipeDirection="down"
       isVisible={visible}
