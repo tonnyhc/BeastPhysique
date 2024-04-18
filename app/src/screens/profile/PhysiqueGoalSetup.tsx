@@ -7,16 +7,9 @@ import AuthStackHeader from "../../components/authentication/AuthStackHeader";
 import SetupScreenHeader from "../../components/profile/setup/SetupScreenHeader";
 import SetupScreenFooterBtns from "../../components/profile/setup/SetupScreenFooterBtns";
 import { useAuth } from "../../contexts/AuthContext";
+import { physiqueGoalsMap } from "../../utils/mapData";
 
-const goalsMap = [
-  { heading: "Maintain", helperText: "Maintain current physique" },
 
-  {
-    heading: "Bulk",
-    helperText: "Build muscle and strength",
-  },
-  { heading: "Cut", helperText: "Loose fat and get lean" },
-];
 
 const PhysiqueGoalSetup: React.FC = () => {
   const [data, setData] = useState<string>("");
@@ -59,7 +52,7 @@ const PhysiqueGoalSetup: React.FC = () => {
         </View>
 
         <View style={styles.formWrapper}>
-          {goalsMap.map((item, index) => (
+          {physiqueGoalsMap.map((item, index) => (
             <PhysiqueGoalCard
               onPress={selectGoal}
               key={index}

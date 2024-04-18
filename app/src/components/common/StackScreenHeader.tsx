@@ -48,7 +48,7 @@ const StackScreenHeader: React.FC<StackScreenHeaderProps> = ({
             {leftButton ? (
               leftButton
             ) : (
-              <ChevronLeft size={28} color={colors.primaryText} />
+              <ChevronLeft size={24} color={colors.primaryText} />
             )}
           </TouchableWithoutFeedback>
           <Text style={styles.headerText}>{label}</Text>

@@ -35,3 +35,13 @@ export const gendersForPicker = [
   { label: "Man", value: "Man" },
   { label: "Woman", value: "Woman" },
 ];
+
+export const physiqueGoalsMap = [
+  { heading: "Maintain", helperText: "Maintain current physique" },
+
+  {
+    heading: "Bulk",
+    helperText: "Build muscle and strength",
+  },
+  { heading: "Cut", helperText: "Loose fat and get lean" },
+];
