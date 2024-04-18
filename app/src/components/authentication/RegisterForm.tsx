@@ -131,17 +131,17 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       helperTextLeft:
         "Minimum 9 characters, at least 1 uppercase and 1 special symbol",
     },
-    // {
-    //   label: "Confirm password",
-    //   leftIcon: <AntDesign name="lock" size={18} color={colors.helperText} />,
-    //   rightIcon: <Feather name="eye-off" size={18} color={colors.helperText} />,
-    //   placeholder: "Confirm password",
-    //   isPassword: true,
-    //   value: data.conf_pass,
-    //   onChange: (value) =>
-    //     setData((oldData) => ({ ...oldData, conf_pass: value })),
-    //   error: formErrors.conf_pass,
-    // },
+    {
+      label: "Confirm password",
+      leftIcon: <AntDesign name="lock" size={18} color={colors.helperText} />,
+      rightIcon: <Feather name="eye-off" size={18} color={colors.helperText} />,
+      placeholder: "Confirm password",
+      isPassword: true,
+      value: data.conf_pass,
+      onChange: (value) =>
+        setData((oldData) => ({ ...oldData, conf_pass: value })),
+      error: formErrors.conf_pass,
+    },
   ];
   const styles = StyleSheet.create({
     form: {

@@ -6,6 +6,7 @@ export type Property = {
   title: string;
   icon: ReactNode;
   action: ReactNode;
+  navigate: () => void;
 };
 
 export interface SettingsFrameWrapperProps {
@@ -48,7 +49,6 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
       flexDirection: "row",
       gap: 12,
       alignItems: "center",
-      // width: "100%",
     },
     propertyTitle: {
       fontSize: 18,
@@ -65,7 +65,7 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
       <Text style={styles.title}>{categoryName}</Text>
       <View style={styles.properties}>
         {properties.map((prop) => (
-          <TouchableOpacity style={styles.property}>
+          <TouchableOpacity onPress={() => prop.navigate()} style={styles.property}>
             {/* Icon */}
             <View style={styles.icon_and_text}>
               {prop.icon}

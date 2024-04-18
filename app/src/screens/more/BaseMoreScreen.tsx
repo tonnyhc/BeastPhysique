@@ -18,11 +18,15 @@ import FlagIcon from "../../icons/FlagIcon";
 import Button from "../../components/common/Button";
 import LogoutIcon from "../../icons/LogoutIcon";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { MoreStackParamsList } from "../../Stacks/MoreStack";
 
 const generateCategories = (
   colors: Colors,
   toggleDarkMode: () => void,
-  theme: string
+  theme: string,
+  navigation: StackNavigationProp<MoreStackParamsList>
 ) => {
   const categories: SettingsFrameWrapperProps[] = [
     // Health & Fitness
@@ -40,24 +44,21 @@ const generateCategories = (
             />
           ),
           action: <ChevronRight size={24} color={colors.primaryText} />,
+          navigate: () => navigation.navigate("Base"),
         },
         // Workouts
         {
           title: "Workouts",
           icon: <BarbellIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
+          navigate: () => navigation.navigate("Base"),
         },
         // Weight
         {
           title: "Weight",
-          icon: (
-            <ScaleIcon
-            //   fill={colors.primaryText}
-              size={24}
-              color={colors.primaryText}
-            />
-          ),
+          icon: <ScaleIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
+          navigate: () => navigation.navigate("Base"),
         },
         // Goal
         {
@@ -70,6 +71,7 @@ const generateCategories = (
             />
           ),
           action: <ChevronRight size={24} color={colors.primaryText} />,
+          navigate: () => navigation.navigate("GoalSettings"),
         },
       ],
     },
@@ -155,25 +157,15 @@ const generateCategories = (
   return categories;
 };
 
-const More: React.FC = () => {
+const BaseMoreScreen: React.FC = () => {
   const { colors, toggleTheme, theme } = useTheme();
+  const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const { onLogout } = useAuth();
-  const categories = generateCategories(colors, toggleTheme, theme);
-
-  const styles = StyleSheet.create({
-    headingText: {
-      fontSize: 18,
-      fontFamily: "RobotoMedium",
-      color: colors.primaryText,
-      textAlign: "center",
-    },
-  });
+  const categories = generateCategories(colors, toggleTheme, theme, navigation);
 
   return (
     <Screen>
-      <Text style={styles.headingText}>More</Text>
       <ScrollView
-        style={{ marginTop: 30 }}
         contentContainerStyle={{
           paddingBottom: 30,
           gap: 10,
@@ -200,4 +192,4 @@ const More: React.FC = () => {
   );
 };
 
-export default More;
+export default BaseMoreScreen;

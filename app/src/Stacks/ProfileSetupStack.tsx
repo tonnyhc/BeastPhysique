@@ -2,7 +2,6 @@ import {
   StackNavigationProp,
   createStackNavigator,
 } from "@react-navigation/stack";
-import NameBirthdaySetup from "../screens/profile/NameBirthdaySetup";
 import ActivitySetup from "../screens/profile/ActivitySetup";
 import PhysiqueGoalSetup from "../screens/profile/PhysiqueGoalSetup";
 import NameScreen from "../screens/profile/NameScreen";
