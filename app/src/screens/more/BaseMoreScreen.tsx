@@ -58,7 +58,7 @@ const generateCategories = (
           title: "Weight",
           icon: <ScaleIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
-          navigate: () => navigation.navigate("Base"),
+          navigate: () => navigation.navigate("WeightSettings"),
         },
         // Goal
         {

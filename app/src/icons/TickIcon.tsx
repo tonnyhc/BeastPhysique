@@ -1,14 +1,16 @@
 import * as React from "react";
 import Svg, { SvgProps, Path, Circle } from "react-native-svg";
 import { IconProps } from "../ts/interfaces";
-const TickIcon: React.FC<IconProps> = ({ size, color, fill }) => (
-    <Svg
+const TickIcon: React.FC<IconProps> = ({ size, color, fill, scale }) => (
+  <Svg
     xmlns="http://www.w3.org/2000/svg"
+    viewBox=""s
     width={size}
     height={size}
-    fill={fill ? fill : 'none'}
+    fill={fill ? fill : "none"}
   >
     <Path
+      scale={scale}
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -16,6 +18,7 @@ const TickIcon: React.FC<IconProps> = ({ size, color, fill }) => (
       d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10Z"
     />
     <Path
+      scale={scale}
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"

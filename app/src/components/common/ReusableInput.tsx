@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, Ref, RefObject, useState } from "react";
 
 import {
   Text,
@@ -28,6 +28,7 @@ interface ReusableInputProps {
     wrapper: ViewStyle;
   };
   type?: "underline" | "fill";
+  ref?: RefObject<TextInput>;
 }
 
 const ReusableInput: React.FC<ReusableInputProps> = ({
@@ -46,6 +47,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
   numberOfLines,
   maxLenght,
   type = "fill",
+  ref,
 }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const { colors } = useTheme();
@@ -99,6 +101,7 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
       <View style={stlyes.inputWrapper}>
         {leftIcon && leftIcon}
         <TextInput
+          ref={ref}
           multiline={multiline}
           numberOfLines={numberOfLines}
           onEndEditing={onEndEditing}
@@ -108,7 +111,9 @@ const ReusableInput: React.FC<ReusableInputProps> = ({
           }
           placeholder={placeholder}
           // TODO: change this to primary text
-          placeholderTextColor={type == 'underline' ? colors.white : colors.helperText}
+          placeholderTextColor={
+            type == "underline" ? colors.white : colors.helperText
+          }
           value={value}
           onChangeText={onChange}
           inputMode={inputMode}

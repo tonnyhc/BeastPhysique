@@ -37,7 +37,6 @@ const SelectMuscleGroupsModal: React.FC<SelectMuscleGroupsModalProps> = ({
       margin: 0,
     },
     modalWrapper: {
-      backgroundColor: "white",
       flex: 0.7,
       borderTopRightRadius: 15,
       borderTopLeftRadius: 15,

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { SvgProps, Path } from "react-native-svg";
 import { IconProps } from "../ts/interfaces";
-const CloseIcon: React.FC<IconProps> = ({ size, color, fill }) => (
+const CloseIcon: React.FC<IconProps> = ({ size, color, fill, scale }) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -9,6 +9,7 @@ const CloseIcon: React.FC<IconProps> = ({ size, color, fill }) => (
     fill={fill ? fill : "none"}
   >
     <Path
+      scale={scale}
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"

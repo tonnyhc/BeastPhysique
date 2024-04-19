@@ -1,15 +1,15 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import BaseMoreScreen from "../screens/more/BaseMoreScreen";
 import { useTheme } from "../contexts/ThemeContext";
-import PhysiqueGoalSetup from "../screens/profile/PhysiqueGoalSetup";
 import GoalSettings from "../screens/more/GoalSettings";
-import StackScreenHeader from "../components/common/StackScreenHeader";
 import ChevronLeft from "../icons/ChevronLeft";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import WeightSettings from "../screens/more/WeightSettings";
 
 export type MoreStackParamsList = {
   Base: undefined;
   GoalSettings: undefined;
+  WeightSettings: undefined;
 };
 
 const MoreStack = createStackNavigator<MoreStackParamsList>();
@@ -60,6 +60,18 @@ const MoreStackScreen: React.FC = () => {
           headerTitle: "Goal",
         })}
         component={GoalSettings}
+      />
+      <MoreStack.Screen
+        name="WeightSettings"
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+              <ChevronLeft size={24} color={colors.primaryText} />
+            </TouchableWithoutFeedback>
+          ),
+          headerTitle: "Weight",
+        })}
+        component={WeightSettings}
       />
     </MoreStack.Navigator>
   );
