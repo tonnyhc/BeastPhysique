@@ -7,6 +7,11 @@ import TickIcon from "../../../icons/TickIcon";
 import CloseIcon from "../../../icons/CloseIcon";
 import WeightCard from "./WeightCard";
 import { TextInput } from "react-native-gesture-handler";
+import { useMutation } from "@tanstack/react-query";
+import useMeasuresServices from "../../../hooks/services/useMeasureServices";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { MoreStackParamsList } from "../../../Stacks/MoreStack";
 
 interface WeightEditModalProps {
   isVisible: boolean;
@@ -20,10 +25,22 @@ const WeightEditModal: React.FC<WeightEditModalProps> = ({
   weight,
 }) => {
   const { colors } = useTheme();
+  const { updateMeasures } = useMeasuresServices();
+  const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const [inputWeight, setInputWeight] = useState<string>("");
   useEffect(() => {
     setInputWeight(weight);
   }, [weight]);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => updateMeasures({ weight: Number(inputWeight) }),
+    mutationKey: ["update-weight"],
+    onSuccess: () => {
+      closeModal();
+      navigation.replace("WeightSettings");
+    },
+  });
+
   const onChangeWeight = (value: string) => {
     if (!inputWeight.toString().includes(".")) {
       value = value.replace(",", ".");
@@ -84,7 +101,7 @@ const WeightEditModal: React.FC<WeightEditModalProps> = ({
             <CloseIcon scale={1.3} size={32} color={colors.primaryText} />
           </TouchableOpacity>
           <Text style={styles.title}>Edit weight</Text>
-          <TouchableOpacity onPress={() => console.log("done")}>
+          <TouchableOpacity onPress={() => mutate()}>
             <TickIcon scale={1.3} size={32} color={colors.primaryText} />
           </TouchableOpacity>
         </View>

@@ -125,6 +125,7 @@ const generateCategories = (
               onChange={() => toggleDarkMode()}
             />
           ),
+          navigate: () => toggleDarkMode(),
         },
       ],
     },

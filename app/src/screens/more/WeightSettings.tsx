@@ -47,7 +47,7 @@ const WeightSettings: React.FC = () => {
         isVisible={editModal}
         closeModal={() => setEditModal(false)}
       />
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }}>
         <WeightCard
           onPress={() => setEditModal(true)}
           weight={data?.weight.toFixed(1) as string}

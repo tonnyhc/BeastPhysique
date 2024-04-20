@@ -3,7 +3,7 @@ import useApi from "./useApi";
 
 const useMeasuresServices = () => {
   const { token } = useAuth();
-  const { get } = useApi(token as string);
+  const { get, put } = useApi(token as string);
 
   const url = "health/measures/";
   const fetchWeightData = async (): Promise<{
@@ -18,7 +18,16 @@ const useMeasuresServices = () => {
     return data;
   };
 
-  return { fetchWeightData };
+  const updateMeasures = async (body: {
+    height?: number;
+    weight?: number;
+  }): Promise<null> => {
+    console.log("asd");
+    const data = await put(url + "edit/", body);
+    return data;
+  };
+
+  return { fetchWeightData, updateMeasures };
 };
 
 export default useMeasuresServices;
