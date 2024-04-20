@@ -5,11 +5,13 @@ import GoalSettings from "../screens/more/GoalSettings";
 import ChevronLeft from "../icons/ChevronLeft";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import WeightSettings from "../screens/more/WeightSettings";
+import AccountSettingsScreen from "./AccountSettingsStack";
 
 export type MoreStackParamsList = {
   Base: undefined;
   GoalSettings: undefined;
   WeightSettings: undefined;
+  AccountSettings: undefined;
 };
 
 const MoreStack = createStackNavigator<MoreStackParamsList>();
@@ -72,6 +74,11 @@ const MoreStackScreen: React.FC = () => {
           headerTitle: "Weight",
         })}
         component={WeightSettings}
+      />
+      <MoreStack.Screen
+        options={({ navigation }) => ({ headerShown: false })}
+        component={AccountSettingsScreen}
+        name="AccountSettings"
       />
     </MoreStack.Navigator>
   );

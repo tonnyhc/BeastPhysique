@@ -21,6 +21,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MoreStackParamsList } from "../../Stacks/MoreStack";
+import UserIcon from "../../icons/UserIcon";
 
 const generateCategories = (
   colors: Colors,
@@ -79,6 +80,20 @@ const generateCategories = (
     {
       categoryName: "Settings & Preferences",
       properties: [
+        // Account
+        {
+          title: "Account",
+          icon: (
+            <UserIcon
+              size={24}
+              color={colors.primaryText}
+              fill={colors.primaryText}
+            />
+          ),
+          action: <ChevronRight size={24} color={colors.primaryText} />,
+          navigate: () => navigation.navigate("AccountSettings"),
+        },
+
         // Notifications
         {
           title: "Notifications",
