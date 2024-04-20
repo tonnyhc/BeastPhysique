@@ -1,4 +1,5 @@
 import {
+  KeyboardTypeOptions,
   StyleSheet,
   Text,
   TextInput,
@@ -34,6 +35,8 @@ interface ReusableInputProps {
   defaultValue?: string;
   numberOfLines?: number;
   borderStyles?: ViewStyle;
+  keyboardType?: KeyboardTypeOptions;
+  maxLength?: number;
 }
 
 const TestInput: React.FC<ReusableInputProps> = ({
@@ -57,6 +60,8 @@ const TestInput: React.FC<ReusableInputProps> = ({
   defaultValue,
   numberOfLines,
   borderStyles,
+  keyboardType,
+  maxLength,
 }) => {
   const { colors, theme } = useTheme();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(
@@ -91,7 +96,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
     },
     master: {
       gap: 8,
-      minHeight: multiline ? 68 : 48,
+      minHeight: multiline ? 68 : 42,
       borderWidth: 1,
       borderRadius: 4,
       borderColor: error || emailError ? colors.error : "#676767",
@@ -111,9 +116,10 @@ const TestInput: React.FC<ReusableInputProps> = ({
       alignItems: "center",
       color: colors.secondaryText,
       fontFamily: "RobotoRegular",
+      fontSize: 16,
     },
     placeholderText: {
-      fontSize: 16,
+      fontSize: 18,
       fontFamily: "RobotoMedium",
     },
     helperRow: {
@@ -123,7 +129,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
     },
     helpText: {
       fontFamily: "RobotoRegular",
-      fontSize: 13,
+      fontSize: 14,
       color: error || emailError ? colors.error : colors.secondaryText,
     },
   });
@@ -141,6 +147,8 @@ const TestInput: React.FC<ReusableInputProps> = ({
 
         {/* input */}
         <TextInput
+          maxLength={maxLength ? maxLength : undefined}
+          keyboardType={keyboardType ? keyboardType : "default"}
           keyboardAppearance={theme === "dark" ? "dark" : "light"}
           defaultValue={defaultValue}
           style={stylesheet.input}

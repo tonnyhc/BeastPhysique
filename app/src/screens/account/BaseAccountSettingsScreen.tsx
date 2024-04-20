@@ -14,17 +14,21 @@ const BaseAccountSettingsScreen: React.FC = () => {
     {
       key: "Name",
       value: "Tonny Petrov",
-      navigate: () => navigation.navigate("BaseScreen"),
+      navigate: () => navigation.navigate("NameScreen"),
     },
     {
       key: "Username",
       value: "toni1",
-      navigate: () => navigation.navigate("BaseScreen"),
+      navigate: () =>
+        navigation.navigate("UsernameScreen", { username: "toni1" }),
     },
     {
       key: "Bio",
       value: "21\nSoftware Engineer\n Pumping Iron",
-      navigate: () => navigation.navigate("BaseScreen"),
+      navigate: () =>
+        navigation.navigate("BioScreen", {
+          bio: "21\nSoftware Engineer\n Pumping Iron",
+        }),
     },
   ];
 
@@ -90,7 +94,10 @@ const BaseAccountSettingsScreen: React.FC = () => {
         {properties.map((prop) => (
           <View style={styles.property} key={prop.key}>
             <Text style={styles.propertyLabel}>{prop.key}</Text>
-            <TouchableOpacity onPress={() => prop.navigate()} style={styles.propertyValueWrapper}>
+            <TouchableOpacity
+              onPress={() => prop.navigate()}
+              style={styles.propertyValueWrapper}
+            >
               <Text style={styles.propertyValue}>{prop.value}</Text>
             </TouchableOpacity>
           </View>

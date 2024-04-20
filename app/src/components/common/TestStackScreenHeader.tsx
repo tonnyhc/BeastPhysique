@@ -1,4 +1,10 @@
-import { SafeAreaView, StyleSheet, Text, View,TouchableWithoutFeedback } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+} from "react-native";
 import React, { ReactNode } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 
@@ -25,7 +31,7 @@ const TestStackScreenHeader: React.FC<TestStackScreenHeaderProps> = ({
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      paddingHorizontal: 12,
+      paddingHorizontal: 16,
       minHeight: 50,
     },
     headerTitle: {
@@ -39,7 +45,7 @@ const TestStackScreenHeader: React.FC<TestStackScreenHeaderProps> = ({
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        {headerLeft ? headerLeft : <View style={{minWidth: 24}}/>}
+        {headerLeft ? headerLeft : <View style={{ minWidth: 24 }} />}
         <Text style={styles.headerTitle}>{headerTitle}</Text>
         <View style={{ minWidth: 24 }}>{headerRight}</View>
       </View>

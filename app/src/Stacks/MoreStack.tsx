@@ -30,7 +30,6 @@ const MoreStackScreen: React.FC = () => {
         },
         headerStyle: {
           backgroundColor: colors.bg,
-          margin: 0,
         },
         headerShadowVisible: false,
         headerTitleStyle: {
