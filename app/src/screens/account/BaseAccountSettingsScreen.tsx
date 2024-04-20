@@ -19,8 +19,7 @@ const BaseAccountSettingsScreen: React.FC = () => {
     {
       key: "Username",
       value: "toni1",
-      navigate: () =>
-        navigation.navigate("UsernameScreen", { username: "toni1" }),
+      navigate: () => navigation.navigate("UsernameScreen"),
     },
     {
       key: "Bio",

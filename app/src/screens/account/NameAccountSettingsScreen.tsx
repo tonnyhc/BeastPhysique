@@ -35,7 +35,7 @@ const NameAccountSettingsScreen: React.FC = () => {
     setNewName(data.full_name);
   }, [data]);
 
-  const disabledSubmit = data.full_name === newName
+  const disabledSubmit = data.full_name === newName;
 
   return (
     <Screen>
@@ -50,7 +50,12 @@ const NameAccountSettingsScreen: React.FC = () => {
           helperTextRight={`${newName.length}/${data.max_length_full_name}`}
         />
         <View style={{ marginTop: 150 }}>
-          <Button disabled={disabledSubmit} text="Done" onPress={() => mutate()} loading={isPending} />
+          <Button
+            disabled={disabledSubmit}
+            text="Done"
+            onPress={() => mutate()}
+            loading={isPending}
+          />
         </View>
       </View>
     </Screen>

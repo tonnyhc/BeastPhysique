@@ -13,7 +13,7 @@ import BioAccountSettingsScreen from "../screens/account/BioAccountSettingsScree
 export type AccountSettingsParamsList = {
   BaseScreen: undefined;
   NameScreen: undefined;
-  UsernameScreen: { username: string };
+  UsernameScreen: undefined;
   BioScreen: { bio: string };
 };
 
