@@ -25,10 +25,13 @@ const BaseAccountSettingsScreen: React.FC = () => {
       key: "Bio",
       value: "21\nSoftware Engineer\n Pumping Iron",
       navigate: () =>
-        navigation.navigate("BioScreen", {
-          bio: "21\nSoftware Engineer\n Pumping Iron",
-        }),
+        navigation.navigate("BioScreen"),
     },
+    {
+      key: "Birthday",
+      value: '3 May, 2002',
+      navigate: () => navigation.navigate("BirthdayScreen")
+    }
   ];
 
   const { colors } = useTheme();

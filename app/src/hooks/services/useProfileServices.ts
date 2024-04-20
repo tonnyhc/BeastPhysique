@@ -19,6 +19,19 @@ const useProfileServices = () => {
     const data = await get(url + "username/");
     return data;
   };
+  const fetchBio = async (): Promise<{
+    bio: string;
+    max_length_bio: number;
+  }> => {
+    const data = await get(url + "bio/");
+    return data;
+  };
+  const fetchBirthday = async (): Promise<{
+    birthday: string | Date;
+  }> => {
+    const data = await get(url + "birthday/");
+    return data;
+  };
   const updateFullName = async (newName: string) => {
     const data = await put(url + "full_name/", { full_name: newName });
     return data;
@@ -27,8 +40,25 @@ const useProfileServices = () => {
     const data = await put(url + "username/", { username: newUsename });
     return data;
   };
+  const updateBio = async (newBio: string) => {
+    const data = await put(url + "bio/", { bio: newBio });
+    return data;
+  };
+  const updateBirthday = async (newBirthday: string) => {
+    const data = await put(url + "birthday/", { birthday: newBirthday });
+    return data;
+  };
 
-  return { fetchFullName, fetchUsername, updateUsername, updateFullName };
+  return {
+    fetchFullName,
+    fetchUsername,
+    fetchBio,
+    fetchBirthday,
+    updateUsername,
+    updateFullName,
+    updateBio,
+    updateBirthday,
+  };
 };
 
 export default useProfileServices;

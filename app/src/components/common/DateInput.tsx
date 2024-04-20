@@ -51,8 +51,10 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange, label }) => {
   return (
     <TouchableOpacity onPress={() => {}} style={styles.wrapper}>
       <Text style={styles.labelText}>{label}</Text>
-      <View style={{ opacity: 0, position: "absolute"}}>
+      <View style={{ opacity: 0, position: "absolute" }}>
+        
         <DateTimePicker
+      
           mode="date"
           maximumDate={new Date()}
           value={value}

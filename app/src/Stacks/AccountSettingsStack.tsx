@@ -9,12 +9,14 @@ import TestStackScreenHeader from "../components/common/TestStackScreenHeader";
 import NameAccountSettingsScreen from "../screens/account/NameAccountSettingsScreen";
 import UsernameAccountSettingsScreen from "../screens/account/UsernameAccountSettingsScreen";
 import BioAccountSettingsScreen from "../screens/account/BioAccountSettingsScreen";
+import BirthdayAccountSettingsScreen from "../screens/account/BirthdayAccountSettingsScreen";
 
 export type AccountSettingsParamsList = {
   BaseScreen: undefined;
   NameScreen: undefined;
   UsernameScreen: undefined;
-  BioScreen: { bio: string };
+  BioScreen: undefined;
+  BirthdayScreen: undefined;
 };
 
 const AccountSettingsStack = createStackNavigator<AccountSettingsParamsList>();
@@ -91,6 +93,22 @@ const AccountSettingsScreen: React.FC = () => {
         })}
         name="BioScreen"
         component={BioAccountSettingsScreen}
+      />
+      <AccountSettingsStack.Screen
+        options={({ navigation }) => ({
+          header: () => (
+            <TestStackScreenHeader
+              headerTitle="Edit birthday"
+              headerLeft={
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <ChevronLeft size={24} color={colors.primaryText} />
+                </TouchableOpacity>
+              }
+            />
+          ),
+        })}
+        name="BirthdayScreen"
+        component={BirthdayAccountSettingsScreen}
       />
     </AccountSettingsStack.Navigator>
   );
