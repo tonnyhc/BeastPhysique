@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useMutation } from "@tanstack/react-query";
 import useProfileServices from "../../../hooks/services/useProfileServices";
 import CameraIcon from "../../../icons/CameraIcon";
+import { useTranslation } from "react-i18next";
 interface AccountProfilePictureEditModalProps {
   visible: boolean;
   closeModal: () => void;
@@ -25,6 +26,7 @@ interface AccountProfilePictureEditModalProps {
 const AccountProfilePictureEditModal: React.FC<
   AccountProfilePictureEditModalProps
 > = ({ visible, closeModal, onSuccessEdit }) => {
+  const {t} = useTranslation()
   const [newPicture, setNewPicture] = useState<string>("");
   const { updateProfilePicture, deleteProfilePicture } = useProfileServices();
   const { colors } = useTheme();
@@ -158,7 +160,7 @@ const AccountProfilePictureEditModal: React.FC<
       <View style={styles.modalWrapper}>
         <View style={styles.modalHeader}>
           <Text style={styles.helperText}>
-            Your profile picture will be visible to everyone.
+            {t("screens.account.profile_picture_visibility")}
           </Text>
         </View>
         <View style={styles.modalBody}>
@@ -167,14 +169,14 @@ const AccountProfilePictureEditModal: React.FC<
             style={styles.property}
           >
             <GalleryIcon size={34} scale={1.2} color={colors.primaryText} />
-            <Text style={styles.propertyText}>Choose from library</Text>
+            <Text style={styles.propertyText}>{t("screens.account.choose_from_library")}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => openCamera()}
             style={styles.property}
           >
             <CameraIcon size={34} scale={1.2} color={colors.primaryText} />
-            <Text style={styles.propertyText}>Take photo</Text>
+            <Text style={styles.propertyText}>{t('screens.account.take_photo')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => mutateDelete()}
@@ -182,7 +184,7 @@ const AccountProfilePictureEditModal: React.FC<
           >
             <TrashIcon size={34} scale={1.2} color={colors.error} />
             <Text style={[styles.propertyText, styles.deleteText]}>
-              Remove current photo
+              {t('screens.account.remove_photo')}
             </Text>
           </TouchableOpacity>
         </View>

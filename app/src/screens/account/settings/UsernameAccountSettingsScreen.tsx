@@ -8,8 +8,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MoreStackParamsList } from "../../../Stacks/MoreStack";
+import { useTranslation } from "react-i18next";
 
 const UsernameAccountSettingsScreen: React.FC = () => {
+  const {t} = useTranslation();
   const [newUsername, setNewUsername] = useState<string>("");
   const { fetchUsername, updateUsername } = useProfileServices();
   const navigation =
@@ -46,14 +48,14 @@ const UsernameAccountSettingsScreen: React.FC = () => {
           value={newUsername}
           maxLength={queryData.max_length_username}
           placeholder="Enter username..."
-          label="Username"
+          label={t('common.username')}
           onChange={(value: string) => setNewUsername(value)}
           helperTextRight={`${newUsername.length}/${queryData.max_length_username}`}
         />
         <View style={{ marginTop: 150 }}>
           <Button
             disabled={disabledSubmit}
-            text="Done"
+            text={t('common.done')}
             onPress={() => mutate()}
             loading={isLoading}
           />

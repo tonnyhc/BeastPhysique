@@ -11,33 +11,27 @@ import { useTheme } from "../../../contexts/ThemeContext";
 import { useNavigation } from "@react-navigation/native";
 import SettingsNavigationCard from "../../../components/navigation/SettingsNavigationCard";
 import EmailIcon from "../../../icons/EmailIcon";
+import { useTranslation } from "react-i18next";
 
-const generateNavCards = (
-  colors: Colors,
-  navigation: StackNavigationProp<SecuritySettingsStackParamsList>
-) => {
+const BaseSecuritySettingsScreen: React.FC = () => {
+  const { t } = useTranslation();
+  const navigation =
+    useNavigation<StackNavigationProp<SecuritySettingsStackParamsList>>();
+  const { colors } = useTheme();
   const cards: SettingsNavigationCardProps[] = [
     {
-      title: "Password",
+      title: t("common.password"),
       icon: <LockIcon size={24} color={colors.primaryText} />,
       action: <ChevronRight size={24} color={colors.primaryText} />,
       navigate: () => navigation.navigate("ChangePassword"),
     },
     {
-      title: "Email",
+      title: t("common.email"),
       icon: <EmailIcon size={24} color={colors.primaryText} />,
       action: <ChevronRight size={24} color={colors.primaryText} />,
       navigate: () => navigation.navigate("ChangePassword"),
     },
   ];
-  return cards;
-};
-
-const BaseSecuritySettingsScreen: React.FC = () => {
-  const navigation =
-    useNavigation<StackNavigationProp<SecuritySettingsStackParamsList>>();
-  const { colors } = useTheme();
-  const cards = generateNavCards(colors, navigation);
   return (
     <Screen>
       <View style={{ gap: 16 }}>

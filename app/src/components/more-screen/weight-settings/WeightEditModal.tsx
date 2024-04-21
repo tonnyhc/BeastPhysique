@@ -12,6 +12,7 @@ import useMeasuresServices from "../../../hooks/services/useMeasureServices";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MoreStackParamsList } from "../../../Stacks/MoreStack";
+import { useTranslation } from "react-i18next";
 
 interface WeightEditModalProps {
   isVisible: boolean;
@@ -25,6 +26,7 @@ const WeightEditModal: React.FC<WeightEditModalProps> = ({
   weight,
 }) => {
   const { colors } = useTheme();
+  const {t} = useTranslation();
   const { updateMeasures } = useMeasuresServices();
   const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const [inputWeight, setInputWeight] = useState<string>("");
@@ -100,7 +102,7 @@ const WeightEditModal: React.FC<WeightEditModalProps> = ({
           >
             <CloseIcon scale={1.3} size={32} color={colors.primaryText} />
           </TouchableOpacity>
-          <Text style={styles.title}>Edit weight</Text>
+          <Text style={styles.title}>{t('screens.weight.editWeight')}</Text>
           <TouchableOpacity onPress={() => mutate()}>
             <TickIcon scale={1.3} size={32} color={colors.primaryText} />
           </TouchableOpacity>
@@ -108,7 +110,7 @@ const WeightEditModal: React.FC<WeightEditModalProps> = ({
         <View style={styles.modalBody}>
           <WeightCard
             onChangeWeight={onChangeWeight}
-            helper_text="Weigh in"
+            helper_text={t('screens.weight.weighIn')}
             weight={inputWeight}
           />
         </View>

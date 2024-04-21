@@ -8,8 +8,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MoreStackParamsList } from "../../../Stacks/MoreStack";
+import { useTranslation } from "react-i18next";
 
 const BioAccountSettingsScreen: React.FC = () => {
+  const {t} = useTranslation();
   const { fetchBio, updateBio } = useProfileServices();
   const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const [newBio, setNewBio] = useState<string>("");
@@ -44,14 +46,14 @@ const BioAccountSettingsScreen: React.FC = () => {
           multiline={true}
           value={newBio}
           placeholder="Enter bio..."
-          label="Bio"
+          label={t('common.bio')}
           onChange={(value: string) => setNewBio(value)}
           maxLength={queryData.max_length_bio}
           helperTextRight={`${newBio.length}/${queryData.max_length_bio}`}
         />
         <View style={{ marginTop: 150 }}>
           <Button
-            text="Done"
+            text={t('common.done')}
             disabled={disabledSubmit}
             onPress={() => mutate()}
             loading={isPending}

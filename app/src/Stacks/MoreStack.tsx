@@ -7,6 +7,7 @@ import SecuritySettingsStack from "./SecuritySettingsStack";
 import TestStackScreenHeader from "../components/common/TestStackScreenHeader";
 import { useTheme } from "../contexts/ThemeContext";
 import NavigationGoBack from "../components/navigation/NavigationGoBack";
+import { useTranslation } from "react-i18next";
 
 export type MoreStackParamsList = {
   Base: undefined;
@@ -20,11 +21,16 @@ const MoreStack = createStackNavigator<MoreStackParamsList>();
 
 const MoreStackScreen: React.FC = () => {
   const { colors } = useTheme();
+  const { t } = useTranslation();
   return (
     <MoreStack.Navigator initialRouteName="Base">
       <MoreStack.Screen
         options={{
-          header: () => <TestStackScreenHeader headerTitle="More" />,
+          header: () => (
+            <TestStackScreenHeader
+              headerTitle={t("screens.more.headerTitle")}
+            />
+          ),
         }}
         component={BaseMoreScreen}
         name="Base"
@@ -34,7 +40,7 @@ const MoreStackScreen: React.FC = () => {
         options={({ navigation }) => ({
           header: () => (
             <TestStackScreenHeader
-              headerTitle="Goal"
+              headerTitle={t("screens.more.goal")}
               headerLeft={<NavigationGoBack />}
             />
           ),
@@ -46,7 +52,7 @@ const MoreStackScreen: React.FC = () => {
         options={({ navigation }) => ({
           header: () => (
             <TestStackScreenHeader
-              headerTitle="Weight"
+              headerTitle={t("screens.more.weight")}
               headerLeft={<NavigationGoBack />}
             />
           ),

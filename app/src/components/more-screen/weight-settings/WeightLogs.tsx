@@ -3,6 +3,7 @@ import React from "react";
 import { useTheme } from "../../../contexts/ThemeContext";
 import ArrowUp from "../../../icons/ArrowUp";
 import ArrowDown from "../../../icons/ArrowDown";
+import { useTranslation } from "react-i18next";
 
 type Log = {
   weight: number;
@@ -14,6 +15,7 @@ interface WeightLogsProps {
 }
 
 const WeightLogs: React.FC<WeightLogsProps> = ({ logs }) => {
+  const {t} = useTranslation()
   const { colors } = useTheme();
 
   const renderArrow = (log: Log, oldLog: Log, index: number) => {
@@ -59,7 +61,7 @@ const WeightLogs: React.FC<WeightLogsProps> = ({ logs }) => {
 
   return (
     <View>
-      <Text style={styles.header}>Logs</Text>
+      <Text style={styles.header}>{t("screens.weight.logs")}</Text>
       {logs.map((log, index) => (
         <View style={styles.log}>
           <Text style={styles.logDate}>{log.date}</Text>

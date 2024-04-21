@@ -5,6 +5,7 @@ import BaseSecuritySettingsScreen from "../screens/security/settings/BaseSecurit
 import TestStackScreenHeader from "../components/common/TestStackScreenHeader";
 import NavigationGoBack from "../components/navigation/NavigationGoBack";
 import ChangePasswordScreen from "../screens/security/settings/ChangePasswordScreen";
+import { useTranslation } from "react-i18next";
 
 export type SecuritySettingsStackParamsList = {
   Base: undefined;
@@ -14,13 +15,14 @@ export type SecuritySettingsStackParamsList = {
 const Stack = createStackNavigator<SecuritySettingsStackParamsList>();
 
 const SecuritySettingsStack: React.FC = () => {
+  const {t} = useTranslation();
   return (
     <Stack.Navigator initialRouteName="Base">
       <Stack.Screen
         options={{
           header: (props) => (
             <TestStackScreenHeader
-              headerTitle="Security"
+              headerTitle={t('screens.more.security')}
               headerLeft={<NavigationGoBack />}
             />
           ),
@@ -32,7 +34,7 @@ const SecuritySettingsStack: React.FC = () => {
         options={{
           header: (props) => (
             <TestStackScreenHeader
-              headerTitle="Change password"
+              headerTitle={t('screens.change_password.change_password')}
               headerLeft={<NavigationGoBack />}
             />
           ),

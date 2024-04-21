@@ -9,8 +9,10 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ActivityIndicator } from "react-native-paper";
 import { MoreStackParamsList } from "../../../Stacks/MoreStack";
+import { useTranslation } from "react-i18next";
 
 const NameAccountSettingsScreen: React.FC = () => {
+  const { t } = useTranslation();
   const [newName, setNewName] = useState<string>("");
   const { fetchFullName, updateFullName } = useProfileServices();
   const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
@@ -45,14 +47,14 @@ const NameAccountSettingsScreen: React.FC = () => {
           maxLength={data.max_length_full_name}
           value={newName}
           placeholder="Enter name..."
-          label="Name"
+          label={t('common.name')}
           onChange={(value: string) => setNewName(value)}
           helperTextRight={`${newName.length}/${data.max_length_full_name}`}
         />
         <View style={{ marginTop: 150 }}>
           <Button
             disabled={disabledSubmit}
-            text="Done"
+            text={t('common.done')}
             onPress={() => mutate()}
             loading={isPending}
           />

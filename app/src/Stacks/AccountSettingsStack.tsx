@@ -10,6 +10,7 @@ import NameAccountSettingsScreen from "../screens/account/settings/NameAccountSe
 import UsernameAccountSettingsScreen from "../screens/account/settings/UsernameAccountSettingsScreen";
 import BioAccountSettingsScreen from "../screens/account/settings/BioAccountSettingsScreen";
 import BirthdayAccountSettingsScreen from "../screens/account/settings/BirthdayAccountSettingsScreen";
+import { useTranslation } from "react-i18next";
 
 export type AccountSettingsParamsList = {
   BaseScreen: undefined;
@@ -22,6 +23,7 @@ export type AccountSettingsParamsList = {
 const AccountSettingsStack = createStackNavigator<AccountSettingsParamsList>();
 
 const AccountSettingsScreen: React.FC = () => {
+  const { t } = useTranslation();
   const { colors } = useTheme();
   return (
     <AccountSettingsStack.Navigator
@@ -34,7 +36,7 @@ const AccountSettingsScreen: React.FC = () => {
         options={({ navigation }) => ({
           header: () => (
             <TestStackScreenHeader
-              headerTitle="Account"
+              headerTitle={t('screens.more.account')}
               headerLeft={
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                   <ChevronLeft size={24} color={colors.primaryText} />
@@ -50,7 +52,7 @@ const AccountSettingsScreen: React.FC = () => {
         options={({ navigation }) => ({
           header: () => (
             <TestStackScreenHeader
-              headerTitle="Edit name"
+            headerTitle={t('common.name')}
               headerLeft={
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                   <ChevronLeft size={24} color={colors.primaryText} />
@@ -66,7 +68,7 @@ const AccountSettingsScreen: React.FC = () => {
         options={({ navigation }) => ({
           header: () => (
             <TestStackScreenHeader
-              headerTitle="Edit username"
+            headerTitle={t('common.username')}
               headerLeft={
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                   <ChevronLeft size={24} color={colors.primaryText} />
@@ -82,7 +84,7 @@ const AccountSettingsScreen: React.FC = () => {
         options={({ navigation }) => ({
           header: () => (
             <TestStackScreenHeader
-              headerTitle="Edit bio"
+            headerTitle={t('common.bio')}
               headerLeft={
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                   <ChevronLeft size={24} color={colors.primaryText} />
@@ -98,7 +100,7 @@ const AccountSettingsScreen: React.FC = () => {
         options={({ navigation }) => ({
           header: () => (
             <TestStackScreenHeader
-              headerTitle="Edit birthday"
+            headerTitle={t('common.birthday')}
               headerLeft={
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                   <ChevronLeft size={24} color={colors.primaryText} />

@@ -39,15 +39,23 @@ export const gendersForPicker = [
   { label: "Woman", value: "Woman" },
 ];
 
-export const physiqueGoalsMap = [
-  { heading: "Maintain", helperText: "Maintain current physique" },
+export const generatePhysiqueGoals = (t: (key: string) => string) => {
+  const physiqueGoalsMap = [
+    {
+      heading: t("screens.goal.maintain"),
+      value: "Maintain",
+      helperText: t("screens.goal.maintainHelperText"),
+    },
 
-  {
-    heading: "Bulk",
-    helperText: "Build muscle and strength",
-  },
-  { heading: "Cut", helperText: "Loose fat and get lean" },
-];
+    {
+      heading: t("screens.goal.bulk"),
+      value: "Bulk",
+      helperText: t("screens.goal.bulkHelperText"),
+    },
+    { heading: t("screens.goal.cut"), value: "Cut", helperText: t("screens.goal.cutHelperText")},
+  ];
+  return physiqueGoalsMap;
+};
 
 export const emptyUserProfile: Profile = {
   id: 0,

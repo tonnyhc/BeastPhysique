@@ -9,11 +9,13 @@ import WeightLogs from "../../components/more-screen/weight-settings/WeightLogs"
 import useMeasuresServices from "../../hooks/services/useMeasureServices";
 import { useQuery } from "@tanstack/react-query";
 import WeightEditModal from "../../components/more-screen/weight-settings/WeightEditModal";
+import { useTranslation } from "react-i18next";
 
 const WeightSettings: React.FC = () => {
   const { colors } = useTheme();
   const { fetchWeightData } = useMeasuresServices();
   const [editModal, setEditModal] = useState<boolean>(false);
+  const {t} = useTranslation();
 
   const { data, isLoading } = useQuery({
     queryFn: () => fetchWeightData(),
@@ -51,7 +53,7 @@ const WeightSettings: React.FC = () => {
         <WeightCard
           onPress={() => setEditModal(true)}
           weight={data?.weight.toFixed(1) as string}
-          helper_text={`Last weigh in - ${data?.last_weigh_in as string}`}
+          helper_text={`${t('screens.weight.lastWeighIn')} - ${data?.last_weigh_in as string}`}
         />
         <LineChart
           data={{

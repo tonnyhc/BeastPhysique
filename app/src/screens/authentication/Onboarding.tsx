@@ -62,14 +62,11 @@ const Onboarding: React.FC = () => {
     },
   });
   React.useEffect(() => {
-    i18n.changeLanguage('bg')
-  },[])
+    i18n.changeLanguage("bg");
+  }, []);
   return (
     <Screen>
       <View style={styles.wrapper}>
-        <TouchableOpacity onPress={() => i18n.changeLanguage('bg')}>
-          <Text>Change</Text>
-        </TouchableOpacity>
         {/* logo */}
         <View style={styles.logoWrapper}>
           <LogoIcon size={32} color={colors.primaryText} />

@@ -21,8 +21,10 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
-const ChangePasswordScreen = () => {
+const ChangePasswordScreen: React.FC = () => {
+  const { t } = useTranslation();
   const { changePassword } = useAuth();
   const headerHeight = useHeaderHeight();
   const navigation = useNavigation();
@@ -96,14 +98,13 @@ const ChangePasswordScreen = () => {
         style={{ paddingBottom: 30, flex: 1 }}
       >
         <Text style={styles.helperText}>
-          Your password must be at least 6 characters and should include a
-          combination of numbers, letters and special characters (!$@%).{" "}
+          {t('common.passwordHelperText')}
         </Text>
         <View style={styles.form}>
           <TestInput
             error={isError ? (error as unknown as string) : undefined}
             keyboardType="ascii-capable"
-            label="Current password"
+            label={t('screens.change_password.current_password')}
             isPassword={true}
             value={passwords.password}
             onChange={(value: string) =>
@@ -119,7 +120,7 @@ const ChangePasswordScreen = () => {
             error={
               newPasswordError ? "Choose a more securred password" : undefined
             }
-            label="New password"
+            label={t('screens.change_password.new_password')}
             isPassword={true}
             value={passwords.new_password}
             onChange={(value: string) =>
@@ -132,7 +133,7 @@ const ChangePasswordScreen = () => {
           />
           <TestInput
             keyboardType="ascii-capable"
-            label="Re-type new password"
+            label={t('screens.change_password.re_type_new_password')}
             error={repassError ? "New password does not match." : undefined}
             isPassword={true}
             value={passwords.re_new_password}
@@ -149,7 +150,7 @@ const ChangePasswordScreen = () => {
           <Button
             loading={isPending}
             disabled={checkFieldsForDisablingButton()}
-            text="Change password"
+            text={t("screens.change_password.change_password")}
             onPress={() => mutate()}
           />
         </View>

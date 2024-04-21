@@ -22,42 +22,44 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MoreStackParamsList } from "../../Stacks/MoreStack";
 import UserIcon from "../../icons/UserIcon";
+import { useTranslation } from "react-i18next";
 
 const generateCategories = (
   colors: Colors,
   toggleDarkMode: () => void,
   theme: string,
-  navigation: StackNavigationProp<MoreStackParamsList>
+  navigation: StackNavigationProp<MoreStackParamsList>,
+  t: (key: string) => string
 ) => {
   const categories: SettingsFrameWrapperProps[] = [
     // Health & Fitness
     {
-      categoryName: "Health & Fitness",
+      categoryName: t("screens.more.health_fitness"),
       properties: [
         // Exercises
         {
-          title: "Exercises",
+          title: t("screens.more.exercises"),
           icon: <BarbellIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
           navigate: () => navigation.navigate("Base"),
         },
         // Workouts
         {
-          title: "Workouts",
+          title: t("screens.more.workouts"),
           icon: <BarbellIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
           navigate: () => navigation.navigate("Base"),
         },
         // Weight
         {
-          title: "Weight",
+          title: t("screens.more.weight"),
           icon: <ScaleIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
           navigate: () => navigation.navigate("WeightSettings"),
         },
         // Goal
         {
-          title: "Goal",
+          title: t("screens.more.goal"),
           icon: <EditIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
           navigate: () => navigation.navigate("GoalSettings"),
@@ -66,11 +68,11 @@ const generateCategories = (
     },
     // Settings & Preferences
     {
-      categoryName: "Settings & Preferences",
+      categoryName: t("screens.more.settings_preferences"),
       properties: [
         // Account
         {
-          title: "Account",
+          title: t("screens.more.account"),
           icon: <UserIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
           navigate: () => navigation.navigate("AccountSettings"),
@@ -78,26 +80,26 @@ const generateCategories = (
 
         // Notifications
         {
-          title: "Notifications",
+          title: t("screens.more.notifications"),
           icon: <NotificationIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
         },
         // Language
         {
-          title: "Language",
+          title: t("screens.more.language"),
           icon: <LanguageIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
         },
         // Security
         {
-          title: "Security",
+          title: t("screens.more.security"),
           icon: <ShieldIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
           navigate: () => navigation.navigate("SecuritySettings"),
         },
         // Dark mode
         {
-          title: "Dark mode",
+          title: t("screens.more.darkMode"),
           icon: <MoonIcon size={24} color={colors.primaryText} />,
           action: (
             <Switch
@@ -111,17 +113,17 @@ const generateCategories = (
     },
     // Support
     {
-      categoryName: "Support",
+      categoryName: t("screens.more.support"),
       properties: [
         // Help center
         {
-          title: "Help center",
+          title: t("screens.more.helpCenter"),
           icon: <NotificationIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
         },
         // Report a bug
         {
-          title: "Report a bug",
+          title: t("screens.more.reportBug"),
           icon: <FlagIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
         },
@@ -133,10 +135,17 @@ const generateCategories = (
 };
 
 const BaseMoreScreen: React.FC = () => {
+  const { t } = useTranslation();
   const { colors, toggleTheme, theme } = useTheme();
   const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const { onLogout } = useAuth();
-  const categories = generateCategories(colors, toggleTheme, theme, navigation);
+  const categories = generateCategories(
+    colors,
+    toggleTheme,
+    theme,
+    navigation,
+    t
+  );
 
   return (
     <Screen>
@@ -159,7 +168,7 @@ const BaseMoreScreen: React.FC = () => {
             onPress={() => (onLogout ? onLogout() : null)}
             leftIcon={<LogoutIcon size={24} color={colors.error} />}
             type="text"
-            text="Log out"
+            text={t("screens.more.logOut")}
           />
         </View>
       </ScrollView>

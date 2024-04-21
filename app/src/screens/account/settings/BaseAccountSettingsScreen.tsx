@@ -11,8 +11,10 @@ import useProfileServices from "../../../hooks/services/useProfileServices";
 import { emptyUserProfile } from "../../../utils/mapData";
 import { ActivityIndicator } from "react-native-paper";
 import AccountProfilePictureEditModal from "./AccountProfilePictureEditModal";
+import { useTranslation } from "react-i18next";
 
 const BaseAccountSettingsScreen: React.FC = () => {
+  const { t } = useTranslation();
   const navigation =
     useNavigation<StackNavigationProp<AccountSettingsParamsList>>();
   const { fetchProfile } = useProfileServices();
@@ -27,22 +29,22 @@ const BaseAccountSettingsScreen: React.FC = () => {
 
   const properties: { key: string; value: string; navigate: () => void }[] = [
     {
-      key: "Name",
+      key: t('common.name'),
       value: data.full_name,
       navigate: () => navigation.navigate("NameScreen"),
     },
     {
-      key: "Username",
+      key: t('common.username'),
       value: data.user,
       navigate: () => navigation.navigate("UsernameScreen"),
     },
     {
-      key: "Bio",
+      key: t('common.bio'),
       value: data.bio,
       navigate: () => navigation.navigate("BioScreen"),
     },
     {
-      key: "Birthday",
+      key: t('common.birthday'),
       value: data.birthday,
       navigate: () => navigation.navigate("BirthdayScreen"),
     },
@@ -67,12 +69,14 @@ const BaseAccountSettingsScreen: React.FC = () => {
       flexDirection: "row",
       padding: 10,
       gap: 16,
+      
     },
     propertyLabel: {
-      minWidth: 100,
+      width: 100,
       fontFamily: "RobotoRegular",
       fontSize: 18,
       color: colors.primaryText,
+      
     },
     propertyValueWrapper: {
       borderBottomWidth: 0.5,
@@ -92,7 +96,7 @@ const BaseAccountSettingsScreen: React.FC = () => {
     <Screen>
       {/* profile pic */}
       <AccountProfilePictureEditModal
-      onSuccessEdit={() => refetch()}
+        onSuccessEdit={() => refetch()}
         closeModal={() => setProfilePictureModal(false)}
         visible={profilePictureModal}
       />
@@ -104,13 +108,16 @@ const BaseAccountSettingsScreen: React.FC = () => {
               resizeMode="cover"
               style={styles.profilePic}
               source={{
-                uri: data.picture
-                // uri: "https://plus.unsplash.com/premium_photo-1688891564708-9b2247085923?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                uri: data.picture,
               }}
             />
           </TouchableOpacity>
 
-          <Button type="text" text="Edit profile picture" onPress={() => setProfilePictureModal(true)} />
+          <Button
+            type="text"
+            text={t("screens.account.edit_profile_picture")}
+            onPress={() => setProfilePictureModal(true)}
+          />
         </View>
       </View>
 

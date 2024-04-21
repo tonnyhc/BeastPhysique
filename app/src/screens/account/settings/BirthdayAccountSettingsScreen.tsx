@@ -8,8 +8,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MoreStackParamsList } from "../../../Stacks/MoreStack";
+import { useTranslation } from "react-i18next";
 
 const BirthdayAccountSettingsScreen: React.FC = () => {
+  const {t} = useTranslation();
   const { fetchBirthday, updateBirthday } = useProfileServices();
   const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const [birthday, setBirthday] = useState<Date>(new Date());
@@ -43,12 +45,12 @@ const BirthdayAccountSettingsScreen: React.FC = () => {
       <View style={{ flex: 1 }}>
         <DateInput
           value={birthday}
-          label="Birthday"
+          label={t("common.birthday")}
           onChange={(value) => setBirthday(value)}
         />
         <View style={{ marginTop: 150 }}>
           <Button
-            text="Done"
+            text={t('common.done')}
             // disabled={disabledSubmit}
             onPress={() => mutate()}
             loading={isPending}
