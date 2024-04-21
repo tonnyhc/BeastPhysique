@@ -1,0 +1,62 @@
+{
+    "language": "English",
+    "common": {
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm password",
+        "rePass": "Re-type password",
+        "forgotPass": "Forgot password?",
+        "enterValidEmail": "Please enter a valid email!",
+        "newPassword": "New password",
+        "continue": "Continue",
+        "done": "Done",
+        "weakPassword": "Weak password",
+        "passwordsNotMatch": "Passwords don't match!",
+        "passwordHelperText": "Minimum 9 characters, at least 1 uppercase and 1 special symbol"
+        
+    },
+    "screens": {
+        "onboarding": {
+            "welcomeMessage": "Track your workouts like a true pro!",
+            "getStartedBtn": "Get started",
+            "signInBtn": "Sign in with an existing account"
+        },
+        "register": {
+            "headerText": "Ready to take your fitness to the next level?",
+            "subHeaderText": "Create a BeastPhysique account to get started."
+        },
+        "login": {
+            "headerText": "Welcome back",
+            "subHeaderText": "Log in to improve yourself"
+        },
+        "forgotPass": {
+            "headerTitle": "Forgot password",
+            "helperText": "Please enter the email associated with your account",
+            "submitBtn": "Continue",
+            "verification": "Verification",
+            "helperTextVerification": "Enter the verification code we sent to email: ",
+            "didNotGetCode": "Did not get code?",
+            "resendCode": "Resend code",
+            "youCanSendAnotherCode": "You can send another code in"
+        },
+        "resetPass": {
+            "headerTitle": "Reset password",
+            "helperText": "At least 8 characters, with uppercase letter, lowercase letter, number and a special symbol"
+        },
+        "successPasswordReset": {
+            "success": "Success",
+            "helperText": "Your password have been reset successfully!"
+        }
+    },
+    "components": {
+        "registerForm": {
+            "submitBtn": "Create Account",
+            "navigateToLogin": "Sign in with an existing account"
+        },
+        "loginForm": {
+            "submitBtn": "Login",
+            "navigateToRegister": "Dont have an account?"
+        }
+    }
+}

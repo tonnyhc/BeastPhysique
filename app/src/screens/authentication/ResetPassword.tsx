@@ -17,6 +17,7 @@ import { AuthStackParamList } from "../../Stacks/AuthStack";
 import TestInput from "../../components/common/TestInput";
 import EyeOnIcon from "../../icons/EyeOnIcon";
 import LockIcon from "../../icons/LockIcon";
+import { useTranslation } from "react-i18next";
 
 interface ResetPasswordProps {
   navigation: StackNavigationProp<AuthStackParamList>;
@@ -34,6 +35,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
   });
   const { password, setPassword, rePass, setRePass, resetPassword } =
     useForgottenPassword();
+  const { t } = useTranslation();
   const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
   const { mutate, isPending } = useMutation({
     mutationFn: resetPassword,
@@ -46,7 +48,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
     if (!isStrong && password !== "") {
       return setFormErrors((oldErrors) => ({
         ...oldErrors,
-        password: "Weak password",
+        password: t("common.weakPassword"),
       }));
     }
     return setFormErrors((oldErrors) => ({
@@ -59,7 +61,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
     if (arePasswordsDifferent) {
       return setFormErrors((oldErrors) => ({
         ...oldErrors,
-        rePass: "Passwords are not the same",
+        rePass: t("common.passwordsNotMatch"),
       }));
     }
     return setFormErrors((oldErrors) => ({
@@ -90,7 +92,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
               fontFamily: "IntegralRegular",
             }}
           >
-            Reset Password
+            {t("screens.resetPass.headerTitle")}
           </Text>
         </View>
         <View>
@@ -102,8 +104,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
               fontFamily: "RobotoRegular",
             }}
           >
-            At least 8 characters, with uppercase letter, lowercase letter,
-            number and a special symbol
+            {t("common.passwordHelperText")}
           </Text>
           <Text
             style={{
@@ -122,8 +123,8 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
             <TestInput
               value={password}
               onChange={setPassword}
-              placeholder="Password"
-              label="New Password"
+              placeholder={t("common.password")}
+              label={t("common.newPassword")}
               isPassword={true}
               leftIcon={<LockIcon size={24} color={colors.helperText} />}
               error={formErrors.password}
@@ -131,8 +132,8 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
             <TestInput
               value={rePass}
               onChange={setRePass}
-              placeholder="Confirm password"
-              label="Confirm Password"
+              placeholder={t("common.confirmPassword")}
+              label={t("common.confirmPassword")}
               isPassword={true}
               error={formErrors.rePass}
               leftIcon={<LockIcon size={24} color={colors.helperText} />}
@@ -140,7 +141,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }) => {
           </View>
           <View style={{ marginBottom: 20 }}>
             <SubmitButton
-              text="Continue"
+              text={t("common.continue")}
               loading={isPending}
               onPress={() => mutate()}
               disabled={disabledBtn}

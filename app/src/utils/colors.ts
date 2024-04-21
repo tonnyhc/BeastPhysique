@@ -31,7 +31,9 @@ export const lightColors: Colors = {
   borderGrey: "#CCC",
 
   // new design
-  button: "#03234C",
+  // button: "#03234C", old button
+  // instagram's button
+  button: "#0095F6",
   buttonDisabled: "#D9DEE4",
   outlinedButtonText: "#03234C",
   helperText: "#8A8A8A",

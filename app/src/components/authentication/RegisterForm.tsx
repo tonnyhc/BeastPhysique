@@ -15,6 +15,7 @@ import TestInput from "../common/TestInput";
 import EyeOnIcon from "../../icons/EyeOnIcon";
 import EmailIcon from "../../icons/EmailIcon";
 import useKeyboard from "../../hooks/useKeyboard";
+import { useTranslation } from "react-i18next";
 
 interface RegisterFormProps {
   mutate: (data: RegisterBody) => Promise<any>;
@@ -30,6 +31,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   errors,
 }) => {
   const keyboard = useKeyboard();
+  const {t} = useTranslation();
   const { theme, colors } = useTheme();
   const [data, setData] = useState<RegisterFormBody>({
     email: "",
@@ -101,7 +103,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
   const formFields: FormField[] = [
     {
-      label: "Username",
+      label: t('common.username'),
       leftIcon: <AntDesign name="user" size={18} color={colors.helperText} />,
       placeholder: "example",
       value: data.username,
@@ -110,7 +112,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         setData((oldData) => ({ ...oldData, username: value })),
     },
     {
-      label: "Email",
+      label: t('common.email'),
       leftIcon: <EmailIcon size={24} color={colors.helperText} />,
       placeholder: "example@example.com",
       value: data.email,
@@ -119,7 +121,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       inputMode: "email",
     },
     {
-      label: "Password",
+      label: t('common.password'),
       leftIcon: <AntDesign name="lock" size={18} color={colors.helperText} />,
       rightIcon: <EyeOnIcon size={24} color={colors.helperText} />,
       placeholder: "Enter password",
@@ -128,11 +130,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       onChange: (value) =>
         setData((oldData) => ({ ...oldData, password: value })),
       error: formErrors.password || errors.password,
-      helperTextLeft:
-        "Minimum 9 characters, at least 1 uppercase and 1 special symbol",
+      helperTextLeft: t('common.passwordHelperText'),
     },
     {
-      label: "Confirm password",
+      label: t('common.confirmPassword'),
       leftIcon: <AntDesign name="lock" size={18} color={colors.helperText} />,
       rightIcon: <Feather name="eye-off" size={18} color={colors.helperText} />,
       placeholder: "Confirm password",
@@ -184,14 +185,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
         <View style={{ gap: keyboard ? 6 : 20 }}>
           <Button
-            text="Create Account"
+            text={t('components.registerForm.submitBtn')}
             onPress={() => mutate(data)}
             disabled={disabledSubmit}
             loading={isPending}
           />
           <Button
             type="text"
-            text="Sign in with an existing account"
+            text={t('components.registerForm.navigateToLogin')}
             onPress={() => navigation.navigate("Login")}
           />
         </View>

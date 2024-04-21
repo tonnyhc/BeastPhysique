@@ -15,12 +15,14 @@ import AuthStackHeader from "../../components/authentication/AuthStackHeader";
 import Screen from "../../components/common/Screen";
 import { useTheme } from "../../contexts/ThemeContext";
 import LoginForm from "../../components/authentication/LoginForm";
+import { useTranslation } from "react-i18next";
 
 export interface LoginScreenProps {
   navigation: StackNavigationProp<AuthStackParamList>;
 }
 
 const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { onLogin } = useAuth();
   const { colors } = useTheme();
   const [loginErrors, setLoginErrors] = useState<string>("");
@@ -31,14 +33,14 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
       fontFamily: "RobotoRegular",
     },
     welcomeTextTitle: {
-      fontSize: 20,
+      fontSize: 18,
       fontFamily: "IntegralRegular",
-      color: colors.primaryText
+      color: colors.primaryText,
     },
     welcomeTextSubtitle: {
-      fontSize: 16,
+      fontSize: 14,
       fontFamily: "RobotoRegular",
-      color: colors.primaryText
+      color: colors.primaryText,
     },
   });
 
@@ -63,13 +65,15 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1, backgroundColor: "#1C1C1E" }}
     >
-      <AuthStackHeader/>
+      <AuthStackHeader />
       <Screen closeKeyboardOnClick={true}>
         <View style={styles.section}>
           <View style={{ gap: 10 }}>
-            <Text style={styles.welcomeTextTitle}>Welcome back</Text>
+            <Text style={styles.welcomeTextTitle}>
+              {t("screens.login.headerText")}
+            </Text>
             <Text style={styles.welcomeTextSubtitle}>
-              Log in to improve yourself
+              {t("screens.login.subHeaderText")}
             </Text>
           </View>
           <LoginForm

@@ -16,6 +16,7 @@ import Screen from "../../components/common/Screen";
 import useKeyboard from "../../hooks/useKeyboard";
 import { useTheme } from "../../contexts/ThemeContext";
 import RegisterForm from "../../components/authentication/RegisterForm";
+import { useTranslation } from "react-i18next";
 
 interface RegisterProps {
   navigation: StackNavigationProp<AuthStackParamList>;
@@ -24,6 +25,7 @@ interface RegisterProps {
 const Register: React.FC<RegisterProps> = ({ navigation }) => {
   const keyboardVisible = useKeyboard();
   const { colors } = useTheme();
+  const {t} = useTranslation()
   const { onRegister } = useAuth();
   const [errors, setErrors] = useState({ email: "", username: "" });
 
@@ -54,9 +56,9 @@ const Register: React.FC<RegisterProps> = ({ navigation }) => {
       fontFamily: "RobotoRegular",
     },
     title: {
-      fontSize: 20,
+      fontSize: 18,
       color: colors.primaryText,
-      fontFamily: "RobotoMedium",
+      fontFamily: "IntegralRegular",
     },
     subtitle: {
       fontSize: 14,
@@ -76,10 +78,10 @@ const Register: React.FC<RegisterProps> = ({ navigation }) => {
           {!keyboardVisible ? (
             <View style={{ gap: 8 }}>
               <Text style={styles.title}>
-                Hey! Ready to take your fitness to the next level?
+                {t("screens.register.headerText")}
               </Text>
               <Text style={styles.subtitle}>
-                Create a BeastPhysique account to get started.
+                {t('screens.register.subHeaderText')}
               </Text>
             </View>
           ) : null}

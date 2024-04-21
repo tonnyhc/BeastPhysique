@@ -1,0 +1,62 @@
+{
+    "language": "Bulgarian",
+    "common": {
+        "username": "Потребителско име",
+        "email": "Имейл",
+        "password": "Парола",
+        "confirmPassword": "Потвърди паролата",
+        "rePass": "Потвърди паролата",
+        "forgotPass": "Забравена парола?",
+        "enterValidEmail": "Невалиден имейл формат",
+        "newPassword": "Нова парола",
+        "continue": "Напред",
+        "done": "Край",
+        "weakPassword": "Слаба парола",
+        "passwordsNotMatch": "Паролите не съвпадат!",
+        "passwordHelperText": "Поне 9 символа, 1 главна и 1 малка буква, както и 1 специален символ "
+        
+    },
+    "screens": {
+        "onboarding": {
+            "welcomeMessage": "Следете си тренировките като професионалисти!",
+            "getStartedBtn": "Регистрирай се",
+            "signInBtn": "Вече имам акаунт"
+        },
+        "register": {
+            "headerText": "Готов ли си да бъдеш най-добрата своя версия",
+            "subHeaderText": "Регистрирай се в BeastPhysique и да започваме"
+        },
+        "login": {
+            "headerText": "Добре дошъл",
+            "subHeaderText": "Влез за да подобриш себе си"
+        },
+        "forgotPass": {
+            "headerTitle": "Забравена парола",
+            "helperText": "Въведете email-а с който сте се регистрирали",
+            "submitBtn": "Напред",
+            "verification": "Потвърждение",
+            "helperTextVerification": "Въведете кода, който ви изпратихме на email: ",
+            "didNotGetCode": "Не сте получили код?",
+            "resendCode": "Изпрати отново",
+            "youCanSendAnotherCode": "Може да изпратите нов код след"
+        },
+        "resetPass": {
+            "headerTitle": "Нова парола"
+        },
+        "successPasswordReset": {
+            "success": "Готово",
+            "helperText": "Паролата ви беше възстановена успешно!"
+        }
+    },
+    "components": {
+        "registerForm": {
+            "submitBtn": "Регистрирай се",
+            "navigateToLogin": "Влез с друг акаунт"
+        },
+        "loginForm": {
+            "submitBtn": "Влез",
+            "navigateToRegister": "Нямаш акаунт?"
+        }
+    }
+    
+}

@@ -5,16 +5,21 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ViewStyle,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 
 interface ScreenProps {
   children: ReactNode;
   closeKeyboardOnClick?: boolean;
-  styles?: ViewStyle
+  styles?: ViewStyle;
 }
 
-const Screen: React.FC<ScreenProps> = ({ children, closeKeyboardOnClick, styles }) => {
+const Screen: React.FC<ScreenProps> = ({
+  children,
+  closeKeyboardOnClick,
+  styles,
+}) => {
   const { colors } = useTheme();
 
   return (
@@ -38,7 +43,12 @@ const Screen: React.FC<ScreenProps> = ({ children, closeKeyboardOnClick, styles 
         </TouchableWithoutFeedback>
       ) : (
         <View
-          style={{ paddingLeft: 16, paddingRight: 16, paddingTop: 12, flex: 1 }}
+          style={{
+            paddingLeft: 16,
+            paddingRight: 16,
+            paddingTop: 12,
+            flex: 1,
+          }}
         >
           {children}
         </View>

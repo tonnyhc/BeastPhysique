@@ -13,8 +13,7 @@ import { MoreStackParamsList } from "../../../Stacks/MoreStack";
 const NameAccountSettingsScreen: React.FC = () => {
   const [newName, setNewName] = useState<string>("");
   const { fetchFullName, updateFullName } = useProfileServices();
-  const navigation =
-    useNavigation<StackNavigationProp<MoreStackParamsList>>();
+  const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const {
     mutate,
     data: mutationData,
@@ -22,7 +21,7 @@ const NameAccountSettingsScreen: React.FC = () => {
   } = useMutation({
     mutationFn: () => updateFullName(newName),
     mutationKey: ["update_full_name"],
-    onSuccess: () => navigation.replace("AccountSettings")
+    onSuccess: () => navigation.replace("AccountSettings"),
   });
   const { data, isLoading } = useQuery({
     queryFn: fetchFullName,

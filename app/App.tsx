@@ -1,4 +1,5 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
+import "./src/localization/i18n";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AuthProvider } from "./src/contexts/AuthContext";
 

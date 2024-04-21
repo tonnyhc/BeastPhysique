@@ -11,6 +11,7 @@ import { AuthStackParamList } from "../../Stacks/AuthStack";
 import TestInput from "../../components/common/TestInput";
 import EmailIcon from "../../icons/EmailIcon";
 import Button from "../../components/common/Button";
+import { useTranslation } from "react-i18next";
 
 interface ForgotPasswordProps {
   navigation: StackNavigationProp<AuthStackParamList>;
@@ -21,6 +22,8 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ navigation }) => {
   const { colors } = useTheme();
   const [error, setError] = useState<string>("");
   const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const isEmailValid = emailValidator(email);
@@ -52,7 +55,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ navigation }) => {
               fontFamily: "IntegralRegular",
             }}
           >
-            Forgot password
+            {t("screens.forgotPass.headerTitle")}
           </Text>
         </View>
         <Text
@@ -64,7 +67,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ navigation }) => {
             fontFamily: "RobotoRegular",
           }}
         >
-          Please enter the email associated with your account
+          {t("screens.forgotPass.helperText")}
         </Text>
         <View style={{ flex: 1, justifyContent: "space-between" }}>
           <View style={{ marginTop: 47 }}>
@@ -73,7 +76,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ navigation }) => {
               inputMode="email"
               placeholder="beast@physique.com"
               onChange={(value: string) => setEmail(value)}
-              label="Email"
+              label={t("common.email")}
               error={error}
               leftIcon={<EmailIcon size={24} color={colors.helperText} />}
             />
@@ -82,7 +85,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ navigation }) => {
             <Button
               disabled={disabledBtn}
               loading={isPending}
-              text="Send"
+              text={t("screens.forgotPass.submitBtn")}
               onPress={() => mutate()}
             />
           </View>

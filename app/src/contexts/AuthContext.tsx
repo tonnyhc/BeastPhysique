@@ -15,19 +15,20 @@ type AuthProviderProps = {
 };
 
 interface AuthProps {
-  token?: string | null;
-  email?: string | null;
-  isVerified?: boolean;
-  isAuth?: boolean | null;
-  onRegister?: (body: RegisterBody) => Promise<any>;
-  onLogin?: (body: LoginBody) => Promise<any>;
-  onLogout?: () => Promise<void>;
-  onConfirmAccount?: (verificationCode: string) => Promise<void>;
+  token: string | null;
+  email: string | null;
+  isVerified: boolean;
+  isAuth: boolean | null;
+  onRegister: (body: RegisterBody) => Promise<any>;
+  onLogin: (body: LoginBody) => Promise<any>;
+  onLogout: () => Promise<void>;
+  onConfirmAccount: (verificationCode: string) => Promise<void>;
   onResendVerificationCode?: () => Promise<void>;
   // TODO: Can move this to the profile context later on
-  setupProfile?: boolean;
-  skipSetupProfile?: () => void;
+  setupProfile: boolean;
+  skipSetupProfile: () => void;
   verifyProfile: () => void;
+  changePassword: (password: string, new_password: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthProps>({});
@@ -40,7 +41,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // TODO: Can move this to the profile context later on
     setupProfile: false,
   });
-  const { post, get } = useApi(authData.token || "");
+  const { post, get, put } = useApi(authData.token || "");
   const [verifyToken, setVerifyToken] = useState<boolean>(false);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     setVerifyToken(authData.token ? true : false);
-      }, [authData]);
+  }, [authData]);
 
   if (verifyToken) {
     verifyTokenFn();
@@ -151,6 +152,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await SecureStore.setItemAsync("authData", JSON.stringify(authData));
   }
 
+  async function changePassword(password: string, new_password: string) {
+    const data = await put("authentication/change-password/", {
+      password,
+      new_password,
+    });
+    return data;
+  }
+
   const context = {
     token: authData.token,
     isAuth: authData.token ? true : false,
@@ -165,6 +174,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setupProfile: authData.setupProfile,
     skipSetupProfile,
     verifyProfile,
+    changePassword,
   };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

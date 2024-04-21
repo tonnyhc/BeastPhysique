@@ -1,8 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { ReactNode } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
+import SettingsNavigationCard from "../navigation/SettingsNavigationCard";
 
-export type Property = {
+export type SettingsNavigationCardProps = {
   title: string;
   icon: ReactNode;
   action: ReactNode;
@@ -11,7 +12,7 @@ export type Property = {
 
 export interface SettingsFrameWrapperProps {
   categoryName: string;
-  properties: Property[];
+  properties: SettingsNavigationCardProps[];
 }
 
 const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
@@ -36,28 +37,6 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
     properties: {
       gap: 18,
     },
-    property: {
-      backgroundColor: colors.cardBackground,
-      borderRadius: 12,
-      gap: 8,
-      paddingVertical: 12,
-      paddingHorizontal: 12,
-      flexDirection: "row",
-      justifyContent: "space-between",
-    },
-    icon_and_text: {
-      flexDirection: "row",
-      gap: 12,
-      alignItems: "center",
-    },
-    propertyTitle: {
-      fontSize: 18,
-      fontFamily: "RobotoRegular",
-      color: colors.primaryText,
-    },
-    propertyAction: {
-      alignSelf: "flex-end",
-    },
   });
 
   return (
@@ -65,14 +44,13 @@ const SettingsFrameWrapper: React.FC<SettingsFrameWrapperProps> = ({
       <Text style={styles.title}>{categoryName}</Text>
       <View style={styles.properties}>
         {properties.map((prop) => (
-          <TouchableOpacity onPress={() => prop.navigate()} style={styles.property}>
-            {/* Icon */}
-            <View style={styles.icon_and_text}>
-              {prop.icon}
-              <Text style={styles.propertyTitle}>{prop.title}</Text>
-            </View>
-            <View style={styles.propertyAction}>{prop.action}</View>
-          </TouchableOpacity>
+          <SettingsNavigationCard
+            key={prop.title}
+            icon={prop.icon}
+            title={prop.title}
+            action={prop.action}
+            navigate={prop.navigate}
+          />
         ))}
       </View>
     </View>

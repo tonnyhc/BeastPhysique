@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ActivityIndicator } from "react-native-paper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../Stacks/AuthStack";
+import { useTranslation } from "react-i18next";
 
 interface ForgottenPasswordVerificationProps {
   navigation: StackNavigationProp<AuthStackParamList>;
@@ -25,6 +26,7 @@ const ForgottenPasswordVerification: React.FC<
     verifyCode,
     sentEmail,
   } = useForgottenPassword();
+  const { t } = useTranslation();
   const [error, setError] = useState<string>("");
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(60);
@@ -76,11 +78,11 @@ const ForgottenPasswordVerification: React.FC<
             fontFamily: "IntegralRegular",
           }}
         >
-          Verification
+          {t("screens.forgotPass.verification")}
         </Text>
       </View>
       <View>
-      <Text
+        <Text
           style={{
             marginTop: 18,
             width: 250,
@@ -89,12 +91,12 @@ const ForgottenPasswordVerification: React.FC<
             fontFamily: "RobotoRegular",
           }}
         >
-          Enter the verification code we sent to email:{" "}
+          {t("screens.forgotPass.helperTextVerification")}
         </Text>
         <Text
           style={{
             color: colors.helperText,
-            marginTop: 10
+            marginTop: 10,
           }}
         >
           {email}
@@ -106,12 +108,12 @@ const ForgottenPasswordVerification: React.FC<
           marginTop: 15,
           color: colors.error,
           fontSize: 16,
-          fontFamily: "RobotoMedium"
+          fontFamily: "RobotoMedium",
         }}
       >
         {error}
       </Text>
-      <View style={{ alignItems: "center", justifyContent: 'center' }}>
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
         <OTPInputView
           pinCount={5}
           code={verificationCode}
@@ -120,7 +122,7 @@ const ForgottenPasswordVerification: React.FC<
           }}
           codeInputHighlightStyle={{
             borderBottomWidth: 1,
-            borderBottomColor: colors.button
+            borderBottomColor: colors.button,
           }}
           codeInputFieldStyle={{
             borderWidth: 0,
@@ -149,8 +151,11 @@ const ForgottenPasswordVerification: React.FC<
         >
           <Text style={{ fontSize: 18, color: colors.helperText }}>
             {isTimerRunning
+              ? `${t("screens.forgotPass.youCanSendAnotherCode")} ${timer}s`
+              : t("screens.forgotPass.didNotGetCode")}
+            {/* {isTimerRunning
               ? `You can send another code in ${timer}s`
-              : `Did not get the code? `}
+              : } */}
           </Text>
           {!isTimerRunning && (
             <TouchableOpacity onPress={() => handleResentCode()}>
@@ -158,10 +163,10 @@ const ForgottenPasswordVerification: React.FC<
                 style={{
                   color: colors.button,
                   fontSize: 16,
-                  fontFamily: "RobotoMedium"
+                  fontFamily: "RobotoMedium",
                 }}
               >
-                Resend code
+                {t('screens.forgotPass.resendCode')}
               </Text>
             </TouchableOpacity>
           )}

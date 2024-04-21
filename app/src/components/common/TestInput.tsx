@@ -13,6 +13,8 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { emailRegex } from "../../utils/regexes";
 import EyeOnIcon from "../../icons/EyeOnIcon";
+import EyeSlashIcon from "../../icons/EyeSlashIcon";
+import { useTranslation } from "react-i18next";
 
 interface ReusableInputProps {
   value: string;
@@ -63,8 +65,9 @@ const TestInput: React.FC<ReusableInputProps> = ({
   keyboardType,
   maxLength,
 }) => {
+  const {t} = useTranslation()
   const { colors, theme } = useTheme();
-  const [passwordVisible, setPasswordVisible] = useState<boolean>(
+  const [securedPassword, setSecuredPassword] = useState<boolean>(
     isPassword ? true : false
   );
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -134,6 +137,13 @@ const TestInput: React.FC<ReusableInputProps> = ({
     },
   });
 
+  const renderPasswordVisibilityIcon = () => {
+    if (securedPassword) {
+      return <EyeOnIcon size={24} color={colors.secondaryText} />;
+    }
+    return <EyeSlashIcon size={24} color={colors.secondaryText} />;
+  };
+
   return (
     <View style={stylesheet.wrapper}>
       {error || label ? (
@@ -155,7 +165,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
           placeholder={placeholder}
           placeholderTextColor={"#8A8A8A"}
           value={value}
-          secureTextEntry={passwordVisible}
+          secureTextEntry={securedPassword}
           onChangeText={onChange}
           inputMode={inputMode}
           multiline={multiline}
@@ -164,12 +174,14 @@ const TestInput: React.FC<ReusableInputProps> = ({
         {/* right icon */}
         {isPassword ? (
           <TouchableWithoutFeedback
-            onPress={() => setPasswordVisible((oldPassword) => !oldPassword)}
+            onPress={() => setSecuredPassword((oldPassword) => !oldPassword)}
           >
-            <EyeOnIcon size={24} color={colors.secondaryText} />
+            {renderPasswordVisibilityIcon()}
           </TouchableWithoutFeedback>
         ) : (
-          <TouchableWithoutFeedback onPress={() => rightIconOnPress()}>
+          <TouchableWithoutFeedback
+            onPress={() => (rightIconOnPress ? rightIconOnPress() : null)}
+          >
             {rightIcon}
           </TouchableWithoutFeedback>
         )}
@@ -177,7 +189,7 @@ const TestInput: React.FC<ReusableInputProps> = ({
       {helperTextLeft || helperTextRight || emailError ? (
         <View style={stylesheet.helperRow}>
           <Text style={stylesheet.helpText}>
-            {emailError ? "Please enter a valid email!" : helperTextLeft}
+            {emailError ? t('common.enterValidEmail') : helperTextLeft}
           </Text>
           <TouchableWithoutFeedback onPress={onPressHelperRight}>
             <Text style={stylesheet.helpText}>{helperTextRight}</Text>

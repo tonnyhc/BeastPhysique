@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Touchable } from "react-native";
 import { Video, ResizeMode } from "expo-av";
 import Screen from "../../components/common/Screen";
 import { useNavigation } from "@react-navigation/native";
@@ -8,8 +8,11 @@ import { AuthStackParamList } from "../../Stacks/AuthStack";
 import LogoIcon from "../../icons/Logo";
 import { useTheme } from "../../contexts/ThemeContext";
 import Button from "../../components/common/Button";
+import { useTranslation } from "react-i18next";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Onboarding: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
   const videoUrl = require("../../../assets/videos/onboarding-video.mp4");
@@ -58,10 +61,15 @@ const Onboarding: React.FC = () => {
       paddingHorizontal: 30,
     },
   });
-
+  React.useEffect(() => {
+    i18n.changeLanguage('bg')
+  },[])
   return (
     <Screen>
       <View style={styles.wrapper}>
+        <TouchableOpacity onPress={() => i18n.changeLanguage('bg')}>
+          <Text>Change</Text>
+        </TouchableOpacity>
         {/* logo */}
         <View style={styles.logoWrapper}>
           <LogoIcon size={32} color={colors.primaryText} />
@@ -80,19 +88,19 @@ const Onboarding: React.FC = () => {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
           />
           <Text style={styles.textOnVideo}>
-            Track your workouts like a true pro!
+            {t("screens.onboarding.welcomeMessage")}
           </Text>
         </View>
         {/* buttons */}
         <View style={{ gap: 20 }}>
           <Button
             onPress={() => navigation.navigate("Register")}
-            text="Get started"
+            text={t("screens.onboarding.getStartedBtn")}
           />
           <Button
             type="outlined"
             onPress={() => navigation.navigate("Login")}
-            text="Sign in with an existing account"
+            text={t("screens.onboarding.signInBtn")}
           />
         </View>
       </View>

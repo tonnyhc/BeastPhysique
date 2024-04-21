@@ -12,6 +12,7 @@ import EyeOnIcon from "../../icons/EyeOnIcon";
 import LockIcon from "../../icons/LockIcon";
 import useKeyboard from "../../hooks/useKeyboard";
 import Button from "../common/Button";
+import { useTranslation } from "react-i18next";
 
 interface LoginFormProps {
   onLogin: (data?: LoginBody) => Promise<any>;
@@ -27,7 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   navigation,
 }) => {
   const { colors, theme } = useTheme();
-  const keyboard = useKeyboard();
+  const { t } = useTranslation();
   const [data, setData] = useState<LoginBody>({
     email: "",
     password: "",
@@ -48,14 +49,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
     inputWrapper: {
       marginBottom: 12,
     },
-
-    forgotPass: {
-      color: colors.blueText,
-      fontWeight: "700",
-      alignSelf: "flex-end",
-      margin: 12,
-      fontSize: 12,
-    },
   });
 
   return (
@@ -74,7 +67,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <View style={{ gap: 20 }}>
           <TestInput
             inputMode="email"
-            label="Email"
+            label={t("common.email")}
             onChange={(value) =>
               setData((oldData) => ({ ...oldData, email: value }))
             }
@@ -90,26 +83,26 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 setData((oldData) => ({ ...oldData, password: value }))
               }
               placeholder="Enter password"
-              label="Password"
+              label={t("common.password")}
               isPassword={true}
               leftIcon={<LockIcon size={24} color={colors.helperText} />}
               rightIcon={<EyeOnIcon size={24} color={colors.helperText} />}
-              helperTextRight="Forgot password?"
+              helperTextRight={t("common.forgotPass")}
               onPressHelperRight={() => navigation.navigate("ForgotPassword")}
             />
           </View>
         </View>
-        <View style={{marginBottom: 20}}>
+        <View style={{ marginBottom: 20 }}>
           <Button
             disabled={disabledSubmit}
             type="primary"
-            text="Login"
+            text={t("components.loginForm.submitBtn")}
             onPress={() => onLogin(data)}
             loading={isPending}
           />
           <Button
             type="text"
-            text="Dont have an account?"
+            text={t("components.loginForm.navigateToRegister")}
             onPress={() => navigation.navigate("Register")}
           />
         </View>

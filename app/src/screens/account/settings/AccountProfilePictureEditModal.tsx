@@ -15,6 +15,7 @@ import TrashIcon from "../../../icons/TrashIcon";
 import * as ImagePicker from "expo-image-picker";
 import { useMutation } from "@tanstack/react-query";
 import useProfileServices from "../../../hooks/services/useProfileServices";
+import CameraIcon from "../../../icons/CameraIcon";
 interface AccountProfilePictureEditModalProps {
   visible: boolean;
   closeModal: () => void;
@@ -172,7 +173,7 @@ const AccountProfilePictureEditModal: React.FC<
             onPress={() => openCamera()}
             style={styles.property}
           >
-            <GalleryIcon size={34} scale={1.2} color={colors.primaryText} />
+            <CameraIcon size={34} scale={1.2} color={colors.primaryText} />
             <Text style={styles.propertyText}>Take photo</Text>
           </TouchableOpacity>
           <TouchableOpacity

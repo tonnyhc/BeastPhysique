@@ -1,17 +1,19 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import BaseMoreScreen from "../screens/more/BaseMoreScreen";
-import { useTheme } from "../contexts/ThemeContext";
 import GoalSettings from "../screens/more/GoalSettings";
-import ChevronLeft from "../icons/ChevronLeft";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import WeightSettings from "../screens/more/WeightSettings";
 import AccountSettingsScreen from "./AccountSettingsStack";
+import SecuritySettingsStack from "./SecuritySettingsStack";
+import TestStackScreenHeader from "../components/common/TestStackScreenHeader";
+import { useTheme } from "../contexts/ThemeContext";
+import NavigationGoBack from "../components/navigation/NavigationGoBack";
 
 export type MoreStackParamsList = {
   Base: undefined;
   GoalSettings: undefined;
   WeightSettings: undefined;
   AccountSettings: undefined;
+  SecuritySettings: undefined;
 };
 
 const MoreStack = createStackNavigator<MoreStackParamsList>();
@@ -19,58 +21,35 @@ const MoreStack = createStackNavigator<MoreStackParamsList>();
 const MoreStackScreen: React.FC = () => {
   const { colors } = useTheme();
   return (
-    <MoreStack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerLeftContainerStyle: {
-          paddingLeft: 12,
-        },
-        headerRightContainerStyle: {
-          paddingRight: 12,
-        },
-        headerStyle: {
-          backgroundColor: colors.bg,
-        },
-        headerShadowVisible: false,
-        headerTitleStyle: {
-          fontSize: 20,
-          fontFamily: "RobotoMedium",
-          color: colors.primaryText,
-          textAlign: "center",
-        },
-      }}
-    >
-      {/*  */}
+    <MoreStack.Navigator initialRouteName="Base">
       <MoreStack.Screen
         options={{
-          headerShown: true,
-          headerTitle: "More",
+          header: () => <TestStackScreenHeader headerTitle="More" />,
         }}
         component={BaseMoreScreen}
         name="Base"
       />
-      {/*  */}
       <MoreStack.Screen
         name="GoalSettings"
         options={({ navigation }) => ({
-          headerLeft: () => (
-            <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-              <ChevronLeft size={24} color={colors.primaryText} />
-            </TouchableWithoutFeedback>
+          header: () => (
+            <TestStackScreenHeader
+              headerTitle="Goal"
+              headerLeft={<NavigationGoBack />}
+            />
           ),
-          headerTitle: "Goal",
         })}
         component={GoalSettings}
       />
       <MoreStack.Screen
         name="WeightSettings"
         options={({ navigation }) => ({
-          headerLeft: () => (
-            <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-              <ChevronLeft size={24} color={colors.primaryText} />
-            </TouchableWithoutFeedback>
+          header: () => (
+            <TestStackScreenHeader
+              headerTitle="Weight"
+              headerLeft={<NavigationGoBack />}
+            />
           ),
-          headerTitle: "Weight",
         })}
         component={WeightSettings}
       />
@@ -78,6 +57,11 @@ const MoreStackScreen: React.FC = () => {
         options={({ navigation }) => ({ headerShown: false })}
         component={AccountSettingsScreen}
         name="AccountSettings"
+      />
+      <MoreStack.Screen
+        options={({ navigation }) => ({ headerShown: false })}
+        component={SecuritySettingsStack}
+        name="SecuritySettings"
       />
     </MoreStack.Navigator>
   );

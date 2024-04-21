@@ -93,6 +93,7 @@ const generateCategories = (
           title: "Security",
           icon: <ShieldIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
+          navigate: () => navigation.navigate("SecuritySettings"),
         },
         // Dark mode
         {

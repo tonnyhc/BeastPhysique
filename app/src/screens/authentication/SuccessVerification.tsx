@@ -6,6 +6,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../Stacks/AuthStack";
 import Button from "../../components/common/Button";
+import { useTranslation } from "react-i18next";
 
 interface SuccessPasswordResetProps {
   navigation: StackNavigationProp<AuthStackParamList>;
@@ -15,6 +16,7 @@ const SuccessPasswordReset: React.FC<SuccessPasswordResetProps> = ({
   navigation,
 }) => {
   const { colors } = useTheme();
+  const {t} = useTranslation();
   const styles = StyleSheet.create({
     done: {
       width: 110,
@@ -49,15 +51,15 @@ const SuccessPasswordReset: React.FC<SuccessPasswordResetProps> = ({
           <View style={styles.done}>
             <MaterialIcons name="done" size={80} color={colors.white} />
           </View>
-          <Text style={styles.successText}>Verified</Text>
+          <Text style={styles.successText}>{t('screens.successPasswordReset.success')}</Text>
           <Text style={styles.helperMessage}>
-            Your password have been reset successfully!
+          {t('screens.successPasswordReset.helperText')}
           </Text>
         </View>
         <View style={{marginBottom: 20}}>
 
         <Button
-          text="Continue"
+          text={t("common.done")}
           onPress={() => navigation.navigate("Login")}
         />
         </View>
