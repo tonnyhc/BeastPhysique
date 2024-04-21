@@ -1,18 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import Screen from "../../components/common/Screen";
-import TestInput from "../../components/common/TestInput";
-import Button from "../../components/common/Button";
-import useProfileServices from "../../hooks/services/useProfileServices";
+import Screen from "../../../components/common/Screen";
+import TestInput from "../../../components/common/TestInput";
+import Button from "../../../components/common/Button";
+import useProfileServices from "../../../hooks/services/useProfileServices";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { AccountSettingsParamsList } from "../../Stacks/AccountSettingsStack";
+import { MoreStackParamsList } from "../../../Stacks/MoreStack";
 
 const BioAccountSettingsScreen: React.FC = () => {
   const { fetchBio, updateBio } = useProfileServices();
-  const navigation =
-    useNavigation<StackNavigationProp<AccountSettingsParamsList>>();
+  const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const [newBio, setNewBio] = useState<string>("");
 
   const { data: queryData, isLoading } = useQuery({
@@ -30,7 +29,7 @@ const BioAccountSettingsScreen: React.FC = () => {
   } = useMutation({
     mutationFn: () => updateBio(newBio),
     mutationKey: ["update-bio"],
-    onSuccess: () => navigation.goBack(),
+    onSuccess: () => navigation.replace("AccountSettings"),
   });
   useEffect(() => {
     setNewBio(queryData.bio ? queryData.bio : "");

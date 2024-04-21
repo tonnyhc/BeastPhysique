@@ -37,13 +37,7 @@ const generateCategories = (
         // Exercises
         {
           title: "Exercises",
-          icon: (
-            <BarbellIcon
-              size={24}
-              color={colors.primaryText}
-              fill={colors.primaryText}
-            />
-          ),
+          icon: <BarbellIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
           navigate: () => navigation.navigate("Base"),
         },
@@ -64,13 +58,7 @@ const generateCategories = (
         // Goal
         {
           title: "Goal",
-          icon: (
-            <EditIcon
-              fill={colors.primaryText}
-              size={24}
-              color={colors.primaryText}
-            />
-          ),
+          icon: <EditIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
           navigate: () => navigation.navigate("GoalSettings"),
         },
@@ -83,13 +71,7 @@ const generateCategories = (
         // Account
         {
           title: "Account",
-          icon: (
-            <UserIcon
-              size={24}
-              color={colors.primaryText}
-              fill={colors.primaryText}
-            />
-          ),
+          icon: <UserIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
           navigate: () => navigation.navigate("AccountSettings"),
         },
@@ -97,13 +79,7 @@ const generateCategories = (
         // Notifications
         {
           title: "Notifications",
-          icon: (
-            <NotificationIcon
-              size={24}
-              color={colors.primaryText}
-              fill={colors.primaryText}
-            />
-          ),
+          icon: <NotificationIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
         },
         // Language
@@ -115,25 +91,13 @@ const generateCategories = (
         // Security
         {
           title: "Security",
-          icon: (
-            <ShieldIcon
-              fill={colors.primaryText}
-              size={24}
-              color={colors.primaryText}
-            />
-          ),
+          icon: <ShieldIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
         },
         // Dark mode
         {
           title: "Dark mode",
-          icon: (
-            <MoonIcon
-              fill={colors.primaryText}
-              size={24}
-              color={colors.primaryText}
-            />
-          ),
+          icon: <MoonIcon size={24} color={colors.primaryText} />,
           action: (
             <Switch
               value={theme === "dark" ? true : false}
@@ -151,13 +115,7 @@ const generateCategories = (
         // Help center
         {
           title: "Help center",
-          icon: (
-            <NotificationIcon
-              size={24}
-              color={colors.primaryText}
-              fill={colors.primaryText}
-            />
-          ),
+          icon: <NotificationIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
         },
         // Report a bug

@@ -24,6 +24,7 @@ const TabBar = () => {
         tabBarStyle: {
           backgroundColor: colors.bg,
           borderTopWidth: 0,
+          paddingTop: 18
         },
         tabBarItemStyle: {
           width: 24,

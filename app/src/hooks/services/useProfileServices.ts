@@ -1,10 +1,15 @@
 import { useAuth } from "../../contexts/AuthContext";
+import { Profile } from "../../ts/types";
 import useApi from "./useApi";
 
 const useProfileServices = () => {
   const { token } = useAuth();
-  const { put, get } = useApi(token as string);
+  const { put, get, del } = useApi(token as string);
   const url = "profile/";
+  const fetchProfile = async (): Promise<Profile> => {
+    const data = await get(url + "user-profile/");
+    return data;
+  };
   const fetchFullName = async (): Promise<{
     full_name: string;
     max_length_full_name: number;
@@ -48,16 +53,27 @@ const useProfileServices = () => {
     const data = await put(url + "birthday/", { birthday: newBirthday });
     return data;
   };
+  const updateProfilePicture = async (body: FormData) => {
+    const data = await put(url + "profile-picture/", body);
+    return data;
+  };
+  const deleteProfilePicture = async () => {
+    const data = await del(url + "profile-picture/");
+    return data;
+  };
 
   return {
     fetchFullName,
     fetchUsername,
     fetchBio,
     fetchBirthday,
+    fetchProfile,
     updateUsername,
     updateFullName,
     updateBio,
     updateBirthday,
+    updateProfilePicture,
+    deleteProfilePicture,
   };
 };
 

@@ -1,23 +1,22 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import Screen from "../../components/common/Screen";
-import DateInput from "../../components/common/DateInput";
-import Button from "../../components/common/Button";
-import useProfileServices from "../../hooks/services/useProfileServices";
+import Screen from "../../../components/common/Screen";
+import DateInput from "../../../components/common/DateInput";
+import Button from "../../../components/common/Button";
+import useProfileServices from "../../../hooks/services/useProfileServices";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { AccountSettingsParamsList } from "../../Stacks/AccountSettingsStack";
+import { MoreStackParamsList } from "../../../Stacks/MoreStack";
 
 const BirthdayAccountSettingsScreen: React.FC = () => {
   const { fetchBirthday, updateBirthday } = useProfileServices();
-  const navigation =
-    useNavigation<StackNavigationProp<AccountSettingsParamsList>>();
+  const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const [birthday, setBirthday] = useState<Date>(new Date());
   const { data: queryData, isLoading } = useQuery({
     queryFn: fetchBirthday,
     queryKey: ["profile-birthday"],
-    initialData: { birthday: "" },
+    initialData: { birthday: new Date() },
   });
   const {
     mutate,
@@ -32,7 +31,7 @@ const BirthdayAccountSettingsScreen: React.FC = () => {
       return updateBirthday(newBirthday);
     },
     mutationKey: ["profile-birthday"],
-    onSuccess: () => navigation.goBack(),
+    onSuccess: () => navigation.replace("AccountSettings"),
   });
   useEffect(() => {
     const date = new Date(queryData.birthday);
@@ -61,5 +60,3 @@ const BirthdayAccountSettingsScreen: React.FC = () => {
 };
 
 export default BirthdayAccountSettingsScreen;
-
-const styles = StyleSheet.create({});

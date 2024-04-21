@@ -1,15 +1,15 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { Text } from "react-native";
 
-import BaseAccountSettingsScreen from "../screens/account/BaseAccountSettingsScreen";
+import BaseAccountSettingsScreen from "../screens/account/settings/BaseAccountSettingsScreen";
 import { TouchableOpacity } from "react-native";
 import ChevronLeft from "../icons/ChevronLeft";
 import { useTheme } from "../contexts/ThemeContext";
 import TestStackScreenHeader from "../components/common/TestStackScreenHeader";
-import NameAccountSettingsScreen from "../screens/account/NameAccountSettingsScreen";
-import UsernameAccountSettingsScreen from "../screens/account/UsernameAccountSettingsScreen";
-import BioAccountSettingsScreen from "../screens/account/BioAccountSettingsScreen";
-import BirthdayAccountSettingsScreen from "../screens/account/BirthdayAccountSettingsScreen";
+import NameAccountSettingsScreen from "../screens/account/settings/NameAccountSettingsScreen";
+import UsernameAccountSettingsScreen from "../screens/account/settings/UsernameAccountSettingsScreen";
+import BioAccountSettingsScreen from "../screens/account/settings/BioAccountSettingsScreen";
+import BirthdayAccountSettingsScreen from "../screens/account/settings/BirthdayAccountSettingsScreen";
 
 export type AccountSettingsParamsList = {
   BaseScreen: undefined;

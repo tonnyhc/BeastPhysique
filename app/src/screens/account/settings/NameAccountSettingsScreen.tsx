@@ -1,19 +1,20 @@
 import { ActivityIndicatorBase, StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import Screen from "../../components/common/Screen";
-import TestInput from "../../components/common/TestInput";
-import Button from "../../components/common/Button";
-import useProfileServices from "../../hooks/services/useProfileServices";
+import Screen from "../../../components/common/Screen";
+import TestInput from "../../../components/common/TestInput";
+import Button from "../../../components/common/Button";
+import useProfileServices from "../../../hooks/services/useProfileServices";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { MoreStackParamsList } from "../../Stacks/MoreStack";
 import { ActivityIndicator } from "react-native-paper";
+import { MoreStackParamsList } from "../../../Stacks/MoreStack";
 
 const NameAccountSettingsScreen: React.FC = () => {
   const [newName, setNewName] = useState<string>("");
   const { fetchFullName, updateFullName } = useProfileServices();
-  const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
+  const navigation =
+    useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const {
     mutate,
     data: mutationData,
@@ -21,7 +22,7 @@ const NameAccountSettingsScreen: React.FC = () => {
   } = useMutation({
     mutationFn: () => updateFullName(newName),
     mutationKey: ["update_full_name"],
-    onSuccess: () => navigation.goBack(),
+    onSuccess: () => navigation.replace("AccountSettings")
   });
   const { data, isLoading } = useQuery({
     queryFn: fetchFullName,

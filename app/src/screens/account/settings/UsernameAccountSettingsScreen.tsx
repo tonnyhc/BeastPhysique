@@ -1,18 +1,19 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import TestInput from "../../components/common/TestInput";
-import Screen from "../../components/common/Screen";
-import Button from "../../components/common/Button";
-import useProfileServices from "../../hooks/services/useProfileServices";
+import TestInput from "../../../components/common/TestInput";
+import Screen from "../../../components/common/Screen";
+import Button from "../../../components/common/Button";
+import useProfileServices from "../../../hooks/services/useProfileServices";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { MoreStackParamsList } from "../../Stacks/MoreStack";
+import { MoreStackParamsList } from "../../../Stacks/MoreStack";
 
 const UsernameAccountSettingsScreen: React.FC = () => {
   const [newUsername, setNewUsername] = useState<string>("");
   const { fetchUsername, updateUsername } = useProfileServices();
-  const navigation = useNavigation<StackNavigationProp<MoreStackParamsList>>();
+  const navigation =
+    useNavigation<StackNavigationProp<MoreStackParamsList>>();
   const { data: queryData, isLoading } = useQuery({
     queryFn: fetchUsername,
     queryKey: ["username"],
@@ -30,7 +31,7 @@ const UsernameAccountSettingsScreen: React.FC = () => {
   } = useMutation({
     mutationFn: () => updateUsername(newUsername),
     mutationKey: ["update-username"],
-    onSuccess: () => navigation.goBack(),
+    onSuccess: () => navigation.replace("AccountSettings")
   });
   useEffect(() => {
     setNewUsername(queryData?.username);

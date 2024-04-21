@@ -2,7 +2,7 @@ import * as React from "react";
 import Svg, { SvgProps, Path } from "react-native-svg";
 import { IconProps } from "../ts/interfaces";
 const FlagIcon: React.FC<IconProps> = ({ size, color, fill }) => (
-    <Svg
+  <Svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
     height={size}
@@ -17,7 +17,7 @@ const FlagIcon: React.FC<IconProps> = ({ size, color, fill }) => (
       d="M5.15 2.862v20"
     />
     <Path
-      fill="#292D32"
+      fill={fill ? fill : "none"}
       d="M5.15 4.862h11.2c2.7 0 3.3 1.5 1.4 3.4l-1.2 1.2c-.8.8-.8 2.1 0 2.8l1.2 1.2c1.9 1.9 1.2 3.4-1.4 3.4H5.15"
     />
     <Path

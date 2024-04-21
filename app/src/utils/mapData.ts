@@ -1,4 +1,7 @@
-import { Exercise, ExerciseSet, Workout } from "../ts/types";
+import { Exercise, ExerciseSet, Profile, Workout } from "../ts/types";
+
+export const baseProfilePicture =
+  "https://res.cloudinary.com/dnb8qwwyi/image/upload/v1713645340/Default_pfp.svg_lovmuw.png";
 
 export const emptySet: ExerciseSet = {
   weight: "",
@@ -45,3 +48,13 @@ export const physiqueGoalsMap = [
   },
   { heading: "Cut", helperText: "Loose fat and get lean" },
 ];
+
+export const emptyUserProfile: Profile = {
+  id: 0,
+  full_name: "",
+  gender: "",
+  birthday: "",
+  bio: "",
+  user: "",
+  picture: baseProfilePicture,
+};
