@@ -8,6 +8,7 @@ import TestStackScreenHeader from "../components/common/TestStackScreenHeader";
 import { useTheme } from "../contexts/ThemeContext";
 import NavigationGoBack from "../components/navigation/NavigationGoBack";
 import { useTranslation } from "react-i18next";
+import LanguageSettings from "../screens/more/LanguageSettings";
 
 export type MoreStackParamsList = {
   Base: undefined;
@@ -15,6 +16,7 @@ export type MoreStackParamsList = {
   WeightSettings: undefined;
   AccountSettings: undefined;
   SecuritySettings: undefined;
+  LanguageSettings: undefined;
 };
 
 const MoreStack = createStackNavigator<MoreStackParamsList>();
@@ -58,6 +60,18 @@ const MoreStackScreen: React.FC = () => {
           ),
         })}
         component={WeightSettings}
+      />
+      <MoreStack.Screen
+        name="LanguageSettings"
+        options={({ navigation }) => ({
+          header: () => (
+            <TestStackScreenHeader
+              headerTitle={t("screens.more.language")}
+              headerLeft={<NavigationGoBack />}
+            />
+          ),
+        })}
+        component={LanguageSettings}
       />
       <MoreStack.Screen
         options={({ navigation }) => ({ headerShown: false })}

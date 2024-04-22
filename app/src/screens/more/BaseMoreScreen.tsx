@@ -89,6 +89,7 @@ const generateCategories = (
           title: t("screens.more.language"),
           icon: <LanguageIcon size={24} color={colors.primaryText} />,
           action: <ChevronRight size={24} color={colors.primaryText} />,
+          navigate: () => navigation.navigate("LanguageSettings"),
         },
         // Security
         {

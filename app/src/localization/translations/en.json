@@ -19,6 +19,10 @@
         "passwordHelperText": "Your password must be at least 9 characters and should include a combination of numbers, letters and special characters (!$@%)."
 
     },
+    "languages": {
+        "en": "English",
+        "bg": "Bulgarian"
+    },
     "screens": {
         "onboarding": {
             "welcomeMessage": "Track your workouts like a true pro!",
@@ -96,6 +100,12 @@
             "new_password": "New password",
             "re_type_new_password": "Re-type new password",
             "change_password": "Change password"
+        },
+        "change_language": {
+            "current_lang": "Selected language",
+            "available_languages": "Available languages",
+            "cant_find_language": "Can't find your language?",
+            "cant_find_language_helper": "We are always working to expand the list of languages supported by BeasthPhysique app. If there is a language you would like us to support, please let us know via Contact Us in the Help Center."
         }
     },
     "components": {

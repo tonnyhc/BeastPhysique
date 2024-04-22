@@ -10,10 +10,8 @@ import Screen from "../../../components/common/Screen";
 import { useTheme } from "../../../contexts/ThemeContext";
 import TestInput from "../../../components/common/TestInput";
 import Button from "../../../components/common/Button";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { useHeaderHeight } from "@react-navigation/elements";
-import { passwordRegex } from "../../../utils/regexes";
 import {
   samePasswordValidator,
   strenghtPasswordValidator,

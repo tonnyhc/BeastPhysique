@@ -1,5 +1,5 @@
 {
-    "language": "Bulgarian",
+    "language": "Български",
     "common": {
         "username": "Потребителско име",
         "name": "Име",
@@ -18,6 +18,10 @@
         "passwordsNotMatch": "Паролите не съвпадат!",
         "passwordHelperText": "Паролата ви трябва да съдържа поне 9 символа, комбинация от букви, цифри и специални символи (!$@%)"
         
+    },
+    "languages": {
+        "en": "Английски",
+        "bg": "Български"
     },
     "screens": {
         "onboarding": {
@@ -94,6 +98,12 @@
             "new_password": "Нова парола",
             "re_type_new_password": "Потвърдете новата парола",
             "change_password": "Смени паролата"
+        },
+        "change_language": {
+            "current_lang": "Текущ език",
+            "available_languages": "Налични езици",
+            "cant_find_language": "Не откривате своят език?",
+            "cant_find_language_helper": "Постоянно работим върху това да обогатяваме езиците, които BeasthPhysique поддържа. Ако желаете да добавим вашият език или някой друг, моля свържете се с нас чрез 'Контакти' в менюто 'Помощ'"
         }
     
         
