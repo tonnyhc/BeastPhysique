@@ -106,6 +106,9 @@
             "available_languages": "Available languages",
             "cant_find_language": "Can't find your language?",
             "cant_find_language_helper": "We are always working to expand the list of languages supported by BeasthPhysique app. If there is a language you would like us to support, please let us know via Contact Us in the Help Center."
+        },
+        "profile": {
+            "edit_profile": "Edit profile"
         }
     },
     "components": {

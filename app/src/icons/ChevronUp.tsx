@@ -8,6 +8,7 @@ const ChevronUp: React.FC<IconProps> = ({ size, color, fill }) => {
     width={size}
     height={size}
     fill={fill ? fill : "none"}
+    // viewBox="0 0 16 16"
   >
     <Path
       stroke={color}

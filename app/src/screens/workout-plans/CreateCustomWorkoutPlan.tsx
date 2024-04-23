@@ -46,7 +46,7 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
 
   const styles = StyleSheet.create({
     card: {
-      backgroundColor: colors.porcelain,
+      backgroundColor: colors.cardBackground,
       borderRadius: 12,
       shadowColor: "#000000",
       shadowOffset: {
@@ -59,7 +59,7 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
       paddingHorizontal: 12,
       gap: 10,
       borderWidth: 1,
-      borderColor: colors.mercury,
+      borderColor: colors.secondaryText,
       paddingVertical: 10,
     },
     workoutName: {
@@ -80,7 +80,7 @@ const CreateCustomWorkoutPlanWorkoutCard: React.FC<
     exerciseSetsCount: {
       fontFamily: "RobotoMedium",
       fontSize: 16,
-      color: colors.orangeText,
+      color: colors.button,
     },
   });
   const renderRightActions = () => {

@@ -9,6 +9,8 @@ import { useTheme } from "../contexts/ThemeContext";
 import NavigationGoBack from "../components/navigation/NavigationGoBack";
 import { useTranslation } from "react-i18next";
 import LanguageSettings from "../screens/more/LanguageSettings";
+import LogoIcon from "../icons/Logo";
+import { View } from "react-native";
 
 export type MoreStackParamsList = {
   Base: undefined;
@@ -31,6 +33,8 @@ const MoreStackScreen: React.FC = () => {
           header: () => (
             <TestStackScreenHeader
               headerTitle={t("screens.more.headerTitle")}
+              headerLeft={<LogoIcon scale={.9} size={50} color={colors.primaryText} />}
+              // headerRight={<View />}
             />
           ),
         }}

@@ -1,13 +1,9 @@
-import { View, Text, RefreshControl, Modal, Alert } from "react-native";
+import { View, Text, RefreshControl, Modal, Alert, Image } from "react-native";
 import React, { ReactNode } from "react";
 import Screen from "../../components/common/Screen";
 import ProfileScreenHeader from "../../components/profile/ProfileScreenHeader";
-import ProfileAction from "../../components/profile/ProfileAction";
-import ProfilePropertyCard from "../../components/profile/ProfilePropertyCard";
-import UserIcon from "../../icons/UserIcon";
 import { useTheme } from "../../contexts/ThemeContext";
 import PersonIcon from "../../icons/PersonIcon";
-import CalendarIcon from "../../icons/CalendarIcon";
 import ActivityLevelIcon from "../../icons/ActivityLevelIcon";
 import useRefreshControl from "../../hooks/useRefreshControl";
 import { ScrollView } from "react-native-gesture-handler";
@@ -20,14 +16,25 @@ import BurgerIcon from "../../icons/BurgerIcon";
 import EggIcon from "../../icons/EggIcon";
 import BreadIcon from "../../icons/BreadIcon";
 import PizzaIcon from "../../icons/PizzaIcon";
-
+import useProfileServices from "../../hooks/services/useProfileServices";
+import { useQuery } from "@tanstack/react-query";
+import { emptyUserProfile } from "../../utils/mapData";
 
 const ProfileScreen: React.FC = () => {
   const { colors } = useTheme();
+  const { fetchProfile } = useProfileServices();
+  const { data: profileData, isLoading: isLoadingProfileData, refetch: refetchProfileData } = useQuery({
+    queryFn: () => fetchProfile(),
+    queryKey: ["user-profile"],
+    initialData: emptyUserProfile,
+  });
   const { onRefresh, refreshing } = useRefreshControl({
-    refreshFn: () => Promise.reject("asd"),
+    refreshFn: () => {
+      return refetchProfileData()
+    },
     isLoading: false,
   });
+
 
 
   const propertiesMap: PropertySection[] = [
@@ -94,14 +101,16 @@ const ProfileScreen: React.FC = () => {
   ];
   return (
     <Screen>
-      <ScrollView
+      <ScrollView refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/> }>
+        <ProfileScreenHeader profile_data={profileData}/>
+      </ScrollView>
+      {/* <ScrollView
         // refreshControl={
         //   <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
         // }
         style={{ paddingHorizontal: 6, flexGrow: 1 }}
         contentContainerStyle={{ gap: 24, paddingBottom: 12 }}
       >
-        <ProfileScreenHeader />
         <View style={{ gap: 23 }}>
           {propertiesMap.map((property, index) => (
             <ProfileProperties
@@ -111,7 +120,7 @@ const ProfileScreen: React.FC = () => {
             />
           ))}
         </View>
-      </ScrollView>
+      </ScrollView> */}
     </Screen>
   );
 };

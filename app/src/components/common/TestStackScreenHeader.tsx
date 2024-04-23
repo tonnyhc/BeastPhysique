@@ -39,15 +39,16 @@ const TestStackScreenHeader: React.FC<TestStackScreenHeaderProps> = ({
       fontFamily: "RobotoMedium",
       color: colors.primaryText,
       textAlign: "center",
+      flex: 1,
     },
   });
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        {headerLeft ? headerLeft : <View style={{ minWidth: 24 }} />}
+        <View style={{ flex: 1 }}>{headerLeft}</View>
         <Text style={styles.headerTitle}>{headerTitle}</Text>
-        <View style={{ minWidth: 24 }}>{headerRight}</View>
+        <View style={{ flex: 1 }}>{headerRight}</View>
       </View>
     </SafeAreaView>
   );

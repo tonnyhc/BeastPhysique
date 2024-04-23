@@ -1,68 +1,186 @@
-import { View, Text, Image, StyleSheet } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
+import React, { useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import Button from "../common/Button";
+import MoreDotsIcon from "../../icons/MoreDotsIcon";
+import useProfileServices from "../../hooks/services/useProfileServices";
+import { useQuery } from "@tanstack/react-query";
+import { emptyUserProfile } from "../../utils/mapData";
+import { useNavigation } from "@react-navigation/native";
+import { ProfileScreenStackParamsList } from "../../Stacks/ProfileScreenStack";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useTranslation } from "react-i18next";
+import ProfilePicturePopUpModal from "./ProfilePicturePopUpModal";
+import ProfileActionsModal from "./ProfileActionsModal";
+import { Profile } from "../../ts/types";
 
-const ProfileScreenHeader = () => {
+interface ProfileScreenHeaderProps {
+  profile_data: Profile;
+}
+
+const ProfileScreenHeader: React.FC<ProfileScreenHeaderProps> = ({
+  profile_data,
+}) => {
   const { colors } = useTheme();
+  const navigation =
+    useNavigation<StackNavigationProp<ProfileScreenStackParamsList>>();
+  const { t } = useTranslation();
+  const [expandedProfilePicture, setExpandedProfilePicture] =
+    useState<boolean>(false);
+  const [actionsModal, setActionsModal] = useState<boolean>(false);
+
   const styles = StyleSheet.create({
     wrapper: {
-      alignItems: "center",
-      gap: 6,
-      flexDirection: "row",
+      paddingBottom: 12,
+      borderBottomWidth: 0.5,
+      borderBottomColor: colors.secondaryText,
     },
+    upper_wrapper: {
+      flexDirection: "row",
+      gap: 12,
+      // flex: 1
+      height: "auto",
+    },
+    full_name_wrapper: {
+      flexDirection: "row",
+      gap: 6,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+
     profilePicture: {
-      width: 68,
-      height: 68,
+      width: 100,
+      height: 100,
       objectFit: "cover",
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 100,
     },
-    fullName: {
+    profileDetails: {
+      flex: 1,
+    },
+    full_name_text: {
       fontSize: 20,
       fontFamily: "RobotoMedium",
       letterSpacing: -0.33,
     },
     username: {
       fontSize: 16,
-      color: colors.helperText,
-      fontFamily: "RobotoRegular"
+      color: colors.secondaryText,
+      fontFamily: "RobotoRegular",
     },
     followersRow: {
       flexDirection: "row",
       gap: 10,
+      justifyContent: "space-between",
+      paddingTop: 16,
+      paddingBottom: 8,
     },
-    followersCount: {
-      fontSize: 14,
+    followCount: {
+      fontSize: 18,
+      fontFamily: "RobotoMedium",
+      color: colors.primaryText,
+    },
+    followText: {
+      fontSize: 16,
       fontFamily: "RobotoRegular",
-      lineHeight: 24,
-      color: colors.helperText,
+      color: colors.secondaryText,
+    },
+    followCard: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 6,
+    },
+    bio: {
+      paddingVertical: 10,
+    },
+    bioText: {
+      fontSize: 16,
+      fontFamily: "RobotoRegular",
+      color: colors.primaryText,
     },
   });
 
   return (
-    <View style={styles.wrapper}>
-      <Image
-        style={styles.profilePicture}
-        source={{
-          uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        }}
+    <>
+      <ProfilePicturePopUpModal
+        visible={expandedProfilePicture}
+        closeModal={() => setExpandedProfilePicture(false)}
+        picture_url={profile_data.picture}
       />
-      <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 6, justifyContent:"flex-start" }}>
-        <View style={{ gap: 6 }}>
-          <Text style={styles.fullName}>Tonny P.</Text>
-          <Text style={styles.username}>@toni1</Text>
-        </View>
-        <View style={{alignItems: 'flex-start', flex: 1 }}>
-          <View style={styles.followersRow}>
-            <Text style={styles.followersCount}> 1300 following</Text>
-            <Text style={styles.followersCount}>1200 followers</Text>
+      <ProfileActionsModal
+        visible={actionsModal}
+        closeModal={() => setActionsModal(false)}
+      />
+      <View style={styles.wrapper}>
+        <View style={styles.upper_wrapper}>
+          <TouchableOpacity onPress={() => setExpandedProfilePicture(true)}>
+            <Image
+              style={styles.profilePicture}
+              source={{
+                uri: profile_data.picture,
+              }}
+            />
+          </TouchableOpacity>
+          <View style={styles.profileDetails}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View style={styles.full_name_wrapper}>
+                <Text style={styles.full_name_text}>
+                  {profile_data.full_name}
+                </Text>
+                {/* TODO: Add later on */}
+                {/* <VerifyIcon size={18} color={colors.button} /> */}
+              </View>
+              <TouchableOpacity onPress={() => setActionsModal(true)}>
+                <MoreDotsIcon size={24} color={colors.primaryText} />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.username}>@ {profile_data.user}</Text>
+            {/* TODO: Add later on */}
+            {/* <View style={styles.followersRow}>
+            <View style={styles.followCard}>
+              <Text style={styles.followCount}>432</Text>
+              <Text style={styles.followText}>Followings</Text>
+            </View>
+            <View style={styles.followCard}>
+              <Text style={styles.followCount}>123</Text>
+              <Text style={styles.followText}>Followers</Text>
+            </View>
+          </View> */}
+            <View
+              style={{
+                paddingTop: 16,
+              }}
+            >
+              <Button
+                buttonStyles={{
+                  // alignSelf: "flex-start",
+                  paddingVertical: 8,
+                }}
+                onPress={() => navigation.navigate("EditProfile")}
+                type="outlined"
+                text={t("screens.profile.edit_profile")}
+              />
+            </View>
           </View>
-          <Button buttonStyles={{alignSelf: "flex-start"}} onPress={() => {}} type="secondary" text="Edit profile" />
+        </View>
+        <View style={styles.bio}>
+          <Text style={styles.bioText}>{profile_data.bio}</Text>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 

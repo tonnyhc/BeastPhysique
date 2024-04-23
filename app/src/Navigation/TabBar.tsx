@@ -4,27 +4,27 @@ import Dashboard from "../screens/Dashboard";
 import { useTheme } from "../contexts/ThemeContext";
 import WorkoutsStackScreen from "../Stacks/WorkoutsStack";
 import BarbellIcon from "../icons/BarbellIcon";
-import ProfileStackScreen from "../Stacks/ProfileStack";
 import HomeIcon from "../icons/HomeIcon";
 import UserIcon from "../icons/UserIcon";
 import MoreIcon from "../icons/MoreIcon";
 import More from "../screens/more/BaseMoreScreen";
 import MoreStackScreen from "../Stacks/MoreStack";
+import ProfileScreen from "../screens/profile/ProfileScreen";
+import ProfileScreenStack from "../Stacks/ProfileScreenStack";
 
 const Tab = createBottomTabNavigator();
 
-const TabBar = () => {
+const TabBar: React.FC = () => {
   const { colors } = useTheme();
   return (
     <Tab.Navigator
-
       initialRouteName="Home"
       screenOptions={() => ({
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: colors.bg,
           borderTopWidth: 0,
-          paddingTop: 18
+          paddingTop: 18,
         },
         tabBarItemStyle: {
           width: 24,
@@ -41,7 +41,7 @@ const TabBar = () => {
         options={{
           tabBarIcon: ({ color, size, focused }) => (
             <HomeIcon
-              size={size }
+              size={size}
               fill={focused ? colors.primaryText : "none"}
               color={color}
             />
@@ -64,7 +64,7 @@ const TabBar = () => {
       />
       <Tab.Screen
         name="ProfileStack"
-        component={ProfileStackScreen}
+        component={ProfileScreenStack}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
             <UserIcon
